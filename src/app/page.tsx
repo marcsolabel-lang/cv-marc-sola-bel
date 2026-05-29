@@ -200,7 +200,7 @@ function Hero() {
         variants={heroContainer}
         initial="hidden"
         animate="show"
-        className="relative z-[4] max-w-3xl space-y-6 pt-20"
+        className="relative z-[4] max-w-[720px] space-y-6 pt-20"
       >
         <motion.p
           variants={heroItem}
@@ -261,7 +261,7 @@ function Hero() {
 function SlideshowBlock() {
   return (
     <section className="block block--pad bg-sand">
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-[720px]">
         <Reveal>
           <span className="section-label block mb-8">En pocas palabras</span>
         </Reveal>

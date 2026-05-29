@@ -29,14 +29,16 @@ export default function ExperienceTimeline({ items }: ExperienceTimelineProps) {
       ref={sectionRef}
       className="px-6 py-24 md:px-12"
     >
-      <motion.h2
-        initial={{ opacity: 0, y: 16 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ type: "spring", stiffness: 120, damping: 20 }}
-        className="mb-12 text-3xl font-bold text-ink md:text-4xl"
-      >
-        Experiencia
-      </motion.h2>
+      <div className="max-w-[720px] mx-auto mb-12">
+        <motion.h2
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ type: "spring", stiffness: 120, damping: 20 }}
+          className="text-3xl font-bold text-ink md:text-4xl"
+        >
+          Experiencia
+        </motion.h2>
+      </div>
 
       {/* Track: horizontal scroll on md+, vertical stack on mobile */}
       <div
