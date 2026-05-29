@@ -15,6 +15,8 @@ import SectionTransition from "@/components/SectionTransition";
 import TiltCard from "@/components/TiltCard";
 import Kanban from "@/components/Kanban";
 import ExperienceTimeline, { type ExperienceItem } from "@/components/ExperienceTimeline";
+import SlideShow from "@/components/SlideShow";
+import ImageSlot from "@/components/ImageSlot";
 
 /* ─── Data ─────────────────────────────────────────────────────────────── */
 
@@ -166,7 +168,6 @@ function Hero() {
   });
   const stripX = useTransform(scrollYProgress, [0, 1], ["0%", "-25%"]);
 
-  /* Animate font weight 200 → 800 on load */
   const fw = useMotionValue(200);
   const fontVariationSettings = useTransform(
     fw,
@@ -183,12 +184,13 @@ function Hero() {
   return (
     <section
       ref={heroRef}
-      className="film-grain light-leak relative flex min-h-screen items-center overflow-hidden bg-dark px-6 md:px-12"
+      data-prompt="cinematic still, Hong Kong alley at night, warm amber neon reflections on wet pavement, film grain, 35mm, Wong Kar-Wai In the Mood for Love palette, shallow depth of field, no people"
+      className="wkw-bg block relative flex min-h-screen items-center px-6 md:px-12"
     >
       {/* Amber strip parallax */}
       <motion.div
         style={{ x: stripX }}
-        className="pointer-events-none absolute inset-y-0 left-0 z-0 w-[140%]"
+        className="pointer-events-none absolute inset-y-0 left-0 z-[3] w-[140%]"
         aria-hidden="true"
       >
         <div className="h-full w-full bg-gradient-to-r from-transparent via-amber/12 to-transparent" />
@@ -198,7 +200,7 @@ function Hero() {
         variants={heroContainer}
         initial="hidden"
         animate="show"
-        className="relative z-10 max-w-3xl space-y-6 pt-20"
+        className="relative z-[4] max-w-3xl space-y-6 pt-20"
       >
         <motion.p
           variants={heroItem}
@@ -254,13 +256,28 @@ function Hero() {
   );
 }
 
+/* ─── SlideShow Block ─────────────────────────────────────────────────── */
+
+function SlideshowBlock() {
+  return (
+    <section className="block block--pad bg-sand">
+      <div className="mx-auto max-w-3xl">
+        <Reveal>
+          <span className="section-label block mb-8">En pocas palabras</span>
+        </Reveal>
+        <SlideShow />
+      </div>
+    </section>
+  );
+}
+
 /* ─── About ──────────────────────────────────────────────────────────────── */
 
 function About() {
   return (
     <section
       id="sobre-mi"
-      className="py-24 px-6 md:px-12"
+      className="block block--pad bg-sand"
     >
       <div className="max-w-[720px] mx-auto">
         <Reveal>
@@ -320,7 +337,7 @@ function SkillCard({
 
 function Skills() {
   return (
-    <section id="competencias" className="py-20 px-6 md:px-12">
+    <section id="competencias" className="block block--pad bg-sand">
       <div className="max-w-[720px] mx-auto">
         <Reveal>
           <span className="section-label block mb-8">Competencias</span>
@@ -339,7 +356,11 @@ function Skills() {
 
 function Contact() {
   return (
-    <section id="contacto" className="bg-dark px-6 py-28 md:px-12 md:py-36">
+    <section
+      id="contacto"
+      data-prompt="dark room, single warm light source, deep shadows, cinematic, film noir meets WKW, 35mm grain heavy"
+      className="block block--pad wkw-bg wkw-bg--noir"
+    >
       <div className="max-w-[720px] mx-auto">
         <Reveal y={16}>
           <span className="section-label block mb-8 text-amber/70">Contacto</span>
@@ -400,14 +421,41 @@ export default function CVPage() {
       <ScrollProgress />
       <Nav />
       <main>
+        {/* 1. HERO — WKW texture + cinematic dark */}
         <Hero />
+
         <SectionTransition />
+
+        {/* 2. SLIDESHOW — píldoras de perfil + oportunidades */}
+        <SlideshowBlock />
+
+        {/* 3. ABOUT — text reveal sobre fondo sand */}
         <About />
+
         <SectionTransition />
-        <ExperienceTimeline items={experienceItems} />
+
+        {/* 4. WKW TRANSITION — franja cinemática entre About y Experience */}
+        <section className="block">
+          <ImageSlot
+            prompt="blurred bokeh light leaks, warm amber and deep red, abstract, 35mm film texture, overexposed highlights, WKW aesthetic, minimal"
+            className="h-[40vh] w-full"
+          />
+        </section>
+
+        {/* 5. EXPERIENCE */}
+        <section className="block bg-sand">
+          <ExperienceTimeline items={experienceItems} />
+        </section>
+
+        {/* 6. SKILLS */}
         <Skills />
+
+        {/* 7. KANBAN */}
         <Kanban />
+
         <SectionTransition />
+
+        {/* 8. CONTACT — WKW noir */}
         <Contact />
       </main>
       <Footer />
