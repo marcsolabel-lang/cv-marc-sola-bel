@@ -23,6 +23,7 @@ import NavDots from "@/components/NavDots";
 import ContactFab from "@/components/ContactFab";
 import ProjectSpotlight from "@/components/ProjectSpotlight";
 import ImageBlock from "@/components/ImageBlock";
+import IllustrationNodes from "@/components/IllustrationNodes";
 
 /* ─── Sections ──────────────────────────────────────────────────────────── */
 
@@ -352,16 +353,25 @@ function Hero({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> 
         className="pointer-events-none absolute inset-[-5%] z-0"
         aria-hidden="true"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_45%_at_72%_28%,rgba(192,84,42,0.13)_0%,transparent_70%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_35%_at_20%_75%,rgba(192,84,42,0.07)_0%,transparent_65%)]" />
-        {/* texture: pattern-organic (fallback: grano CSS si no existe) */}
+        {/* cosmos artwork — very faint atmospheric depth */}
+        <Image
+          src="/reference/descarga-cosmos.png"
+          alt=""
+          fill
+          className="object-cover opacity-[0.07] mix-blend-luminosity"
+          priority={false}
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_45%_at_72%_28%,rgba(192,84,42,0.15)_0%,transparent_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_35%_at_20%_75%,rgba(192,84,42,0.08)_0%,transparent_65%)]" />
+        {/* pattern-organic texture */}
         <div
           className="absolute inset-0"
           style={{
             backgroundImage: "url('/textures/pattern-organic.webp')",
             backgroundSize: "cover",
-            opacity: 0.06,
-            mixBlendMode: "multiply",
+            opacity: 0.05,
+            mixBlendMode: "screen",
           }}
         />
       </motion.div>
@@ -479,19 +489,22 @@ function Footer() {
 
 function SectionNode({ active = false }: { active?: boolean }) {
   return (
-    <motion.div
+    /* outer 44px touch target, inner 14px visible dot */
+    <div
       aria-hidden="true"
-      initial={{ scale: 0.4, opacity: 0 }}
-      whileInView={{ scale: 1, opacity: 1 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ type: "spring", stiffness: 180, damping: 20 }}
-      className={[
-        "pointer-events-none absolute left-8 z-10 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full md:left-1/2",
-        active
-          ? "bg-amber"
-          : "border-2 border-amber bg-transparent",
-      ].join(" ")}
-    />
+      className="pointer-events-none absolute left-8 z-10 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center md:left-1/2"
+    >
+      <motion.div
+        initial={{ scale: 0.4, opacity: 0 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{ type: "spring", stiffness: 180, damping: 20 }}
+        className={[
+          "h-3.5 w-3.5 rounded-full",
+          active ? "bg-amber" : "border-2 border-amber bg-transparent",
+        ].join(" ")}
+      />
+    </div>
   );
 }
 
@@ -595,8 +608,50 @@ export default function CVPage() {
           {/* Píldoras-nodo */}
           <NodePills />
 
+          {/* ARTWORK — ilustración interactiva de nodos */}
+          <section
+            aria-label="Ilustración interactiva"
+            className="block border-t border-line bg-dark"
+          >
+            <div className="block__inner relative">
+              <span className="section-num section-num--light" aria-hidden="true">◎</span>
+              <div className="relative z-10">
+                <Reveal>
+                  <SectionMark num="◉" label="La Red" />
+                  <p
+                    style={{ fontSize: "var(--fs-lead)" }}
+                    className="font-serif italic text-sand/50 mb-8 max-w-md leading-snug"
+                  >
+                    Cada nodo es una parte del sistema.<br />
+                    Pasa el cursor para activarlo.
+                  </p>
+                </Reveal>
+                <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
+                  <IllustrationNodes className="w-full max-w-xs mx-auto lg:mx-0 lg:w-64 flex-shrink-0" />
+                  <div className="flex-1 space-y-6 pt-4">
+                    {[
+                      { label: "Origen",   body: "Comunicación audiovisual y diseño de experiencias. El lenguaje con el que pienso los problemas." },
+                      { label: "Camino",   body: "Ventas B2B en entornos industriales. Cartera, apertura de cuentas, cierre de acuerdos a largo plazo." },
+                      { label: "Presente", body: "E-commerce especializado B2C. Análisis de mercado con IA, negociación directa con fabricantes." },
+                      { label: "Método",   body: "Automatización de flujos y análisis de datos. La operación como sistema, no como tarea." },
+                      { label: "Visión",   body: "Construir operaciones que escalen. Sistemas comerciales que funcionan solos." },
+                    ].map((item, i) => (
+                      <Reveal key={item.label} delay={i * 0.06}>
+                        <div className="border-l-2 border-amber/40 pl-4">
+                          <p className="font-mono text-[0.6rem] font-bold tracking-[0.16em] uppercase text-amber mb-1">{item.label}</p>
+                          <p className="block__body text-sand/60">{item.body}</p>
+                        </div>
+                      </Reveal>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
         {/* 2 ─ SOBRE MÍ */}
         <section id="sobre-mi" className="block border-t border-line bg-sand">
+          <SectionNode />
           <div className="block__inner relative">
             <span className="section-num section-num--dark" aria-hidden="true">01</span>
             <div className="relative z-10">
@@ -632,6 +687,7 @@ export default function CVPage() {
 
         {/* 3 ─ EXPERIENCIA */}
         <section id="experiencia" className="block border-t border-line bg-sand">
+          <SectionNode />
           <div className="block__inner relative w-full">
             <span className="section-num section-num--dark" aria-hidden="true">02</span>
             <div className="relative z-10">
@@ -643,6 +699,7 @@ export default function CVPage() {
 
         {/* 4 ─ ESTUDIOS */}
         <section id="estudios" className="block border-t border-line bg-shade">
+          <SectionNode />
           <div className="block__inner relative">
             <span className="section-num section-num--dark" aria-hidden="true">03</span>
             <div className="relative z-10">
@@ -671,6 +728,7 @@ export default function CVPage() {
 
         {/* 5 ─ HABILIDADES */}
         <section id="habilidades" className="block border-t border-line bg-sand">
+          <SectionNode />
           <div className="block__inner relative w-full">
             <span className="section-num section-num--dark" aria-hidden="true">04</span>
             <div className="relative z-10">
@@ -719,6 +777,7 @@ export default function CVPage() {
 
         {/* 6 ─ PROYECTOS */}
         <section id="proyectos" className="block border-t border-line bg-sand">
+          <SectionNode />
           <div className="block__inner relative w-full">
             <span className="section-num section-num--dark" aria-hidden="true">06</span>
             <div className="relative z-10">
@@ -763,47 +822,76 @@ export default function CVPage() {
         {/* 7 ─ CONTACTO */}
         <section
           id="contacto"
-          className="relative bg-dark min-h-[80svh] flex flex-col justify-end overflow-hidden border-t border-sand/5"
+          className="relative bg-dark min-h-[90svh] flex flex-col justify-end overflow-hidden border-t border-sand/5"
         >
-          {/* texture: pattern-organic atmospheric overlay */}
+          {/* cosmos artwork atmospheric bg */}
+          <Image
+            src="/reference/descarga-cosmos.png"
+            alt=""
+            fill
+            className="object-cover opacity-[0.09] mix-blend-luminosity pointer-events-none"
+            sizes="100vw"
+            priority={false}
+          />
+          {/* pattern-organic overlay */}
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 z-0"
             style={{
               backgroundImage: "url('/textures/pattern-organic.webp')",
               backgroundSize: "cover",
-              opacity: 0.06,
-              mixBlendMode: "multiply",
+              opacity: 0.07,
+              mixBlendMode: "screen",
             }}
           />
+          {/* terracotta glow */}
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_60%,rgba(192,84,42,0.12)_0%,transparent_70%)]" aria-hidden="true" />
           <span className="section-num section-num--light" aria-hidden="true">07</span>
 
-          <div className="relative z-10 w-full max-w-[64rem] mx-auto pl-10 pr-6 pb-16 pt-20 md:pl-16 md:pr-12">
+          <div className="relative z-10 w-full max-w-[64rem] mx-auto pl-10 pr-6 pb-20 pt-24 md:pl-16 md:pr-12">
             <Reveal y={16}>
               <SectionMark num="07" label="Contacto" />
             </Reveal>
             <Reveal delay={0.05} y={20}>
+              <h2
+                style={{ fontSize: "var(--fs-h2)" }}
+                className="font-black leading-[0.95] tracking-[-0.03em] text-sand mb-4"
+              >
+                Hablemos de la<br />próxima oportunidad.
+              </h2>
+            </Reveal>
+            <Reveal delay={0.08} y={16}>
               <p
                 style={{ fontSize: "var(--fs-serif)" }}
-                className="font-serif italic leading-[1.05] text-sand mb-12 max-w-xl"
+                className="font-serif italic text-sand/40 mb-12 max-w-md leading-snug"
               >
-                Hablemos de la próxima oportunidad.
+                Dirección comercial · E-commerce · IA aplicada al negocio
               </p>
             </Reveal>
-            <Reveal delay={0.1}>
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
+            <Reveal delay={0.12}>
+              <div className="flex flex-col gap-3 sm:gap-5">
                 <a
                   href="mailto:marcsolabel@gmail.com"
-                  className="group relative inline-block text-xl font-medium text-sand hover:text-amber transition-colors duration-300"
+                  className="group relative inline-block text-xl font-medium text-sand hover:text-amber transition-colors duration-300 w-fit"
                   aria-label="Enviar email a Marc Sola"
                 >
                   marcsolabel@gmail.com
                   <span className="absolute -bottom-1 left-0 h-[2px] w-full origin-left scale-x-0 bg-amber transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100" />
                 </a>
-                <span className="hidden sm:inline text-sand/20 select-none" aria-hidden="true">·</span>
-                <span className="text-sm text-sand/40">
-                  Esparreguera · Barcelona · España
-                </span>
+                <a
+                  href="tel:+34608254125"
+                  className="group relative inline-block text-lg font-medium text-sand/60 hover:text-sand transition-colors duration-300 w-fit"
+                  aria-label="Llamar a Marc Sola"
+                >
+                  608 254 125
+                </a>
+                <div className="flex flex-wrap gap-3 mt-2">
+                  {["Esparreguera · Barcelona", "Español / Catalán nat.", "Inglés B2", "Carnet B"].map(tag => (
+                    <span key={tag} className="rounded-full border border-sand/10 px-3 py-1 text-xs text-sand/30">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
             </Reveal>
           </div>
