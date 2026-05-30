@@ -31,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={`${bricolage.variable} ${cormorant.variable}`}>
-      <body className="bg-sand text-ink antialiased overflow-x-hidden">
+      <body className="bg-sand text-ink antialiased overflow-x-hidden" suppressHydrationWarning>
         <MotionConfig reducedMotion="user">
           <SmoothScroll>{children}</SmoothScroll>
         </MotionConfig>

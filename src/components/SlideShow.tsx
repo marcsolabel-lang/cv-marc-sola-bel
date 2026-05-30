@@ -98,7 +98,7 @@ export default function SlideShow() {
 
   return (
     <div className="relative w-full select-none">
-      <div className="relative h-[260px] overflow-hidden rounded-xl border border-line bg-sand md:h-[320px]">
+      <div className="relative h-[320px] overflow-hidden rounded-xl border border-line bg-sand md:h-[380px]">
         <AnimatePresence custom={dir} mode="popLayout" initial={false}>
           <motion.div
             key={index}
@@ -112,17 +112,26 @@ export default function SlideShow() {
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.2}
             onDragEnd={onDragEnd}
-            className="absolute inset-0 flex cursor-grab flex-col justify-center px-8 active:cursor-grabbing md:px-16"
+            className="absolute inset-0 flex cursor-grab flex-col justify-center px-8 active:cursor-grabbing md:px-14"
           >
             {slide.accent ? (
-              <span className="mb-2 font-serif text-lg italic text-amber">
+              <span className="mb-3 font-serif text-xl italic text-amber md:text-2xl">
                 {slide.accent}
               </span>
             ) : null}
-            <h3 className="text-2xl font-bold text-ink md:text-3xl">{slide.question}</h3>
-            <div className="mt-4 space-y-1">
+            <h3
+              className="font-black text-ink leading-[0.92] tracking-[-0.02em]"
+              style={{ fontSize: "clamp(1.75rem, 5vw, 2.75rem)" }}
+            >
+              {slide.question}
+            </h3>
+            <div className="mt-5 space-y-1.5">
               {slide.body.map((line, i) => (
-                <p key={i} className="text-muted md:text-lg">
+                <p
+                  key={i}
+                  className="text-muted leading-snug"
+                  style={{ fontSize: "clamp(1rem, 1.8vw, 1.2rem)" }}
+                >
                   {line}
                 </p>
               ))}
