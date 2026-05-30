@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Cormorant_Garamond } from "next/font/google";
 import { MotionConfig } from "motion/react";
+import Script from "next/script";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 
@@ -48,6 +49,13 @@ export default function RootLayout({
         <MotionConfig reducedMotion="user">
           <SmoothScroll>{children}</SmoothScroll>
         </MotionConfig>
+        <Script
+          id="sw-register"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');`,
+          }}
+        />
       </body>
     </html>
   );
