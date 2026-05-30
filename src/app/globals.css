@@ -183,6 +183,44 @@ body {
 .block {
   position: relative;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: clamp(4rem, 10vh, 8rem) 1.5rem;
 }
-.block--pad { padding: 6rem 1.5rem; }
-@media (min-width: 768px) { .block--pad { padding: 7rem 3rem; } }
+@media (min-width: 768px) { .block { padding: clamp(6rem, 12vh, 10rem) 3rem; } }
+
+/* ── Fluid typographic scale (large, elegant) ── */
+:root {
+  --fs-display: clamp(2.75rem, 8vw, 6.5rem);
+  --fs-h2:      clamp(2rem, 5vw, 3.75rem);
+  --fs-h3:      clamp(1.35rem, 3vw, 2rem);
+  --fs-lead:    clamp(1.15rem, 2.2vw, 1.5rem);
+  --fs-body:    clamp(1rem, 1.4vw, 1.15rem);
+  --fs-small:   clamp(0.8rem, 1vw, 0.95rem);
+  --fs-serif:   clamp(1.5rem, 4vw, 2.5rem);
+}
+
+/* ── Centered block primitives ── */
+.block__inner {
+  width: 100%;
+  max-width: 64rem;
+  margin-inline: auto;
+}
+.block__title {
+  font-family: var(--font-bricolage), sans-serif;
+  font-weight: 800;
+  font-size: var(--fs-h2);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+}
+.block__lead { font-size: var(--fs-lead); color: var(--color-muted); line-height: 1.55; }
+.block__body { font-size: var(--fs-body); color: var(--color-muted); line-height: 1.7; }
+
+/* WKW grain: subtle accent only */
+.film-grain::before { opacity: 0.035; }
+.wkw-bg::after { opacity: 0.3; }
+@media (prefers-reduced-motion: reduce) { .wkw-bg::after { opacity: 0.2; } }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence, type PanInfo } from "motion/react";
 
 interface Slide {
@@ -35,7 +35,7 @@ const SLIDES: Slide[] = [
   {
     question: "¿Dónde ha estado?",
     body: [
-      "Ventas B2B en Beral Projects (2021–2024): apertura de cuentas, acuerdos a largo plazo.",
+      "Ventas B2B en Beral Projects (2021-2024): apertura de cuentas, acuerdos a largo plazo.",
       "Formación en comunicación audiovisual y semiótica visual aplicada.",
     ],
   },
@@ -66,6 +66,27 @@ export default function SlideShow() {
     if (info.offset.x < -SWIPE_THRESHOLD) paginate(index + 1);
     else if (info.offset.x > SWIPE_THRESHOLD) paginate(index - 1);
   };
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        setIndex((i) => {
+          if (i <= 0) return i;
+          setDir(-1);
+          return i - 1;
+        });
+      }
+      if (e.key === "ArrowRight") {
+        setIndex((i) => {
+          if (i >= SLIDES.length - 1) return i;
+          setDir(1);
+          return i + 1;
+        });
+      }
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, []);
 
   const variants = {
     enter: (d: number) => ({ x: d > 0 ? 80 : -80, opacity: 0 }),
@@ -127,19 +148,24 @@ export default function SlideShow() {
         </button>
       </div>
 
-      <div className="mt-4 flex justify-center gap-2">
+      <div className="mt-4 flex justify-center gap-1">
         {SLIDES.map((_, i) => (
           <button
             key={i}
             aria-label={`Ir al slide ${i + 1}`}
             onClick={() => paginate(i)}
-            className="h-2 rounded-full transition-all duration-300"
-            style={{
-              width: i === index ? 24 : 8,
-              backgroundColor:
-                i === index ? "var(--color-amber)" : "var(--color-line)",
-            }}
-          />
+            className="flex min-h-[24px] min-w-[24px] items-center justify-center p-2"
+          >
+            <span
+              className="block rounded-full transition-all duration-300"
+              style={{
+                height: 8,
+                width: i === index ? 24 : 8,
+                backgroundColor:
+                  i === index ? "var(--color-amber)" : "var(--color-line)",
+              }}
+            />
+          </button>
         ))}
       </div>
     </div>

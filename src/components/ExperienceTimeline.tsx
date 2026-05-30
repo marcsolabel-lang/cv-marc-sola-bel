@@ -15,32 +15,24 @@ interface ExperienceTimelineProps {
 }
 
 export default function ExperienceTimeline({ items }: ExperienceTimelineProps) {
-  const sectionRef = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(sectionRef, { once: true, margin: "-80px" });
+  const inView = useInView(ref, { once: true, margin: "-80px" });
 
-  /* Scroll-linked progress bound to horizontal container */
   const { scrollXProgress } = useScroll({ container: trackRef });
   const progressWidth = useTransform(scrollXProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <section
-      id="experiencia"
-      ref={sectionRef}
-      className="px-6 py-24 md:px-12"
-    >
-      <div className="max-w-[720px] mx-auto mb-12">
-        <motion.h2
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ type: "spring", stiffness: 120, damping: 20 }}
-          className="text-3xl font-bold text-ink md:text-4xl"
-        >
-          Experiencia
-        </motion.h2>
-      </div>
+    <div ref={ref} className="w-full text-left">
+      <motion.h2
+        initial={{ opacity: 0, y: 16 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ type: "spring", stiffness: 120, damping: 22 }}
+        className="block__title mb-12"
+      >
+        Experiencia
+      </motion.h2>
 
-      {/* Track: horizontal scroll on md+, vertical stack on mobile */}
       <div
         ref={trackRef}
         className="flex flex-col gap-6 md:flex-row md:gap-6 md:overflow-x-auto md:pb-4 md:[scrollbar-width:none] md:[&::-webkit-scrollbar]:hidden"
@@ -53,12 +45,12 @@ export default function ExperienceTimeline({ items }: ExperienceTimelineProps) {
             transition={{
               type: "spring",
               stiffness: 120,
-              damping: 20,
+              damping: 22,
               delay: i * 0.1,
             }}
             whileHover={{ y: -4 }}
             style={{ willChange: "transform" }}
-            className="border-l-2 border-amber bg-sand p-6 md:w-[320px] md:shrink-0"
+            className="border-l-2 border-amber bg-shade p-6 md:w-[340px] md:shrink-0 rounded-sm"
           >
             <span className="text-sm text-muted tabular-nums">{item.period}</span>
             <h3 className="mt-3 text-lg font-bold text-ink leading-snug">{item.role}</h3>
@@ -68,10 +60,9 @@ export default function ExperienceTimeline({ items }: ExperienceTimelineProps) {
         ))}
       </div>
 
-      {/* Scroll progress bar — desktop only */}
       <div className="mt-5 hidden h-[2px] w-full bg-line md:block" aria-hidden="true">
         <motion.div style={{ width: progressWidth }} className="h-full bg-amber" />
       </div>
-    </section>
+    </div>
   );
 }

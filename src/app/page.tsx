@@ -17,8 +17,23 @@ import Kanban from "@/components/Kanban";
 import ExperienceTimeline, { type ExperienceItem } from "@/components/ExperienceTimeline";
 import SlideShow from "@/components/SlideShow";
 import ImageSlot from "@/components/ImageSlot";
+import NavDots from "@/components/NavDots";
+import ContactFab from "@/components/ContactFab";
+import ProjectSpotlight from "@/components/ProjectSpotlight";
 
-/* ─── Data ─────────────────────────────────────────────────────────────── */
+/* ─── Section registry ──────────────────────────────────────────────────── */
+
+const SECTIONS = [
+  { id: "hero", label: "Inicio" },
+  { id: "sobre-mi", label: "Sobre mí" },
+  { id: "experiencia", label: "Experiencia" },
+  { id: "estudios", label: "Estudios" },
+  { id: "habilidades", label: "Habilidades" },
+  { id: "proyectos", label: "Proyectos" },
+  { id: "contacto", label: "Contacto" },
+];
+
+/* ─── Data ──────────────────────────────────────────────────────────────── */
 
 const experienceItems: ExperienceItem[] = [
   {
@@ -26,7 +41,7 @@ const experienceItems: ExperienceItem[] = [
     role: "Cofundador · Director Comercial",
     org: "proyecto-beta",
     detail:
-      "Dropshipping B2C especializado para el mercado español y europeo. Análisis de nichos, negociación con fabricantes, pricing estratégico, copywriting de producto y gestión de operaciones de canal.",
+      "Dropshipping B2C especializado para el mercado español y europeo. Análisis de nichos con IA, negociación con fabricantes, pricing estratégico, copywriting de producto y gestión de operaciones de canal.",
   },
   {
     period: "2021 — 2024",
@@ -37,6 +52,21 @@ const experienceItems: ExperienceItem[] = [
   },
 ];
 
+const educationItems = [
+  {
+    label: "Comunicación Audiovisual",
+    sub: "Semiótica visual · Narrativa audiovisual aplicada",
+  },
+  {
+    label: "Game Design",
+    sub: "Mecánicas narrativas · Diseño de experiencias",
+  },
+  {
+    label: "IA Aplicada al Negocio",
+    sub: "Análisis de mercado · Automatización de flujos",
+  },
+];
+
 const skills = [
   {
     domain: "Comercial",
@@ -44,15 +74,39 @@ const skills = [
   },
   {
     domain: "E-commerce",
-    items: ["Dropshipping especializado", "Gestión de proveedores", "Pricing estratégico", "Selección de nicho"],
+    items: [
+      "Dropshipping especializado",
+      "Gestión de proveedores",
+      "Pricing estratégico",
+      "Selección de nicho",
+    ],
   },
   {
     domain: "Marketing & Copy",
-    items: ["Copywriting de producto", "Research de mercado", "Análisis de competencia", "Posicionamiento"],
+    items: [
+      "Copywriting de producto",
+      "Research de mercado",
+      "Análisis de competencia",
+      "Posicionamiento",
+    ],
   },
   {
-    domain: "Herramientas & IA",
-    items: ["IA aplicada al análisis", "Research con datos", "Google Workspace", "Automatización de flujos"],
+    domain: "IA & Herramientas",
+    items: [
+      "IA aplicada al análisis",
+      "Research con datos",
+      "Automatización de flujos",
+      "Google Workspace",
+    ],
+  },
+  {
+    domain: "Operaciones",
+    items: [
+      "Contabilidad básica",
+      "Gestión administrativa",
+      "Coordinación de proyectos",
+      "Planificación operativa",
+    ],
   },
 ];
 
@@ -89,7 +143,7 @@ function Reveal({
       ref={ref}
       initial={{ opacity: 0, y }}
       animate={inView ? { opacity: 1, y: 0 } : undefined}
-      transition={{ type: "spring", stiffness: 120, damping: 20, delay }}
+      transition={{ type: "spring", stiffness: 120, damping: 22, delay }}
       className={className}
     >
       {children}
@@ -115,7 +169,7 @@ function ScrollProgress() {
 const navLinks = [
   { href: "#sobre-mi", label: "Sobre mí" },
   { href: "#experiencia", label: "Experiencia" },
-  { href: "#competencias", label: "Competencias" },
+  { href: "#proyectos", label: "Proyectos" },
   { href: "#contacto", label: "Contacto" },
   { href: "/chat", label: "Assistant" },
 ];
@@ -145,7 +199,7 @@ function Nav() {
   );
 }
 
-/* ─── Hero ───────────────────────────────────────────────────────────────── */
+/* ─── Hero ─────────────────────────────────────────────────────────────────── */
 
 const heroContainer: Variants = {
   hidden: {},
@@ -169,7 +223,7 @@ function Hero() {
   });
   const stripX = useTransform(scrollYProgress, [0, 1], ["0%", "-25%"]);
 
-  const fw = useMotionValue(200);
+  const fw = useMotionValue(300);
   const fontVariationSettings = useTransform(
     fw,
     (v: number) => `'wght' ${Math.round(v)}`
@@ -184,9 +238,9 @@ function Hero() {
 
   return (
     <section
+      id="hero"
       ref={heroRef}
-      data-prompt="cinematic still, Hong Kong alley at night, warm amber neon reflections on wet pavement, film grain, 35mm, Wong Kar-Wai In the Mood for Love palette, shallow depth of field, no people"
-      className="wkw-bg block relative flex min-h-screen items-center px-6 md:px-12"
+      className="block wkw-bg min-h-[100svh]"
     >
       {/* Amber strip parallax */}
       <motion.div
@@ -201,41 +255,37 @@ function Hero() {
         variants={heroContainer}
         initial="hidden"
         animate="show"
-        className="relative z-[4] max-w-[720px] space-y-6 pt-20"
+        className="block__inner relative z-[4] text-left pt-20"
       >
-        <motion.p
-          variants={heroItem}
-          className="section-label text-amber/70"
-        >
+        <motion.p variants={heroItem} className="section-label text-amber/70 mb-4">
           Dirección Comercial · E-commerce B2C
         </motion.p>
 
         <motion.h1
           variants={heroItem}
-          style={{ fontVariationSettings }}
-          className="text-[clamp(3.5rem,10vw,7.5rem)] leading-[0.9] tracking-[-0.04em] text-sand"
+          style={{ fontVariationSettings, fontSize: "var(--fs-display)" }}
+          className="leading-[0.9] tracking-[-0.04em] text-sand mb-6"
         >
           Marc Sola
         </motion.h1>
 
         <motion.p
           variants={heroItem}
-          className="font-serif italic text-2xl leading-snug text-amber/90 md:text-3xl max-w-lg"
+          style={{ fontSize: "var(--fs-serif)" }}
+          className="font-serif italic leading-snug text-amber/90 max-w-lg mb-3"
         >
           Construyo operaciones comerciales desde cero.
         </motion.p>
 
         <motion.p
           variants={heroItem}
-          className="text-lg text-sand/50 leading-relaxed max-w-lg"
+          style={{ fontSize: "var(--fs-lead)" }}
+          className="text-sand/50 leading-relaxed max-w-lg mb-8"
         >
           Del análisis de mercado al cierre con el proveedor.
         </motion.p>
 
-        <motion.div
-          variants={heroItem}
-          className="flex flex-wrap gap-x-5 gap-y-2 pt-2"
-        >
+        <motion.div variants={heroItem} className="flex flex-wrap gap-x-5 gap-y-2">
           <a
             href="mailto:marcsolabel@gmail.com"
             className="group relative inline-block text-sm text-sand/45 hover:text-sand/80 transition-colors duration-300"
@@ -257,44 +307,7 @@ function Hero() {
   );
 }
 
-/* ─── SlideShow Block ─────────────────────────────────────────────────── */
-
-function SlideshowBlock() {
-  return (
-    <section className="block block--pad bg-sand">
-      <div className="mx-auto max-w-[720px]">
-        <Reveal>
-          <span className="section-label block mb-8">En pocas palabras</span>
-        </Reveal>
-        <SlideShow />
-      </div>
-    </section>
-  );
-}
-
-/* ─── About ──────────────────────────────────────────────────────────────── */
-
-function About() {
-  return (
-    <section
-      id="sobre-mi"
-      className="block block--pad bg-sand"
-    >
-      <div className="max-w-[720px] mx-auto">
-        <Reveal>
-          <span className="section-label block mb-8">Sobre mí</span>
-        </Reveal>
-        <TextReveal
-          lines={aboutLines}
-          serifLines={[4, 5]}
-          className="space-y-3"
-        />
-      </div>
-    </section>
-  );
-}
-
-/* ─── Skills ─────────────────────────────────────────────────────────────── */
+/* ─── Skill Card ─────────────────────────────────────────────────────────── */
 
 function SkillCard({
   domain,
@@ -316,7 +329,7 @@ function SkillCard({
       transition={{
         type: "spring" as const,
         stiffness: 120,
-        damping: 20,
+        damping: 22,
         delay: index * 0.07,
       }}
     >
@@ -324,7 +337,7 @@ function SkillCard({
         <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-amber mb-3.5">
           {domain}
         </p>
-        <ul className="space-y-1.5" aria-label={`Competencias de ${domain}`}>
+        <ul className="space-y-1.5 text-left" aria-label={`Competencias de ${domain}`}>
           {items.map((item) => (
             <li key={item} className="text-[0.9rem] text-muted leading-snug">
               {item}
@@ -336,76 +349,12 @@ function SkillCard({
   );
 }
 
-function Skills() {
-  return (
-    <section id="competencias" className="block block--pad bg-sand">
-      <div className="max-w-[720px] mx-auto">
-        <Reveal>
-          <span className="section-label block mb-8">Competencias</span>
-        </Reveal>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {skills.map((s, i) => (
-            <SkillCard key={s.domain} domain={s.domain} items={s.items} index={i} />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─── Contact ────────────────────────────────────────────────────────────── */
-
-function Contact() {
-  return (
-    <section
-      id="contacto"
-      data-prompt="dark room, single warm light source, deep shadows, cinematic, film noir meets WKW, 35mm grain heavy"
-      className="block block--pad wkw-bg wkw-bg--noir"
-    >
-      <div className="max-w-[720px] mx-auto">
-        <Reveal y={16}>
-          <span className="section-label block mb-8 text-amber/70">Contacto</span>
-        </Reveal>
-        <Reveal delay={0.05} y={20}>
-          <p className="font-serif italic text-[clamp(2rem,5vw,4rem)] leading-[1.05] text-sand mb-12 max-w-xl">
-            Hablemos de la próxima oportunidad.
-          </p>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
-            <a
-              href="mailto:marcsolabel@gmail.com"
-              className="group relative inline-block text-xl font-medium text-sand hover:text-amber transition-colors duration-300"
-              aria-label="Enviar email a Marc Sola"
-            >
-              marcsolabel@gmail.com
-              <span
-                className="absolute -bottom-1 left-0 h-[2px] w-full origin-left scale-x-0 bg-amber transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100"
-                aria-hidden="true"
-              />
-            </a>
-            <span
-              className="hidden sm:inline text-sand/20 select-none"
-              aria-hidden="true"
-            >
-              ·
-            </span>
-            <span className="text-sm text-sand/40">
-              Olesa de Montserrat · Barcelona · España
-            </span>
-          </div>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
 /* ─── Footer ─────────────────────────────────────────────────────────────── */
 
 function Footer() {
   return (
     <footer className="bg-dark border-t border-sand/5 px-6 py-8 md:px-12">
-      <div className="max-w-[720px] mx-auto">
+      <div className="block__inner">
         <p className="text-xs text-sand/25">
           © {new Date().getFullYear()} Marc Sola
         </p>
@@ -421,43 +370,162 @@ export default function CVPage() {
     <>
       <ScrollProgress />
       <Nav />
+      <NavDots sections={SECTIONS} />
+      <ContactFab email="marcsolabel@gmail.com" />
+
       <main>
-        {/* 1. HERO — WKW texture + cinematic dark */}
+        {/* 1. HERO */}
         <Hero />
 
-        <SectionTransition />
-
-        {/* 2. SLIDESHOW — píldoras de perfil + oportunidades */}
-        <SlideshowBlock />
-
-        {/* 3. ABOUT — text reveal sobre fondo sand */}
-        <About />
-
-        <SectionTransition />
-
-        {/* 4. WKW TRANSITION — franja cinemática entre About y Experience */}
-        <section className="block">
-          <ImageSlot
-            prompt="blurred bokeh light leaks, warm amber and deep red, abstract, 35mm film texture, overexposed highlights, WKW aesthetic, minimal"
-            className="h-[40vh] w-full"
-          />
-        </section>
-
-        {/* 5. EXPERIENCE */}
+        {/* Narrative spine */}
         <section className="block bg-sand">
-          <ExperienceTimeline items={experienceItems} />
+          <div className="block__inner" style={{ maxWidth: "48rem" }}>
+            <SlideShow />
+          </div>
         </section>
-
-        {/* 6. SKILLS */}
-        <Skills />
-
-        {/* 7. KANBAN */}
-        <Kanban />
 
         <SectionTransition />
 
-        {/* 8. CONTACT — WKW noir */}
-        <Contact />
+        {/* 2. SOBRE MÍ */}
+        <section id="sobre-mi" className="block bg-sand">
+          <div className="block__inner">
+            <Reveal>
+              <h2 className="block__title mb-10">Sobre mí</h2>
+            </Reveal>
+            <div className="text-left">
+              <TextReveal lines={aboutLines} serifLines={[4, 5]} className="space-y-3" />
+            </div>
+          </div>
+        </section>
+
+        {/* 3. EXPERIENCIA */}
+        <section id="experiencia" className="block bg-sand">
+          <div className="block__inner w-full">
+            <ExperienceTimeline items={experienceItems} />
+          </div>
+        </section>
+
+        {/* 4. ESTUDIOS */}
+        <section id="estudios" className="block bg-shade">
+          <div className="block__inner">
+            <Reveal>
+              <h2 className="block__title mb-14">Estudios</h2>
+            </Reveal>
+            <div className="flex flex-col gap-10">
+              {educationItems.map((item, i) => (
+                <Reveal key={item.label} delay={i * 0.08}>
+                  <p
+                    style={{ fontSize: "var(--fs-h3)" }}
+                    className="font-bold text-ink leading-tight"
+                  >
+                    {item.label}
+                  </p>
+                  <p className="block__body mt-2">{item.sub}</p>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 5. HABILIDADES */}
+        <section id="habilidades" className="block bg-sand">
+          <div className="block__inner w-full">
+            <Reveal>
+              <h2 className="block__title mb-10">Habilidades</h2>
+            </Reveal>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-left">
+              {skills.map((s, i) => (
+                <SkillCard key={s.domain} domain={s.domain} items={s.items} index={i} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Cómo trabajo */}
+        <section className="block bg-shade">
+          <div className="block__inner w-full text-left">
+            <Kanban />
+          </div>
+        </section>
+
+        <SectionTransition />
+
+        {/* 6. PROYECTOS */}
+        <section id="proyectos" className="block bg-sand">
+          <div className="block__inner w-full">
+            <Reveal>
+              <h2 className="block__title mb-12">Proyectos</h2>
+            </Reveal>
+            <ProjectSpotlight
+              label="proyecto-beta"
+              title="Operación de e-commerce B2C especializado"
+              description="Dropshipping especializado para el mercado español y europeo, operando desde 2024. Análisis de nichos con IA, negociación directa con fabricantes y gestión completa del canal de venta."
+              points={[
+                "IA aplicada al análisis de demanda, márgenes y timing de entrada",
+                "Negociación directa con fabricantes europeos — sin intermediarios",
+                "Pricing estratégico y copywriting de producto de alto impacto",
+                "Operación de canal: plataforma, logística y atención al cliente",
+              ]}
+            />
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Reveal delay={0.1}>
+                <ImageSlot
+                  prompt="minimal editorial design, warm paper texture, typographic layout, WKW aesthetic, amber tones"
+                  className="h-48 w-full rounded-xl"
+                />
+              </Reveal>
+              <Reveal delay={0.15}>
+                <ImageSlot
+                  prompt="e-commerce product lifestyle shot, warm amber tones, clean surfaces, premium feel, 35mm film"
+                  className="h-48 w-full rounded-xl"
+                />
+              </Reveal>
+            </div>
+          </div>
+        </section>
+
+        <SectionTransition />
+
+        {/* 7. CONTACTO */}
+        <section id="contacto" className="block wkw-bg wkw-bg--noir min-h-[80svh]">
+          <div className="block__inner">
+            <Reveal y={16}>
+              <span className="section-label block mb-8 text-amber/70">Contacto</span>
+            </Reveal>
+            <Reveal delay={0.05} y={20}>
+              <p
+                style={{ fontSize: "var(--fs-serif)" }}
+                className="font-serif italic leading-[1.05] text-sand mb-12 max-w-xl mx-auto"
+              >
+                Hablemos de la próxima oportunidad.
+              </p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-center gap-4 sm:gap-8">
+                <a
+                  href="mailto:marcsolabel@gmail.com"
+                  className="group relative inline-block text-xl font-medium text-sand hover:text-amber transition-colors duration-300"
+                  aria-label="Enviar email a Marc Sola"
+                >
+                  marcsolabel@gmail.com
+                  <span
+                    className="absolute -bottom-1 left-0 h-[2px] w-full origin-left scale-x-0 bg-amber transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100"
+                    aria-hidden="true"
+                  />
+                </a>
+                <span
+                  className="hidden sm:inline text-sand/20 select-none"
+                  aria-hidden="true"
+                >
+                  ·
+                </span>
+                <span className="text-sm text-sand/40">
+                  Olesa de Montserrat · Barcelona · España
+                </span>
+              </div>
+            </Reveal>
+          </div>
+        </section>
       </main>
       <Footer />
     </>

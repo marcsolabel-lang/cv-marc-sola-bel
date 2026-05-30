@@ -22,22 +22,17 @@ export default function Kanban() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section className="bg-shade px-6 py-24 md:px-12" aria-label="Metodología de trabajo">
-      {/* Heading alineado al grid de 720px */}
-      <div className="max-w-[720px] mx-auto mb-12">
-        <motion.h2
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ type: "spring", stiffness: 120, damping: 20 }}
-          className="text-3xl font-bold text-ink md:text-4xl"
-        >
-          Cómo trabajo
-        </motion.h2>
-      </div>
+    <div aria-label="Metodología de trabajo" className="w-full text-left">
+      <motion.h2
+        initial={{ opacity: 0, y: 16 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ type: "spring", stiffness: 120, damping: 22 }}
+        className="block__title mb-12"
+      >
+        Cómo trabajo
+      </motion.h2>
 
-      {/* Cards: ancho completo dentro del padding del section */}
       <div ref={ref} className="relative flex flex-col gap-4 md:flex-row md:gap-4">
-        {/* Connecting line — desktop only */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={inView ? { scaleX: 1 } : {}}
@@ -55,7 +50,7 @@ export default function Kanban() {
             transition={{
               type: "spring",
               stiffness: 120,
-              damping: 20,
+              damping: 22,
               delay: i * 0.1,
             }}
             className="relative z-10 flex-1 rounded-sm border border-line bg-sand p-6"
@@ -66,6 +61,6 @@ export default function Kanban() {
           </motion.div>
         ))}
       </div>
-    </section>
+    </div>
   );
 }
