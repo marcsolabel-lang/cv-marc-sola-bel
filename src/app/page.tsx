@@ -565,7 +565,7 @@ export default function CVPage() {
         {/* TRONCO GLOBAL — cose toda la página */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 left-8 z-0 w-[2px] md:left-1/2 md:-translate-x-1/2"
+          className="pointer-events-none absolute inset-y-0 left-8 z-[5] w-[2px] md:left-1/2 md:-translate-x-1/2"
         >
           <div className="absolute inset-0 w-full bg-line" />
           <motion.div
