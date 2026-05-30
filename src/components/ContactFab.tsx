@@ -6,9 +6,14 @@ import { motion, AnimatePresence } from "motion/react";
 interface ContactFabProps {
   email: string;
   linkedin?: string;
+  label?: string;
 }
 
-export default function ContactFab({ email, linkedin }: ContactFabProps) {
+export default function ContactFab({
+  email,
+  linkedin,
+  label = "Contacto",
+}: ContactFabProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -16,13 +21,16 @@ export default function ContactFab({ email, linkedin }: ContactFabProps) {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            initial={{ opacity: 0, y: 8, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            exit={{ opacity: 0, y: 8, scale: 0.96 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="flex flex-col gap-2 rounded-xl border border-line bg-sand/95 p-3 shadow-lg backdrop-blur"
           >
-            <a href={`mailto:${email}`} className="text-sm text-ink hover:text-amber transition-colors">
+            <a
+              href={`mailto:${email}`}
+              className="text-sm text-ink hover:text-amber transition-colors"
+            >
               {email}
             </a>
             {linkedin && (
@@ -44,10 +52,10 @@ export default function ContactFab({ email, linkedin }: ContactFabProps) {
         whileTap={{ scale: 0.92 }}
         transition={{ type: "spring", stiffness: 400, damping: 28 }}
         aria-expanded={open}
-        aria-label="Contacto"
-        className="rounded-full bg-amber px-5 py-3 text-sm font-semibold text-ink shadow-lg"
+        aria-label={label}
+        className="rounded-full bg-amber px-5 py-3 text-sm font-semibold text-sand shadow-lg"
       >
-        {open ? "Cerrar" : "Contacto"}
+        {open ? "Cerrar" : label}
       </motion.button>
     </div>
   );
