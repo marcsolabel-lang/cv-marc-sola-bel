@@ -354,10 +354,17 @@ function Hero({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> 
       >
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_45%_at_72%_28%,rgba(192,84,42,0.13)_0%,transparent_70%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_35%_at_20%_75%,rgba(192,84,42,0.07)_0%,transparent_65%)]" />
+        {/* texture: pattern-organic (fallback: grano CSS si no existe) */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "url('/textures/pattern-organic.png')",
+            backgroundSize: "cover",
+            opacity: 0.06,
+            mixBlendMode: "multiply",
+          }}
+        />
       </motion.div>
-
-      {/* Terracotta vertical spine */}
-      <div className="spine" aria-hidden="true" />
 
       {/* Section number watermark */}
       <span className="section-num section-num--light" aria-hidden="true">00</span>
@@ -468,17 +475,84 @@ function Footer() {
 
 /* ─── Page ───────────────────────────────────────────────────────────────── */
 
+/* ─── Section Node ──────────────────────────────────────────────────────── */
+
+function SectionNode({ active = false }: { active?: boolean }) {
+  return (
+    <motion.div
+      aria-hidden="true"
+      initial={{ scale: 0.4, opacity: 0 }}
+      whileInView={{ scale: 1, opacity: 1 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ type: "spring", stiffness: 180, damping: 20 }}
+      className={[
+        "pointer-events-none absolute left-8 z-10 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full md:left-1/2",
+        active
+          ? "bg-amber"
+          : "border-2 border-amber bg-transparent",
+      ].join(" ")}
+    />
+  );
+}
+
+/* ─── Node Pills ─────────────────────────────────────────────────────────── */
+
+const NODE_PILLS: { n: string; label: string; sub: string }[] = [
+  { n: "01", label: "Origen",    sub: "Audiovisual y universidad" },
+  { n: "02", label: "Comercial", sub: "PLACEHOLDER — pendiente Marc (Q3/Q4 Beral)" },
+  { n: "03", label: "Presente",  sub: "E-commerce con IA" },
+  { n: "04", label: "Método",    sub: "Automatización a medida" },
+  { n: "05", label: "Visión",    sub: "PLACEHOLDER — pendiente Marc (declaración propia)" },
+];
+
+function NodePills() {
+  return (
+    <section
+      aria-label="Mapa narrativo"
+      className="block border-t border-line bg-shade"
+    >
+      <div className="block__inner relative">
+        <SectionNode />
+        <div className="flex flex-col gap-4 md:flex-row md:gap-2 relative z-10">
+          {NODE_PILLS.map((pill, i) => {
+            const isPending = pill.sub.startsWith("PLACEHOLDER");
+            return (
+              <Reveal key={pill.n} delay={i * 0.07}>
+                <div
+                  data-pending={isPending ? "true" : undefined}
+                  className={[
+                    "flex flex-col gap-1 rounded-full px-5 py-3 border",
+                    "transition-colors duration-200",
+                    isPending
+                      ? "opacity-60 border-dashed border-amber/50 bg-transparent"
+                      : "border-line bg-sand hover:border-amber/60 hover:bg-surface",
+                  ].join(" ")}
+                >
+                  <span className="font-mono text-[0.6rem] font-bold text-amber">{pill.n}</span>
+                  <span className="text-xs font-semibold text-ink leading-tight">{pill.label}</span>
+                  <span className="text-[0.75rem] text-muted leading-snug">
+                    {isPending ? "—" : pill.sub}
+                  </span>
+                </div>
+              </Reveal>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── Page ───────────────────────────────────────────────────────────────── */
+
 export default function CVPage() {
-  /* ── Vertebra: scroll values for Hero→SlideShow connector ── */
+  const pageRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress: heroScroll } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
+  const { scrollYProgress } = useScroll({
+    target: pageRef,
+    offset: ["start start", "end end"],
   });
-  const lineScale    = useTransform(heroScroll, [0, 0.35], [0, 1], { clamp: true });
-  const nodeOpacity  = useTransform(heroScroll, [0.3, 0.35], [0, 1], { clamp: true });
-  const rawNodeScale = useTransform(heroScroll, [0.3, 0.35], [0.4, 1], { clamp: true });
-  const nodeScale    = useSpring(rawNodeScale, { stiffness: 180, damping: 20 });
+  const trunkScale = useTransform(scrollYProgress, [0, 1], [0, 1], { clamp: true });
 
   return (
     <>
@@ -487,38 +561,39 @@ export default function CVPage() {
       <NavDots sections={SECTIONS} />
       <ContactFab email="marcsolabel@gmail.com" />
 
-      <main>
-        {/* 1 ─ HERO */}
-        <Hero sectionRef={heroRef} />
-
-        {/* VÉRTEBRA — segmento 01: Hero → SlideShow */}
+      <div ref={pageRef} className="relative">
+        {/* TRONCO GLOBAL — cose toda la página */}
         <div
           aria-hidden="true"
-          className="pointer-events-none relative h-20 select-none"
-          style={{ background: "linear-gradient(to bottom, #0A0A0A, #FFFFFF)" }}
+          className="pointer-events-none absolute inset-y-0 left-8 z-0 w-[2px] md:left-1/2 md:-translate-x-1/2"
         >
-          {/* line — grows scaleY from top, clamped at 0.35 */}
+          <div className="absolute inset-0 w-full bg-line" />
           <motion.div
-            style={{ scaleY: lineScale, transformOrigin: "top" }}
-            className="absolute left-0 top-0 h-full w-[3px] bg-amber"
-          />
-          {/* node — settles with spring as line completes */}
-          <motion.div
-            style={{
-              opacity: nodeOpacity,
-              scale: nodeScale,
-              x: "-33%",   /* center 12px circle on 3px line */
-            }}
-            className="absolute bottom-0 left-0 h-3 w-3 rounded-full bg-amber"
+            style={{ scaleY: trunkScale, transformOrigin: "top" }}
+            className="absolute inset-0 w-full bg-amber"
           />
         </div>
 
-        {/* Narrative spine / slideshow */}
-        <section className="block border-t border-line bg-sand">
-          <div className="block__inner" style={{ maxWidth: "48rem" }}>
-            <SlideShow />
-          </div>
-        </section>
+        <main>
+          {/* 1 ─ HERO */}
+          <Hero sectionRef={heroRef} />
+
+          {/* Transition: Hero → SlideShow */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none h-20 select-none"
+            style={{ background: "linear-gradient(to bottom, #0A0A0A, #FFFFFF)" }}
+          />
+
+          {/* Narrative spine / slideshow */}
+          <section className="block border-t border-line bg-sand">
+            <div className="block__inner" style={{ maxWidth: "48rem" }}>
+              <SlideShow />
+            </div>
+          </section>
+
+          {/* Píldoras-nodo */}
+          <NodePills />
 
         {/* 2 ─ SOBRE MÍ */}
         <section id="sobre-mi" className="block border-t border-line bg-sand">
@@ -633,6 +708,15 @@ export default function CVPage() {
           </div>
         </section>
 
+        {/* Transition pre-Proyectos: dunes-soft texture */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none h-32 w-full border-t border-line"
+          style={{
+            background: "linear-gradient(rgba(192,84,42,.55), rgba(255,255,255,.85)), url('/textures/dunes-soft.jpg') center/cover no-repeat",
+          }}
+        />
+
         {/* 6 ─ PROYECTOS */}
         <section id="proyectos" className="block border-t border-line bg-sand">
           <div className="block__inner relative w-full">
@@ -681,7 +765,17 @@ export default function CVPage() {
           id="contacto"
           className="relative bg-dark min-h-[80svh] flex flex-col justify-end overflow-hidden border-t border-sand/5"
         >
-          <div className="spine" aria-hidden="true" />
+          {/* texture: pattern-organic atmospheric overlay */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 z-0"
+            style={{
+              backgroundImage: "url('/textures/pattern-organic.png')",
+              backgroundSize: "cover",
+              opacity: 0.06,
+              mixBlendMode: "multiply",
+            }}
+          />
           <span className="section-num section-num--light" aria-hidden="true">07</span>
 
           <div className="relative z-10 w-full max-w-[64rem] mx-auto pl-10 pr-6 pb-16 pt-20 md:pl-16 md:pr-12">
@@ -708,7 +802,7 @@ export default function CVPage() {
                 </a>
                 <span className="hidden sm:inline text-sand/20 select-none" aria-hidden="true">·</span>
                 <span className="text-sm text-sand/40">
-                  Olesa de Montserrat · Barcelona · España
+                  Esparreguera · Barcelona · España
                 </span>
               </div>
             </Reveal>
@@ -717,6 +811,7 @@ export default function CVPage() {
       </main>
 
       <Footer />
+      </div>
     </>
   );
 }
