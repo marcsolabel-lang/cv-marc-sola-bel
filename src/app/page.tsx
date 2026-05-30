@@ -304,7 +304,7 @@ const heroItem: Variants = {
   show:   { opacity: 1, y: 0, transition: { type: "spring", stiffness: 120, damping: 22 } },
 };
 
-function Hero() {
+function Hero({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
   const fw = useMotionValue(300);
   const fontVariationSettings = useTransform(fw, (v: number) => `'wght' ${Math.round(v)}`);
 
@@ -333,6 +333,7 @@ function Hero() {
   return (
     <section
       id="hero"
+      ref={sectionRef}
       className="relative bg-dark min-h-[100svh] flex flex-col justify-end overflow-hidden"
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
@@ -463,6 +464,17 @@ function Footer() {
 /* ─── Page ───────────────────────────────────────────────────────────────── */
 
 export default function CVPage() {
+  /* ── Vertebra: scroll values for Hero→SlideShow connector ── */
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: heroScroll } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const lineScale    = useTransform(heroScroll, [0, 0.35], [0, 1], { clamp: true });
+  const nodeOpacity  = useTransform(heroScroll, [0.3, 0.35], [0, 1], { clamp: true });
+  const rawNodeScale = useTransform(heroScroll, [0.3, 0.35], [0.4, 1], { clamp: true });
+  const nodeScale    = useSpring(rawNodeScale, { stiffness: 180, damping: 20 });
+
   return (
     <>
       <ScrollProgress />
@@ -472,9 +484,31 @@ export default function CVPage() {
 
       <main>
         {/* 1 ─ HERO */}
-        <Hero />
+        <Hero sectionRef={heroRef} />
 
-        {/* Narrative spine */}
+        {/* VÉRTEBRA — segmento 01: Hero → SlideShow */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none relative h-20 select-none"
+          style={{ background: "linear-gradient(to bottom, #0A0A0A, #FFFFFF)" }}
+        >
+          {/* line — grows scaleY from top, clamped at 0.35 */}
+          <motion.div
+            style={{ scaleY: lineScale, transformOrigin: "top" }}
+            className="absolute left-0 top-0 h-full w-[3px] bg-amber"
+          />
+          {/* node — settles with spring as line completes */}
+          <motion.div
+            style={{
+              opacity: nodeOpacity,
+              scale: nodeScale,
+              x: "-33%",   /* center 12px circle on 3px line */
+            }}
+            className="absolute bottom-0 left-0 h-3 w-3 rounded-full bg-amber"
+          />
+        </div>
+
+        {/* Narrative spine / slideshow */}
         <section className="block border-t border-line bg-sand">
           <div className="block__inner" style={{ maxWidth: "48rem" }}>
             <SlideShow />
