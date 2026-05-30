@@ -358,7 +358,7 @@ function Hero({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> 
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: "url('/textures/pattern-organic.png')",
+            backgroundImage: "url('/textures/pattern-organic.webp')",
             backgroundSize: "cover",
             opacity: 0.06,
             mixBlendMode: "multiply",
@@ -713,7 +713,7 @@ export default function CVPage() {
           aria-hidden="true"
           className="pointer-events-none h-32 w-full border-t border-line"
           style={{
-            background: "linear-gradient(rgba(192,84,42,.55), rgba(255,255,255,.85)), url('/textures/dunes-soft.jpg') center/cover no-repeat",
+            background: "linear-gradient(rgba(192,84,42,.55), rgba(255,255,255,.85)), url('/textures/dunes-soft.webp') center/cover no-repeat",
           }}
         />
 
@@ -770,7 +770,7 @@ export default function CVPage() {
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 z-0"
             style={{
-              backgroundImage: "url('/textures/pattern-organic.png')",
+              backgroundImage: "url('/textures/pattern-organic.webp')",
               backgroundSize: "cover",
               opacity: 0.06,
               mixBlendMode: "multiply",
