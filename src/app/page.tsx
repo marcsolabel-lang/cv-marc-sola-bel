@@ -117,6 +117,7 @@ const navLinks = [
   { href: "#experiencia", label: "Experiencia" },
   { href: "#competencias", label: "Competencias" },
   { href: "#contacto", label: "Contacto" },
+  { href: "/chat", label: "Assistant" },
 ];
 
 function Nav() {
