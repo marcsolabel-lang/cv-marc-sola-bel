@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import Image from "next/image";
 import {
   motion,
   useInView,
@@ -8,6 +9,7 @@ import {
   useMotionValue,
   useTransform,
   useSpring,
+  useReducedMotion,
   animate,
   type Variants,
   type PanInfo,
@@ -127,12 +129,13 @@ function SectionMark({ num, label }: { num: string; label: string }) {
 
 function PhotoTilt({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
+  const reduced = useReducedMotion();
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
   const sx = useSpring(mx, { stiffness: 150, damping: 18 });
   const sy = useSpring(my, { stiffness: 150, damping: 18 });
-  const rotateY = useTransform(sx, [-0.5, 0.5], [-8, 8]);
-  const rotateX = useTransform(sy, [-0.5, 0.5], [8, -8]);
+  const rotateY = useTransform(sx, [-0.5, 0.5], [-12, 12]);
+  const rotateX = useTransform(sy, [-0.5, 0.5], [12, -12]);
   const shadowX = useTransform(sx, [-0.5, 0.5], [15, -15]);
   const shadowY = useTransform(sy, [-0.5, 0.5], [10, -10]);
   const boxShadow = useTransform(
@@ -141,6 +144,7 @@ function PhotoTilt({ children }: { children: React.ReactNode }) {
   );
 
   function onMove(e: React.MouseEvent<HTMLDivElement>) {
+    if (reduced) return;
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
@@ -153,6 +157,10 @@ function PhotoTilt({ children }: { children: React.ReactNode }) {
     my.set(0);
   }
 
+  if (reduced) {
+    return <div className="cursor-default">{children}</div>;
+  }
+
   return (
     <motion.div
       ref={ref}
@@ -162,10 +170,11 @@ function PhotoTilt({ children }: { children: React.ReactNode }) {
         rotateX,
         rotateY,
         transformPerspective: 1200,
+        transformStyle: "preserve-3d",
         boxShadow,
       }}
-      whileHover={{ scale: 1.02 }}
-      transition={{ type: "spring", stiffness: 300, damping: 35 }}
+      whileHover={{ scale: 1.03 }}
+      transition={{ type: "spring", stiffness: 150, damping: 18 }}
       className="cursor-default"
     >
       {children}
@@ -265,7 +274,6 @@ const navLinks = [
   { href: "#experiencia", label: "Experiencia" },
   { href: "#proyectos",   label: "Proyectos"   },
   { href: "#contacto",    label: "Contacto"    },
-  { href: "/chat",        label: "Assistant"   },
 ];
 
 function Nav() {
@@ -398,7 +406,7 @@ function Hero({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> 
             <span className="absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-amber transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100" />
           </a>
           <span className="text-sand/20 select-none" aria-hidden="true">·</span>
-          <span className="text-sm text-sand/25">Olesa de Montserrat, Barcelona</span>
+          <span className="text-sm text-sand/25">Esparreguera, Barcelona</span>
         </motion.div>
       </motion.div>
 
@@ -451,11 +459,8 @@ function SkillCard({ domain, items, index }: { domain: string; items: string[]; 
 function Footer() {
   return (
     <footer className="bg-dark border-t border-sand/5 px-6 py-8 md:px-12">
-      <div className="block__inner flex items-center justify-between">
+      <div className="block__inner">
         <p className="text-xs text-sand/25">© {new Date().getFullYear()} Marc Sola</p>
-        <a href="/chat" className="text-xs text-sand/25 hover:text-sand/60 transition-colors">
-          Assistant →
-        </a>
       </div>
     </footer>
   );
@@ -530,11 +535,19 @@ export default function CVPage() {
                 <TextReveal lines={aboutLines} serifLines={[4, 5]} className="space-y-3 text-left" />
                 <Reveal delay={0.12}>
                   <PhotoTilt>
-                    <ImageBlock
-                      hint="foto de Marc"
-                      aspect="portrait"
-                      className="w-full max-w-sm mx-auto lg:mx-0 rounded-xl overflow-hidden"
-                    />
+                    <div className="relative aspect-[3/4] w-full max-w-sm mx-auto lg:mx-0 overflow-hidden rounded-2xl bg-shade">
+                      <Image
+                        src="/marc-perfil.jpg"
+                        alt="Marc Sola"
+                        fill
+                        sizes="(max-width:768px) 100vw, 384px"
+                        className="object-cover"
+                        priority={false}
+                        onError={() => {
+                          if (typeof window !== "undefined") console.warn("marc-perfil.jpg not found — using CSS fallback");
+                        }}
+                      />
+                    </div>
                   </PhotoTilt>
                 </Reveal>
               </div>
