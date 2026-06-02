@@ -45,9 +45,9 @@ Components:
   SlideShow, ImageBlock, ExperienceTimeline, Kanban, TiltCard, TextReveal,
   NavDots, ContactFab, ProjectSpotlight, PhotoTilt, ParallaxImage, SkillsCarousel
 
-Marc Sola: Cofundador y Director Comercial de proyecto-beta (dropshipping B2C ES/EU).
+Marc Sola: arquitecto de sistemas y automatización con IA.
 Background: comunicación audiovisual, semiótica visual, game design.
-Contact: marcsolabel@gmail.com | Olesa de Montserrat, Barcelona.
+Contact: marcsolabel@gmail.com | Esparreguera, Barcelona.
 
 TASTE-SKILL rules (apply always):
 - Only animate transform and opacity.

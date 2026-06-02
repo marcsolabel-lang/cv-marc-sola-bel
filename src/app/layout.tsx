@@ -20,9 +20,8 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Marc Sola — Dirección Comercial",
-  description:
-    "Cofundador y director comercial especializado en e-commerce B2C, análisis de mercado y gestión de proveedores para el mercado español y europeo.",
+  title: "Marc Sola — CV",
+  description: "Proyectos, automatización con IA y estrategia comercial.",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,

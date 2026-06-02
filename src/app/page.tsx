@@ -1,93 +1,14 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import Image from "next/image";
 import {
   motion,
   useInView,
   useScroll,
   useMotionValue,
-  useTransform,
-  useSpring,
-  useReducedMotion,
   animate,
-  type Variants,
-  type PanInfo,
+  useTransform,
 } from "motion/react";
-import TextReveal from "@/components/TextReveal";
-import TiltCard from "@/components/TiltCard";
-import Kanban from "@/components/Kanban";
-import ExperienceTimeline, { type ExperienceItem } from "@/components/ExperienceTimeline";
-import SlideShow from "@/components/SlideShow";
-import NavDots from "@/components/NavDots";
-import ContactFab from "@/components/ContactFab";
-import ProjectSpotlight from "@/components/ProjectSpotlight";
-import ImageBlock from "@/components/ImageBlock";
-import IllustrationNodes from "@/components/IllustrationNodes";
-
-/* ─── Sections ──────────────────────────────────────────────────────────── */
-
-const SECTIONS = [
-  { id: "hero",        label: "Inicio"      },
-  { id: "sobre-mi",    label: "Sobre mí"    },
-  { id: "experiencia", label: "Experiencia" },
-  { id: "estudios",    label: "Estudios"    },
-  { id: "habilidades", label: "Habilidades" },
-  { id: "proyectos",   label: "Proyectos"   },
-  { id: "contacto",    label: "Contacto"    },
-];
-
-/* ─── Data ──────────────────────────────────────────────────────────────── */
-
-const experienceItems: ExperienceItem[] = [
-  {
-    period: "2024 — Actualidad",
-    role: "Cofundador · Director Comercial",
-    org: "proyecto-beta",
-    detail:
-      "Dropshipping B2C especializado para el mercado español y europeo. Análisis de nichos con IA, negociación con fabricantes, pricing estratégico, copywriting de producto y gestión de operaciones de canal.",
-  },
-  {
-    period: "2021 — 2024",
-    role: "Responsable de Ventas",
-    org: "Beral Projects",
-    detail:
-      "Cartera B2B, apertura de nuevas cuentas y cierre de acuerdos comerciales. Relaciones a largo plazo con clientes industriales y de servicios.",
-  },
-];
-
-const educationItems = [
-  { label: "Comunicación Audiovisual", sub: "Semiótica visual · Narrativa audiovisual aplicada" },
-  { label: "Game Design",              sub: "Mecánicas narrativas · Diseño de experiencias"     },
-  { label: "IA Aplicada al Negocio",   sub: "Análisis de mercado · Automatización de flujos"    },
-];
-
-const skills = [
-  { domain: "Comercial",        items: ["Prospección B2B y B2C", "Negociación y cierre", "Gestión de cartera", "CRM"] },
-  { domain: "E-commerce",       items: ["Dropshipping especializado", "Gestión de proveedores", "Pricing estratégico", "Selección de nicho"] },
-  { domain: "Marketing & Copy", items: ["Copywriting de producto", "Research de mercado", "Análisis de competencia", "Posicionamiento"] },
-  { domain: "IA & Herramientas",items: ["IA aplicada al análisis", "Research con datos", "Automatización de flujos", "Google Workspace"] },
-  { domain: "Operaciones",      items: ["Contabilidad básica", "Gestión administrativa", "Coordinación de proyectos", "Planificación operativa"] },
-];
-
-const aboutLines = [
-  "Me especializo en la intersección entre venta directa y comercio digital.",
-  "He construido relaciones comerciales en entornos B2B tradicionales",
-  "y aprendido a leer mercados con datos y a encontrar oportunidades",
-  "donde otros ven ruido.",
-  "La comunicación audiovisual y el diseño de experiencias",
-  "son el lenguaje con el que pienso los problemas.",
-  "Actualmente cofundo proyecto-beta, una operación de e-commerce",
-  "especializado para el mercado español y europeo.",
-];
-
-const portfolioItems = [
-  { hint: "pieza audiovisual 1", speed: 10  },
-  { hint: "pieza audiovisual 2", speed: 20  },
-  { hint: "pieza audiovisual 3", speed: 8   },
-];
-
-/* ─── Primitives ─────────────────────────────────────────────────────────── */
 
 function Reveal({
   children,
@@ -115,791 +36,82 @@ function Reveal({
   );
 }
 
-function SectionMark({ num, label }: { num: string; label: string }) {
-  return (
-    <div className="flex items-center gap-3 mb-10 md:mb-14">
-      <span className="font-mono text-[0.6875rem] font-bold text-amber">{num}</span>
-      <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-muted/60">
-        {label}
-      </span>
-    </div>
-  );
-}
-
-/* ─── Interactive: Photo Tilt 3D ─────────────────────────────────────────── */
-
-function PhotoTilt({ children }: { children: React.ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduced = useReducedMotion();
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const sx = useSpring(mx, { stiffness: 150, damping: 18 });
-  const sy = useSpring(my, { stiffness: 150, damping: 18 });
-  const rotateY = useTransform(sx, [-0.5, 0.5], [-12, 12]);
-  const rotateX = useTransform(sy, [-0.5, 0.5], [12, -12]);
-  const shadowX = useTransform(sx, [-0.5, 0.5], [15, -15]);
-  const shadowY = useTransform(sy, [-0.5, 0.5], [10, -10]);
-  const boxShadow = useTransform(
-    [shadowX, shadowY] as const,
-    ([x, y]: number[]) => `${x}px ${y}px 60px rgba(0,0,0,0.18)`
-  );
-
-  function onMove(e: React.MouseEvent<HTMLDivElement>) {
-    if (reduced) return;
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    mx.set((e.clientX - rect.left) / rect.width - 0.5);
-    my.set((e.clientY - rect.top) / rect.height - 0.5);
-  }
-
-  function onLeave() {
-    mx.set(0);
-    my.set(0);
-  }
-
-  if (reduced) {
-    return <div className="cursor-default">{children}</div>;
-  }
-
-  return (
-    <motion.div
-      ref={ref}
-      onMouseMove={onMove}
-      onMouseLeave={onLeave}
-      style={{
-        rotateX,
-        rotateY,
-        transformPerspective: 1200,
-        transformStyle: "preserve-3d",
-        boxShadow,
-      }}
-      whileHover={{ scale: 1.03 }}
-      transition={{ type: "spring", stiffness: 150, damping: 18 }}
-      className="cursor-default"
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-/* ─── Interactive: Parallax Image ────────────────────────────────────────── */
-
-function ParallaxImage({
-  speed = 15,
-  hint,
-  src,
-  alt,
-}: {
-  speed?: number;
-  hint?: string;
-  src?: string;
-  alt?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-  const y = useTransform(scrollYProgress, [0, 1], [`${speed}px`, `-${speed}px`]);
-
-  return (
-    <div ref={ref} className="overflow-hidden rounded-xl">
-      <motion.div style={{ y }}>
-        <ImageBlock
-          src={src}
-          alt={alt}
-          hint={hint}
-          aspect="landscape"
-          className="w-full scale-[1.12]"
-        />
-      </motion.div>
-    </div>
-  );
-}
-
-/* ─── Interactive: Skills Carousel (mobile) ──────────────────────────────── */
-
-function SkillsCarousel() {
-  const idxRef = useRef(0);
-  const x = useMotionValue(0);
-  const CARD_W = 252;
-
-  function onDragEnd(_: unknown, info: PanInfo) {
-    const cur = idxRef.current;
-    if (info.offset.x < -50 && cur < skills.length - 1) {
-      idxRef.current = cur + 1;
-    } else if (info.offset.x > 50 && cur > 0) {
-      idxRef.current = cur - 1;
-    }
-    animate(x, -idxRef.current * CARD_W, { type: "spring", stiffness: 260, damping: 30 });
-  }
-
-  return (
-    <div className="overflow-hidden">
-      <motion.div
-        style={{ x, width: skills.length * CARD_W }}
-        drag="x"
-        dragConstraints={{ left: -(skills.length - 1) * CARD_W, right: 0 }}
-        dragElastic={0.15}
-        onDragEnd={onDragEnd}
-        className="flex gap-3 cursor-grab active:cursor-grabbing"
-      >
-        {skills.map((s, i) => (
-          <div key={s.domain} className="shrink-0 w-60">
-            <SkillCard domain={s.domain} items={s.items} index={i} />
-          </div>
-        ))}
-      </motion.div>
-    </div>
-  );
-}
-
-/* ─── Scroll Progress ───────────────────────────────────────────────────── */
-
 function ScrollProgress() {
   const { scrollYProgress } = useScroll();
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 h-[2px] bg-amber origin-left z-[60]"
+      className="fixed top-0 left-0 right-0 h-[2px] bg-amber origin-left z-50"
       style={{ scaleX: scrollYProgress }}
       aria-hidden="true"
     />
   );
 }
 
-/* ─── Nav ────────────────────────────────────────────────────────────────── */
-
-const navLinks = [
-  { href: "#sobre-mi",    label: "Sobre mí"    },
-  { href: "#experiencia", label: "Experiencia" },
-  { href: "#proyectos",   label: "Proyectos"   },
-  { href: "#contacto",    label: "Contacto"    },
-];
-
-function Nav() {
-  return (
-    <motion.nav
-      initial={{ opacity: 0, y: -8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ type: "spring", stiffness: 120, damping: 22, delay: 0.8 }}
-      className="fixed top-0 left-0 right-0 z-40 flex justify-end px-6 py-5 pointer-events-none"
-      aria-label="Navegación principal"
-    >
-      <ul className="flex gap-6 pointer-events-auto bg-dark/90 backdrop-blur-xl px-5 py-2.5 rounded-full border border-sand/10">
-        {navLinks.map(({ href, label }) => (
-          <li key={href}>
-            <a
-              href={href}
-              className="text-sand/50 hover:text-sand text-xs font-medium tracking-wide transition-colors duration-200"
-            >
-              {label}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </motion.nav>
+function useVariableWeight() {
+  const fw = useMotionValue(200);
+  const fontVariationSettings = useTransform(
+    fw,
+    (v: number) => `'wght' ${Math.round(v)}`
   );
-}
-
-/* ─── Hero ─────────────────────────────────────────────────────────────────── */
-
-const heroStagger: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.07, delayChildren: 0.1 } },
-};
-const heroItem: Variants = {
-  hidden: { opacity: 0, y: 28 },
-  show:   { opacity: 1, y: 0, transition: { type: "spring", stiffness: 120, damping: 22 } },
-};
-
-function Hero({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
-  const fw = useMotionValue(300);
-  const fontVariationSettings = useTransform(fw, (v: number) => `'wght' ${Math.round(v)}`);
-
   useEffect(() => {
-    const controls = animate(fw, 800, { duration: 1.4, ease: [0.16, 1, 0.3, 1] });
+    const controls = animate(fw, 800, {
+      duration: 1.4,
+      ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+    });
     return controls.stop;
   }, [fw]);
-
-  /* Cursor parallax */
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const bgX = useSpring(mouseX, { stiffness: 60, damping: 20 });
-  const bgY = useSpring(mouseY, { stiffness: 60, damping: 20 });
-
-  function onMouseMove(e: React.MouseEvent<HTMLElement>) {
-    const rect = e.currentTarget.getBoundingClientRect();
-    mouseX.set(((e.clientX - rect.left) / rect.width - 0.5) * -12);
-    mouseY.set(((e.clientY - rect.top) / rect.height - 0.5) * -12);
-  }
-
-  function onMouseLeave() {
-    mouseX.set(0);
-    mouseY.set(0);
-  }
-
-  return (
-    <section
-      id="hero"
-      ref={sectionRef}
-      className="relative bg-dark min-h-[100svh] flex flex-col justify-end overflow-hidden"
-      onMouseMove={onMouseMove}
-      onMouseLeave={onMouseLeave}
-    >
-      {/* Parallax background layer */}
-      <motion.div
-        style={{ x: bgX, y: bgY }}
-        className="pointer-events-none absolute inset-[-5%] z-0"
-        aria-hidden="true"
-      >
-        {/* cosmos artwork — very faint atmospheric depth */}
-        <Image
-          src="/reference/descarga-cosmos.png"
-          alt=""
-          fill
-          className="object-cover opacity-[0.07] mix-blend-luminosity"
-          priority={false}
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_45%_at_72%_28%,rgba(192,84,42,0.15)_0%,transparent_70%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_35%_at_20%_75%,rgba(192,84,42,0.08)_0%,transparent_65%)]" />
-        {/* pattern-organic texture */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: "url('/textures/pattern-organic.webp')",
-            backgroundSize: "cover",
-            opacity: 0.05,
-            mixBlendMode: "screen",
-          }}
-        />
-      </motion.div>
-
-      {/* Section number watermark */}
-      <span className="section-num section-num--light" aria-hidden="true">00</span>
-
-      {/* Content */}
-      <motion.div
-        variants={heroStagger}
-        initial="hidden"
-        animate="show"
-        className="relative z-10 w-full max-w-[64rem] mx-auto pl-10 pr-6 pb-16 pt-28 md:pl-16 md:pr-12 md:pb-20"
-      >
-        <motion.p variants={heroItem} className="section-label text-amber/80 mb-6">
-          Dirección Comercial · E-commerce B2C
-        </motion.p>
-
-        <motion.h1
-          variants={heroItem}
-          style={{ fontSize: "var(--fs-display)", fontVariationSettings }}
-          className="leading-[0.88] tracking-[-0.04em] text-sand font-black mb-8"
-        >
-          Marc<br className="md:hidden" /> Sola
-        </motion.h1>
-
-        <motion.p
-          variants={heroItem}
-          style={{ fontSize: "var(--fs-serif)" }}
-          className="font-serif italic text-sand/55 max-w-lg mb-4 leading-snug"
-        >
-          Construyo operaciones comerciales desde cero.
-        </motion.p>
-
-        <motion.p
-          variants={heroItem}
-          style={{ fontSize: "var(--fs-lead)" }}
-          className="text-sand/35 max-w-md mb-10 leading-relaxed"
-        >
-          Del análisis de mercado al cierre con el proveedor.
-        </motion.p>
-
-        <motion.div variants={heroItem} className="flex flex-wrap gap-x-6 gap-y-2 items-center">
-          <a
-            href="mailto:marcsolabel@gmail.com"
-            className="group relative text-sm text-sand/40 hover:text-sand/70 transition-colors duration-200"
-          >
-            marcsolabel@gmail.com
-            <span className="absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-amber transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100" />
-          </a>
-          <span className="text-sand/20 select-none" aria-hidden="true">·</span>
-          <span className="text-sm text-sand/25">Esparreguera, Barcelona</span>
-        </motion.div>
-      </motion.div>
-
-      {/* Scroll cue */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 0.6 }}
-        className="absolute bottom-8 left-10 md:left-16 flex items-center gap-2 text-sand/20 text-[0.65rem] tracking-widest uppercase"
-        aria-hidden="true"
-      >
-        <motion.span
-          animate={{ y: [0, 4, 0] }}
-          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-        >
-          ↓
-        </motion.span>
-        scroll
-      </motion.div>
-    </section>
-  );
+  return fontVariationSettings;
 }
-
-/* ─── Skill Card ──────────────────────────────────────────────────────────── */
-
-function SkillCard({ domain, items, index }: { domain: string; items: string[]; index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 16 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ type: "spring", stiffness: 120, damping: 22, delay: index * 0.06 }}
-    >
-      <TiltCard>
-        <p className="section-label mb-4">{domain}</p>
-        <ul className="space-y-2" aria-label={`Competencias de ${domain}`}>
-          {items.map((item) => (
-            <li key={item} className="text-[0.9rem] text-muted leading-snug">{item}</li>
-          ))}
-        </ul>
-      </TiltCard>
-    </motion.div>
-  );
-}
-
-/* ─── Footer ─────────────────────────────────────────────────────────────── */
-
-function Footer() {
-  return (
-    <footer className="bg-dark border-t border-sand/5 px-6 py-8 md:px-12">
-      <div className="block__inner">
-        <p className="text-xs text-sand/25">© {new Date().getFullYear()} Marc Sola</p>
-      </div>
-    </footer>
-  );
-}
-
-/* ─── Page ───────────────────────────────────────────────────────────────── */
-
-/* ─── Section Node ──────────────────────────────────────────────────────── */
-
-function SectionNode({ active = false }: { active?: boolean }) {
-  return (
-    /* outer 44px touch target, inner 14px visible dot */
-    <div
-      aria-hidden="true"
-      className="pointer-events-none absolute left-8 z-10 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center md:left-1/2"
-    >
-      <motion.div
-        initial={{ scale: 0.4, opacity: 0 }}
-        whileInView={{ scale: 1, opacity: 1 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ type: "spring", stiffness: 180, damping: 20 }}
-        className={[
-          "h-3.5 w-3.5 rounded-full",
-          active ? "bg-amber" : "border-2 border-amber bg-transparent",
-        ].join(" ")}
-      />
-    </div>
-  );
-}
-
-/* ─── Node Pills ─────────────────────────────────────────────────────────── */
-
-const NODE_PILLS: { n: string; label: string; sub: string }[] = [
-  { n: "01", label: "Origen",    sub: "Audiovisual y universidad" },
-  { n: "02", label: "Comercial", sub: "PLACEHOLDER — pendiente Marc (Q3/Q4 Beral)" },
-  { n: "03", label: "Presente",  sub: "E-commerce con IA" },
-  { n: "04", label: "Método",    sub: "Automatización a medida" },
-  { n: "05", label: "Visión",    sub: "PLACEHOLDER — pendiente Marc (declaración propia)" },
-];
-
-function NodePills() {
-  return (
-    <section
-      aria-label="Mapa narrativo"
-      className="block border-t border-line bg-shade"
-    >
-      <div className="block__inner relative">
-        <SectionNode />
-        <div className="flex flex-col gap-4 md:flex-row md:gap-2 relative z-10">
-          {NODE_PILLS.map((pill, i) => {
-            const isPending = pill.sub.startsWith("PLACEHOLDER");
-            return (
-              <Reveal key={pill.n} delay={i * 0.07}>
-                <div
-                  data-pending={isPending ? "true" : undefined}
-                  className={[
-                    "flex flex-col gap-1 rounded-full px-5 py-3 border",
-                    "transition-colors duration-200",
-                    isPending
-                      ? "opacity-60 border-dashed border-amber/50 bg-transparent"
-                      : "border-line bg-sand hover:border-amber/60 hover:bg-surface",
-                  ].join(" ")}
-                >
-                  <span className="font-mono text-[0.6rem] font-bold text-amber">{pill.n}</span>
-                  <span className="text-xs font-semibold text-ink leading-tight">{pill.label}</span>
-                  <span className="text-[0.75rem] text-muted leading-snug">
-                    {isPending ? "—" : pill.sub}
-                  </span>
-                </div>
-              </Reveal>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─── Page ───────────────────────────────────────────────────────────────── */
 
 export default function CVPage() {
-  const pageRef = useRef<HTMLDivElement>(null);
-  const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: pageRef,
-    offset: ["start start", "end end"],
-  });
-  const trunkScale = useTransform(scrollYProgress, [0, 1], [0, 1], { clamp: true });
+  const fontVariationSettings = useVariableWeight();
 
   return (
     <>
       <ScrollProgress />
-      <Nav />
-      <NavDots sections={SECTIONS} />
-      <ContactFab email="marcsolabel@gmail.com" />
-
-      <div ref={pageRef} className="relative">
-        {/* TRONCO GLOBAL — cose toda la página */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 left-8 z-[5] w-[2px] md:left-1/2 md:-translate-x-1/2"
-        >
-          <div className="absolute inset-0 w-full bg-line" />
-          <motion.div
-            style={{ scaleY: trunkScale, transformOrigin: "top" }}
-            className="absolute inset-0 w-full bg-amber"
-          />
-        </div>
-
-        <main>
-          {/* 1 ─ HERO */}
-          <Hero sectionRef={heroRef} />
-
-          {/* Transition: Hero → SlideShow */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none h-20 select-none"
-            style={{ background: "linear-gradient(to bottom, #0A0A0A, #FFFFFF)" }}
-          />
-
-          {/* Narrative spine / slideshow */}
-          <section className="block border-t border-line bg-sand">
-            <div className="block__inner" style={{ maxWidth: "48rem" }}>
-              <SlideShow />
-            </div>
-          </section>
-
-          {/* Píldoras-nodo */}
-          <NodePills />
-
-          {/* ARTWORK — ilustración interactiva de nodos */}
-          <section
-            aria-label="Ilustración interactiva"
-            className="block border-t border-line bg-dark"
-          >
-            <div className="block__inner relative">
-              <span className="section-num section-num--light" aria-hidden="true">◎</span>
-              <div className="relative z-10">
-                <Reveal>
-                  <SectionMark num="◉" label="La Red" />
-                  <p
-                    style={{ fontSize: "var(--fs-lead)" }}
-                    className="font-serif italic text-sand/50 mb-8 max-w-md leading-snug"
-                  >
-                    Cada nodo es una parte del sistema.<br />
-                    Pasa el cursor para activarlo.
-                  </p>
-                </Reveal>
-                <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
-                  <IllustrationNodes className="w-full max-w-xs mx-auto lg:mx-0 lg:w-64 flex-shrink-0" />
-                  <div className="flex-1 space-y-6 pt-4">
-                    {[
-                      { label: "Origen",   body: "Comunicación audiovisual y diseño de experiencias. El lenguaje con el que pienso los problemas." },
-                      { label: "Camino",   body: "Ventas B2B en entornos industriales. Cartera, apertura de cuentas, cierre de acuerdos a largo plazo." },
-                      { label: "Presente", body: "E-commerce especializado B2C. Análisis de mercado con IA, negociación directa con fabricantes." },
-                      { label: "Método",   body: "Automatización de flujos y análisis de datos. La operación como sistema, no como tarea." },
-                      { label: "Visión",   body: "Construir operaciones que escalen. Sistemas comerciales que funcionan solos." },
-                    ].map((item, i) => (
-                      <Reveal key={item.label} delay={i * 0.06}>
-                        <div className="border-l-2 border-amber/40 pl-4">
-                          <p className="font-mono text-[0.6rem] font-bold tracking-[0.16em] uppercase text-amber mb-1">{item.label}</p>
-                          <p className="block__body text-sand/60">{item.body}</p>
-                        </div>
-                      </Reveal>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-        {/* 2 ─ SOBRE MÍ */}
-        <section id="sobre-mi" className="block border-t border-line bg-sand">
-          <SectionNode />
-          <div className="block__inner relative">
-            <span className="section-num section-num--dark" aria-hidden="true">01</span>
-            <div className="relative z-10">
-              <Reveal>
-                <SectionMark num="01" label="Sobre mí" />
-                <h2 className="block__title mb-10">
-                  Construyo operaciones<br />desde cero.
-                </h2>
-              </Reveal>
-              <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-14 items-start mt-10">
-                <TextReveal lines={aboutLines} serifLines={[4, 5]} className="space-y-3 text-left" />
-                <Reveal delay={0.12}>
-                  <PhotoTilt>
-                    <div className="relative aspect-[3/4] w-full max-w-sm mx-auto lg:mx-0 overflow-hidden rounded-2xl bg-shade">
-                      <Image
-                        src="/marc-perfil.jpg"
-                        alt="Marc Sola"
-                        fill
-                        sizes="(max-width:768px) 100vw, 384px"
-                        className="object-cover"
-                        priority={false}
-                        onError={() => {
-                          if (typeof window !== "undefined") console.warn("marc-perfil.jpg not found — using CSS fallback");
-                        }}
-                      />
-                    </div>
-                  </PhotoTilt>
-                </Reveal>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 3 ─ EXPERIENCIA */}
-        <section id="experiencia" className="block border-t border-line bg-sand">
-          <SectionNode />
-          <div className="block__inner relative w-full">
-            <span className="section-num section-num--dark" aria-hidden="true">02</span>
-            <div className="relative z-10">
-              <SectionMark num="02" label="Experiencia" />
-              <ExperienceTimeline items={experienceItems} />
-            </div>
-          </div>
-        </section>
-
-        {/* 4 ─ ESTUDIOS */}
-        <section id="estudios" className="block border-t border-line bg-shade">
-          <SectionNode />
-          <div className="block__inner relative">
-            <span className="section-num section-num--dark" aria-hidden="true">03</span>
-            <div className="relative z-10">
-              <Reveal>
-                <SectionMark num="03" label="Estudios" />
-                <h2 className="block__title mb-14">Formación</h2>
-              </Reveal>
-              <div className="flex flex-col gap-12">
-                {educationItems.map((item, i) => (
-                  <Reveal key={item.label} delay={i * 0.09}>
-                    <div className="border-l-2 border-amber pl-6">
-                      <p
-                        style={{ fontSize: "var(--fs-h3)" }}
-                        className="font-bold text-ink leading-tight"
-                      >
-                        {item.label}
-                      </p>
-                      <p className="block__body mt-2">{item.sub}</p>
-                    </div>
-                  </Reveal>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 5 ─ HABILIDADES */}
-        <section id="habilidades" className="block border-t border-line bg-sand">
-          <SectionNode />
-          <div className="block__inner relative w-full">
-            <span className="section-num section-num--dark" aria-hidden="true">04</span>
-            <div className="relative z-10">
-              <Reveal>
-                <SectionMark num="04" label="Habilidades" />
-                <h2 className="block__title mb-10">Competencias</h2>
-              </Reveal>
-
-              {/* Desktop grid */}
-              <div className="hidden sm:grid grid-cols-2 lg:grid-cols-3 gap-3 mt-2">
-                {skills.map((s, i) => (
-                  <SkillCard key={s.domain} domain={s.domain} items={s.items} index={i} />
-                ))}
-              </div>
-
-              {/* Mobile drag carousel */}
-              <div className="sm:hidden mt-2">
-                <SkillsCarousel />
-                <p className="mt-4 text-[0.65rem] text-muted/50 tracking-wide uppercase">
-                  ← arrastra →
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 5b ─ CÓMO TRABAJO */}
-        <section className="block border-t border-line bg-shade">
-          <div className="block__inner relative w-full">
-            <span className="section-num section-num--dark" aria-hidden="true">05</span>
-            <div className="relative z-10">
-              <SectionMark num="05" label="Metodología" />
-              <Kanban />
-            </div>
-          </div>
-        </section>
-
-        {/* Transition pre-Proyectos: dunes-soft texture */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none h-32 w-full border-t border-line"
-          style={{
-            background: "linear-gradient(rgba(192,84,42,.55), rgba(255,255,255,.85)), url('/textures/dunes-soft.webp') center/cover no-repeat",
-          }}
-        />
-
-        {/* 6 ─ PROYECTOS */}
-        <section id="proyectos" className="block border-t border-line bg-sand">
-          <SectionNode />
-          <div className="block__inner relative w-full">
-            <span className="section-num section-num--dark" aria-hidden="true">06</span>
-            <div className="relative z-10">
-              <Reveal>
-                <SectionMark num="06" label="Proyectos" />
-                <h2 className="block__title mb-12">Trabajo actual</h2>
-              </Reveal>
-
-              <ProjectSpotlight
-                label="proyecto-beta"
-                title="Operación de e-commerce B2C especializado"
-                description="Dropshipping especializado para el mercado español y europeo, operando desde 2024. Análisis de nichos con IA, negociación directa con fabricantes y gestión completa del canal de venta."
-                points={[
-                  "IA aplicada al análisis de demanda, márgenes y timing de entrada",
-                  "Negociación directa con fabricantes europeos — sin intermediarios",
-                  "Pricing estratégico y copywriting de producto de alto impacto",
-                  "Operación de canal: plataforma, logística y atención al cliente",
-                ]}
-                imageHint="captura del proyecto"
-              />
-
-              {/* Portfolio masonry parallax */}
-              <div className="mt-16">
-                <Reveal>
-                  <SectionMark num="06b" label="Portfolio audiovisual" />
-                </Reveal>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end mt-4">
-                  {portfolioItems.map((item, i) => (
-                    <Reveal key={item.hint} delay={i * 0.08}>
-                      <ParallaxImage
-                        hint={item.hint}
-                        speed={item.speed}
-                      />
-                    </Reveal>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 7 ─ CONTACTO */}
-        <section
-          id="contacto"
-          className="relative bg-dark min-h-[90svh] flex flex-col justify-end overflow-hidden border-t border-sand/5"
-        >
-          {/* cosmos artwork atmospheric bg */}
-          <Image
-            src="/reference/descarga-cosmos.png"
-            alt=""
-            fill
-            className="object-cover opacity-[0.09] mix-blend-luminosity pointer-events-none"
-            sizes="100vw"
-            priority={false}
-          />
-          {/* pattern-organic overlay */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 z-0"
-            style={{
-              backgroundImage: "url('/textures/pattern-organic.webp')",
-              backgroundSize: "cover",
-              opacity: 0.07,
-              mixBlendMode: "screen",
-            }}
-          />
-          {/* terracotta glow */}
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_60%,rgba(192,84,42,0.12)_0%,transparent_70%)]" aria-hidden="true" />
-          <span className="section-num section-num--light" aria-hidden="true">07</span>
-
-          <div className="relative z-10 w-full max-w-[64rem] mx-auto pl-10 pr-6 pb-20 pt-24 md:pl-16 md:pr-12">
-            <Reveal y={16}>
-              <SectionMark num="07" label="Contacto" />
-            </Reveal>
-            <Reveal delay={0.05} y={20}>
-              <h2
-                style={{ fontSize: "var(--fs-h2)" }}
-                className="font-black leading-[0.95] tracking-[-0.03em] text-sand mb-4"
-              >
-                Hablemos de la<br />próxima oportunidad.
-              </h2>
-            </Reveal>
-            <Reveal delay={0.08} y={16}>
-              <p
-                style={{ fontSize: "var(--fs-serif)" }}
-                className="font-serif italic text-sand/40 mb-12 max-w-md leading-snug"
-              >
-                Dirección comercial · E-commerce · IA aplicada al negocio
+      <main>
+        <section id="hero" className="bg-dark min-h-[100dvh] flex items-center px-6 md:px-12">
+          <div className="relative z-10 pt-20 space-y-5 max-w-[900px]">
+            <Reveal>
+              <p className="section-label text-amber/70">
+                PROYECTOS · AUTOMATIZACIÓN CON IA · ESTRATEGIA COMERCIAL
               </p>
             </Reveal>
-            <Reveal delay={0.12}>
-              <div className="flex flex-col gap-3 sm:gap-5">
-                <a
-                  href="mailto:marcsolabel@gmail.com"
-                  className="group relative inline-block text-xl font-medium text-sand hover:text-amber transition-colors duration-300 w-fit"
-                  aria-label="Enviar email a Marc Sola"
-                >
-                  marcsolabel@gmail.com
-                  <span className="absolute -bottom-1 left-0 h-[2px] w-full origin-left scale-x-0 bg-amber transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100" />
-                </a>
-                <a
-                  href="tel:+34608254125"
-                  className="group relative inline-block text-lg font-medium text-sand/60 hover:text-sand transition-colors duration-300 w-fit"
-                  aria-label="Llamar a Marc Sola"
-                >
-                  608 254 125
-                </a>
-                <div className="flex flex-wrap gap-3 mt-2">
-                  {["Esparreguera · Barcelona", "Español / Catalán nat.", "Inglés B2", "Carnet B"].map(tag => (
-                    <span key={tag} className="rounded-full border border-sand/10 px-3 py-1 text-xs text-sand/30">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ type: "spring", stiffness: 120, damping: 22, delay: 0.08 }}
+              style={{ fontVariationSettings }}
+              className="text-[clamp(3.5rem,10vw,7.5rem)] leading-[0.95] tracking-[-0.04em] text-sand"
+            >
+              Marc Sola
+            </motion.h1>
+            <Reveal delay={0.18}>
+              <p className="text-[clamp(1.25rem,3.5vw,2.25rem)] leading-tight font-medium text-sand/90 max-w-2xl">
+                Pienso en sistemas, construyo soluciones.
+              </p>
+            </Reveal>
+            <Reveal delay={0.28}>
+              <p className="text-lg text-sand/50 leading-relaxed max-w-xl">
+                Una década entre comunicación, ventas y liderazgo de equipo —
+                hoy volcada en diseñar y automatizar procesos con IA.
+              </p>
             </Reveal>
           </div>
         </section>
-      </main>
 
-      <Footer />
-      </div>
+        <section id="contacto" className="bg-dark min-h-[40vh] flex items-center px-6 md:px-12">
+          <Reveal y={16}>
+            <a
+              href="mailto:marcsolabel@gmail.com"
+              className="text-xl font-medium text-sand hover:text-amber transition-colors duration-300"
+              aria-label="Enviar email a Marc Sola"
+            >
+              marcsolabel@gmail.com
+            </a>
+          </Reveal>
+        </section>
+      </main>
     </>
   );
 }
