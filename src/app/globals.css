@@ -15,6 +15,7 @@
 *::after { box-sizing: border-box; }
 
 html {
+  font-size: 112.5%;           /* 1rem = 18px — base §3.1, respeta zoom de accesibilidad */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: auto;
