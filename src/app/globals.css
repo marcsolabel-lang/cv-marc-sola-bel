@@ -1,30 +1,23 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* ─── Neutros (Doc A §3.2) ─── */
-  --color-sand:    #FFFFFF;   /* fondo claro base */
-  --color-dark:    #0A0A0A;   /* fondo oscuro + texto primario */
+  --color-sand:    #FFFFFF;
+  --color-dark:    #0A0A0A;
   --color-ink:     #0A0A0A;
-  --color-muted:   #6B6560;   /* texto secundario sobre claro */
-
-  /* ─── Terracota (un tono, tres registros) ─── */
-  --color-amber:   #C0542A;   /* terracota-vivo: acentos grandes, impacto */
-
-  /* ─── Fuentes ─── */
-  --font-sans:   var(--font-bricolage);
-  --font-serif:  var(--font-cormorant), Georgia, serif;
+  --color-muted:   #6B6560;
+  --color-amber:   #C0542A;
+  --font-sans:     var(--font-bricolage);
+  --font-serif:    var(--font-cormorant), Georgia, serif;
 }
 
 *,
 *::before,
-*::after {
-  box-sizing: border-box;
-}
+*::after { box-sizing: border-box; }
 
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  scroll-behavior: auto; /* Lenis controls this */
+  scroll-behavior: auto;
 }
 
 body {
@@ -34,15 +27,22 @@ body {
   min-height: 100dvh;
 }
 
-::selection {
-  background-color: #C0542A;
-  color: #FFFFFF;
-}
+::selection { background-color: #C0542A; color: #FFFFFF; }
 
 :focus-visible {
   outline: 2px solid #C0542A;
   outline-offset: 3px;
   border-radius: 2px;
+}
+
+/* ── CSS vars accesibles desde JS (fuera del @theme inline) ── */
+:root {
+  --on-dark-1:  rgba(255,255,255,0.92);
+  --on-dark-2:  #B8B0A6;
+  --on-dark-3:  #8C857C;
+  --hairline:   rgba(255,255,255,0.16);
+  --gutter:     clamp(20px, 4vw, 48px);
+  --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ── Section label (N6) ── */
@@ -54,42 +54,204 @@ body {
   color: #C0542A;
 }
 
-/* ── Animated underline for links ── */
+/* ── Animated underline ── */
 .link-underline {
   position: relative;
   display: inline;
   text-decoration: none;
 }
-
 .link-underline::after {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
+  bottom: 0; left: 0;
+  width: 100%; height: 1px;
   background: currentColor;
   transform: scaleX(0);
   transform-origin: right center;
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
 .link-underline:hover::after {
   transform: scaleX(1);
   transform-origin: left center;
 }
 
-/* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
-  .link-underline::after {
-    transition: none;
-  }
+  .link-underline::after { transition: none; }
 }
 
 /* ── Block layout primitive ── */
-.block {
-  position: relative;
-  width: 100%;
-}
+.block { position: relative; width: 100%; }
 .block--pad { padding: 6rem 1.5rem; }
 @media (min-width: 768px) { .block--pad { padding: 7rem 3rem; } }
+
+/* ════════════════════════════════════════════════════════════
+   HERO — Centrada + Manifiesto (voz y composición fijas)
+   ════════════════════════════════════════════════════════════ */
+.hero-section {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #0A0A0A;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+}
+.hero-section.is-grabbing { cursor: grabbing; }
+
+/* Rombo: fondo a sangre, pointer-events-none */
+.diamond-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  display: block;
+}
+
+/* Texto: encima del rombo, centrado */
+.hero-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 820px;
+  padding: 0 var(--gutter);
+  text-align: center;
+}
+
+.hero-eyebrow {
+  margin: 0 0 2rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--on-dark-3);
+}
+
+/* Voz Manifiesto: fs grande, peso máximo, lh apretado */
+.hero-headline {
+  margin: 0;
+  font-size: clamp(3.1rem, 7.4vw, 6.4rem);
+  font-weight: 800;          /* fallback digno; JS anima 320→830 al cargar */
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+  color: #FFFFFF;
+  text-wrap: balance;
+}
+
+.hero-lead {
+  margin: 3rem auto 0;
+  max-width: 30rem;
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--on-dark-2);
+}
+
+/* Entrada: fade + leve subida, sin rebote */
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: none; }
+}
+.hero-eyebrow  { animation: hero-rise 0.85s var(--ease-out) 0.15s both; }
+.hero-headline { animation: hero-rise 0.85s var(--ease-out) 0.32s both; }
+.hero-lead     { animation: hero-rise 0.85s var(--ease-out) 0.58s both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-eyebrow,
+  .hero-headline,
+  .hero-lead { animation: none; opacity: 1; transform: none; }
+}
+
+/* ════════════════════════════════════════════════════════════
+   TOPBAR — modelo Yann Novak
+   ════════════════════════════════════════════════════════════ */
+.topbar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(18px, 3vw, 30px) var(--gutter);
+  cursor: default;
+}
+
+/* Línea fina que conecta los huecos entre elementos */
+.topbar__line {
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 1px;
+  background: var(--hairline);
+  z-index: -1;
+}
+
+/* Cada elemento enmascara la línea con el fondo */
+.topbar__item {
+  background: #0A0A0A;
+  padding: 0 0.85rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--on-dark-2);
+  white-space: nowrap;
+  transition: color 250ms ease-in-out;
+}
+.topbar__name {
+  padding-left: 0;
+  letter-spacing: 0.02em;
+  color: var(--on-dark-1);
+}
+a.topbar__item:hover { color: #FFFFFF; }
+
+.topbar__menu {
+  background: #0A0A0A;
+  padding: 0 0 0 0.85rem;
+  border: 0;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--on-dark-2);
+  cursor: pointer;
+  transition: color 250ms ease-in-out;
+}
+.topbar__menu:hover,
+.topbar__menu[aria-expanded="true"] { color: #FFFFFF; }
+
+/* Menú desplegable */
+.nav-menu {
+  position: absolute;
+  top: calc(100% + 16px);
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.6rem;
+  z-index: 30;
+  pointer-events: none;
+}
+.nav-menu.open { pointer-events: auto; }
+.nav-menu a {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--on-dark-2);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 0.32s var(--ease-out),
+              transform 0.32s var(--ease-out),
+              color 0.2s ease;
+}
+.nav-menu.open a { opacity: 1; transform: none; }
+.nav-menu a:hover { color: #C0542A; }
+
+/* Responsive: colapsar CV y años en móvil */
+@media (max-width: 600px) {
+  .topbar__cv,
+  .topbar__years { display: none; }
+}
