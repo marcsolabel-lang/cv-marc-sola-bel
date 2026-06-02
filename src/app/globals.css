@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* ─── Neutros (Doc A §3.2) ─── */
+  --color-sand:    #FFFFFF;   /* fondo claro base */
+  --color-dark:    #0A0A0A;   /* fondo oscuro + texto primario */
+  --color-ink:     #0A0A0A;
+  --color-muted:   #6B6560;   /* texto secundario sobre claro */
+
+  /* ─── Terracota (un tono, tres registros) ─── */
+  --color-amber:   #C0542A;   /* terracota-vivo: acentos grandes, impacto */
+
+  /* ─── Fuentes ─── */
+  --font-sans:   var(--font-bricolage);
+  --font-serif:  var(--font-cormorant), Georgia, serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: auto; /* Lenis controls this */
+}
+
+body {
+  background-color: #FFFFFF;
+  color: #0A0A0A;
+  overflow-x: hidden;
+  min-height: 100dvh;
+}
+
+::selection {
+  background-color: #C0542A;
+  color: #FFFFFF;
+}
+
+:focus-visible {
+  outline: 2px solid #C0542A;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Section label (N6) ── */
+.section-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #C0542A;
+}
+
+/* ── Animated underline for links ── */
+.link-underline {
+  position: relative;
+  display: inline;
+  text-decoration: none;
+}
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.link-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .link-underline::after {
+    transition: none;
+  }
+}
+
+/* ── Block layout primitive ── */
+.block {
+  position: relative;
+  width: 100%;
+}
+.block--pad { padding: 6rem 1.5rem; }
+@media (min-width: 768px) { .block--pad { padding: 7rem 3rem; } }
