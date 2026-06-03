@@ -49,20 +49,16 @@ por Marc el 2026-06-02) y la especificación de construcción (doc-A).
 
 ## DESVIACIONES — PENDIENTE DE DECISIÓN DE MARC
 
-### 3. Nombre completo en topbar: "Marc Sola Bel" vs "Marc Sola"
+### 3. Nombre completo en topbar: "Marc Sola Bel" vs "Marc Sola" — CERRADO
 - Doc A §4: "Marc Sola" · "CV" · "2016—26" · "[MENÚ]"
-- Hero.html implementado: "Marc Sola Bel"
-- Acción: decidir si usar nombre completo (Bel incluido) o el nombre
-  de marca corto. Ambos son válidos; la spec usa el corto.
+- Decisión (2026-06-03): **"Marc Sola Bel"** — nombre completo con apellido.
+  El Doc A usa el nombre corto como placeholder; la decisión de marca es Bel incluido.
 
-### 4. Nombre en hero content: ausente
-- Doc A §1: lista "Nombre: Marc Sola" como elemento del Hero.
-- Doc A §6: "Nombre+eyebrow en N6, segundo plano."
-- Hero.html: el nombre solo aparece en la topbar, no en el bloque de texto
-  del hero. Posible que se haya omitido conscientemente al elegir Centrada
-  (donde el statement domina más).
-- Acción: valorar si añadir "Marc Sola" en N6 debajo del eyebrow o en
-  otro punto de la composición.
+### 4. Nombre en hero content — CERRADO
+- Doc A §1 y §6: nombre como elemento del Hero en N6.
+- Decisión (2026-06-03): **no se añade nombre en el hero content**.
+  El nombre vive exclusivamente en la topbar. En composición Centrada el
+  statement domina solo; añadir el nombre restaría fuerza al golpe inicial.
 
 ---
 
