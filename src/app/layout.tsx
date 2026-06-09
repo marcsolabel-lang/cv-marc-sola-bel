@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Cormorant_Garamond } from "next/font/google";
+import { Bricolage_Grotesque, Cormorant_Garamond, Oswald } from "next/font/google";
 import { MotionConfig } from "motion/react";
 import "./globals.css";
-import SmoothScroll from "@/components/SmoothScroll";
 
 const bricolage = Bricolage_Grotesque({
   variable: "--font-bricolage",
@@ -18,10 +17,18 @@ const cormorant = Cormorant_Garamond({
   display: "swap",
 });
 
+/* Pancarta constructivista (topbar, índice, labels) — decisión de Design
+   validada en el Hero/Cita vivos; complementa al sistema Bricolage+Cormorant. */
+const oswald = Oswald({
+  variable: "--font-oswald",
+  subsets: ["latin"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "Marc Sola — CV",
+  title: "Marc Sola Bel — CV",
   description:
-    "Proyectos, automatización con IA y estrategia comercial.",
+    "Pienso en sistemas, construyo soluciones. Proyectos, automatización con IA y estrategia comercial.",
 };
 
 export default function RootLayout({
@@ -30,11 +37,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${bricolage.variable} ${cormorant.variable}`}>
-      <body className="bg-sand text-ink antialiased overflow-x-hidden">
-        <MotionConfig reducedMotion="user">
-          <SmoothScroll>{children}</SmoothScroll>
-        </MotionConfig>
+    <html
+      lang="es"
+      className={`${bricolage.variable} ${cormorant.variable} ${oswald.variable}`}
+    >
+      <body className="antialiased">
+        <MotionConfig reducedMotion="user">{children}</MotionConfig>
       </body>
     </html>
   );

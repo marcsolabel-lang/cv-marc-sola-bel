@@ -1,0 +1,129 @@
+/* ════════════════════════════════════════════════════════════════
+   CITA (§6.2 · cerrada) — port fiel del HTML vivo aprobado en Design.
+   Tamaños del seed y de las cajas ajustados según las ediciones
+   manuales de Marc en el editor visual (seed 34px · cuerpo +11%).
+   ════════════════════════════════════════════════════════════════ */
+.cita {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  font-family: var(--font-serif);
+}
+.cita__stage {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* "DISEÑAR": la semilla central — el ACTIVADOR (muro de rebote alrededor) */
+.seed {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  border: 0;
+  background: transparent;
+  font-family: var(--font-serif);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 34px;
+  letter-spacing: 0.08em;
+  line-height: 0.95;
+  color: var(--white);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  text-shadow: 0 0 36px rgba(10,10,10,0.85), 0 0 14px rgba(10,10,10,0.9);
+  transition: color 450ms var(--ease-out), letter-spacing 700ms var(--ease-out);
+}
+.seed.idle { animation: seedPulse 3.6s ease-in-out infinite; }
+.seed:hover { color: var(--terracotta); letter-spacing: 0.105em; }
+.seed.placed { animation: none; }
+@keyframes seedPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1);     opacity: 0.92; }
+  50%      { transform: translate(-50%, -50%) scale(1.018); opacity: 1; }
+}
+
+/* Cajas de narrativa laterales — recuadradas, grandes y legibles */
+.side {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 15;
+  width: clamp(248px, 23vw, 386px);
+  padding: clamp(22px, 2vw, 36px) clamp(24px, 2.2vw, 40px);
+  border: 1px solid rgba(255,255,255,0.22);
+  background: rgba(10,10,10,0.55);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  font-family: var(--font-banner);
+  font-style: normal;
+  font-weight: 400;
+  font-size: clamp(1.2rem, 1.58vw, 1.69rem);
+  letter-spacing: 0.015em;
+  line-height: 1.6;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.96);
+  transition: transform 340ms var(--ease-out), background 340ms ease,
+              border-color 340ms ease, box-shadow 340ms ease;
+  will-change: transform;
+}
+.side:hover {
+  transform: translateY(-50%) scale(1.16);
+  z-index: 60;
+  background: rgba(10,10,10,0.92);
+  border-color: rgba(255,255,255,0.42);
+  box-shadow: 0 24px 70px rgba(0,0,0,0.6);
+}
+.side__label {
+  display: block;
+  font-family: var(--font-banner);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 1.05em;
+  padding-bottom: 0.85em;
+  border-bottom: 1px solid rgba(255,255,255,0.16);
+}
+.side--l { left: clamp(14px, 3vw, 56px); text-align: left;  transform-origin: left center; }
+.side--r { right: clamp(14px, 3vw, 56px); text-align: right; transform-origin: right center; }
+.side--r .side__label { text-align: right; }
+.side .w {
+  display: inline-block;
+  margin-right: 0.44em;
+  color: rgba(255,255,255,0.96);
+  transition: transform 250ms ease-in-out, color 480ms ease-in-out;
+  transform-origin: center center;
+  cursor: default;
+}
+.side--r .w { margin-right: 0; margin-left: 0.44em; }
+.side .w:hover { transform: scale(1.16); }
+.side .w.lit-t { color: var(--terracotta); }   /* alterna blanco ⇄ terracota */
+
+/* Móvil / tablet: cajas apiladas (EMERGENTE arriba → reloj → CONCEBIDA abajo) */
+@media (max-width: 820px) {
+  .side {
+    position: absolute; left: 50%; right: auto; top: auto;
+    transform: translateX(-50%); transform-origin: center;
+    width: min(88vw, 460px); max-width: none;
+    font-size: 1.16rem; line-height: 1.55;
+    background: rgba(10,10,10,0.84);
+  }
+  .side--l { top: clamp(14px, 3.5vw, 28px); }
+  .side--r { bottom: clamp(14px, 3.5vw, 28px); }
+  .side--r .side__label { text-align: left; }
+  .side--r .w { margin-right: 0.44em; margin-left: 0; }
+  .side:hover { transform: translateX(-50%) scale(1.035); }
+  .side__label { font-size: 0.72rem; }
+  .seed { font-size: clamp(26px, 8.5vw, 34px); letter-spacing: 0.06em; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .seed { animation: none !important; }
+}

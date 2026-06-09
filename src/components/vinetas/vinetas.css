@@ -1,0 +1,627 @@
+/* ════════════════════════════════════════════════════════════════
+   VIÑETAS 3–8 (doc-A v3 §6) — heredan el lenguaje del Hero.
+   Calibración por acto (§0): credibilidad contenida, picos al máximo.
+   ════════════════════════════════════════════════════════════════ */
+
+/* ────────────────────────────────────────────────────────────────
+   3 · SOBRE MÍ (clara · credibilidad) — metáfora: EL HILO CONSTANTE
+   Cuatro contextos dispersos cosidos por una línea que desemboca
+   en la tesis. Un solo gesto de entrada; después, quieta.
+   ──────────────────────────────────────────────────────────────── */
+.sobremi__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+  column-gap: clamp(2rem, 6vw, 6rem);
+  align-items: start;
+}
+.hilo { position: relative; padding-left: 26px; }
+.hilo__svg {
+  position: absolute;
+  left: 0; top: 6px; bottom: 0;
+  width: 18px; height: calc(100% - 6px);
+  overflow: visible;
+}
+.hilo__path {
+  fill: none;
+  stroke: var(--terracotta);
+  stroke-width: 1.5;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.3s var(--ease-out) 0.1s;
+}
+.hilo.in .hilo__path { stroke-dashoffset: 0; }
+.hilo__node {
+  fill: var(--terracotta);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.hilo.in .hilo__node--1 { opacity: 1; transition-delay: 0.15s; }
+.hilo.in .hilo__node--2 { opacity: 1; transition-delay: 0.45s; }
+.hilo.in .hilo__node--3 { opacity: 1; transition-delay: 0.75s; }
+.hilo.in .hilo__node--4 { opacity: 1; transition-delay: 1.05s; }
+.hilo__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: clamp(1.4rem, 3vh, 2.2rem); }
+.hilo__item {
+  font-family: var(--font-banner);
+  font-size: 0.86rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--on-light-2);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+}
+.hilo.in .hilo__item:nth-child(1) { opacity: 1; transform: none; transition-delay: 0.1s; }
+.hilo.in .hilo__item:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.4s; }
+.hilo.in .hilo__item:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.7s; }
+.hilo.in .hilo__item:nth-child(4) { opacity: 1; transform: none; transition-delay: 1.0s; }
+.hilo__sintesis {
+  margin: clamp(1.8rem, 4vh, 2.6rem) 0 0;
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s var(--ease-out) 1.25s, transform 0.6s var(--ease-out) 1.25s;
+}
+.hilo.in .hilo__sintesis { opacity: 1; transform: none; }
+.sobremi__text p {
+  margin: 0 0 1.3em;
+  max-width: 62ch;
+  font-size: var(--fs-body);
+  line-height: 1.55;
+}
+.sobremi__text p:last-child { margin-bottom: 0; }
+@media (max-width: 820px) {
+  .sobremi__grid { grid-template-columns: 1fr; row-gap: 2.6rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hilo__path { stroke-dashoffset: 0; transition: none; }
+  .hilo__node, .hilo__item, .hilo__sintesis { opacity: 1; transform: none; transition: none; }
+}
+
+/* ────────────────────────────────────────────────────────────────
+   4 · FORMACIÓN (clara · credibilidad · subordinada) — metáfora:
+   EL PAPEL DE PLANO. Una rejilla milimetrada tenue nace tras la
+   lección del arquitecto y ALINEA las fichas. Un susurro.
+   ──────────────────────────────────────────────────────────────── */
+.formacion__plano {
+  position: relative;
+  padding: clamp(1.6rem, 3.5vw, 2.6rem);
+  border-left: 2px solid var(--terracotta);
+}
+.formacion__plano::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(0deg,  rgba(192, 84, 42, 0.07) 0 1px, transparent 1px 24px),
+    repeating-linear-gradient(90deg, rgba(192, 84, 42, 0.07) 0 1px, transparent 1px 24px);
+  opacity: 0;
+  transition: opacity 0.9s ease 0.25s;
+  pointer-events: none;
+}
+.formacion__plano.in::before { opacity: 1; }
+.formacion__leccion {
+  margin: 0 0 0.65rem;
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+.formacion__detalle {
+  margin: 0;
+  max-width: 62ch;
+  color: var(--ink);
+}
+.formacion__meta {
+  display: block;
+  margin-top: 1rem;
+  font-family: var(--font-banner);
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--on-light-2);
+}
+.formacion__otros {
+  list-style: none;
+  margin: clamp(1.8rem, 4vh, 2.6rem) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--s-3);
+}
+.formacion__otro {
+  padding-top: var(--s-2);
+  border-top: 1px solid var(--hairline-d);
+}
+.formacion__otro strong {
+  display: block;
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  line-height: 1.25;
+}
+.formacion__otro span {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.86rem;
+  color: var(--on-light-2);
+}
+@media (prefers-reduced-motion: reduce) {
+  .formacion__plano::before { opacity: 1; transition: none; }
+}
+
+/* ────────────────────────────────────────────────────────────────
+   5 · EXPERIENCIA (clara · credibilidad) — metáfora: LA DÉCADA QUE
+   SE ERIGE. El eje se traza tramo a tramo al recorrerla; cada nodo
+   (rombo) encadena un rol. La metáfora AYUDA a escanear, no estorba.
+   ──────────────────────────────────────────────────────────────── */
+.exp__list { list-style: none; margin: 0; padding: 0; }
+.exp__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(120px, 220px) 1fr;
+  column-gap: clamp(1.6rem, 4vw, 3.5rem);
+  padding: clamp(1.6rem, 3.5vh, 2.6rem) 0 clamp(1.6rem, 3.5vh, 2.6rem) clamp(1.6rem, 3vw, 2.6rem);
+}
+.exp__seg {
+  position: absolute;
+  left: 5px; top: 0; bottom: 0;
+  width: 1.5px;
+  background: var(--terracotta);
+  transform: scaleY(0);
+  transform-origin: top center;
+  transition: transform 0.8s var(--ease-out);
+}
+.exp__item.in .exp__seg { transform: scaleY(1); }
+.exp__nodo {
+  position: absolute;
+  left: 0; top: clamp(2rem, 4vh, 3rem);
+  width: 12px; height: 12px;
+  background: var(--terracotta);
+  transform: rotate(45deg) scale(0);
+  transition: transform 0.45s var(--ease-out) 0.3s;
+}
+.exp__item.in .exp__nodo { transform: rotate(45deg) scale(1); }
+.exp__year {
+  margin: 0;
+  font-size: clamp(2.2rem, 4.2vw, 3.4rem);
+  font-weight: 750;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.exp__range {
+  display: block;
+  margin-top: 0.5rem;
+  font-family: var(--font-banner);
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--on-light-2);
+}
+.exp__rol { margin: 0 0 0.2rem; font-size: var(--fs-h3); font-weight: 650; line-height: 1.25; }
+.exp__org {
+  display: block;
+  margin-bottom: 0.7rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--on-light-2);
+}
+.exp__desc { margin: 0; max-width: 58ch; }
+.exp__desc a { color: var(--terracotta-deep); border-bottom: 1px solid currentColor; }
+.exp__desc a:hover { opacity: 0.75; }
+
+/* gesto base con stagger descendente */
+.exp__item .exp__year, .exp__item .exp__body {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.65s var(--ease-out) 0.15s, transform 0.65s var(--ease-out) 0.15s;
+}
+.exp__item.in .exp__year, .exp__item.in .exp__body { opacity: 1; transform: none; }
+
+/* Raíces: trayectoria previa comprimida (hover de opacidad §6.5) */
+.exp__raices {
+  list-style: none;
+  margin: clamp(2rem, 4vh, 3rem) 0 0;
+  padding: clamp(1.2rem, 2.5vh, 1.8rem) 0 0 clamp(1.6rem, 3vw, 2.6rem);
+  border-top: 1px solid var(--hairline-d);
+}
+.exp__raiz {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.85em;
+  padding: 0.45rem 0;
+  opacity: 0.6;
+  transition: opacity var(--dur-med) ease-in-out;
+}
+.exp__raiz:hover { opacity: 1; }
+.exp__raiz b {
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.95rem;
+}
+.exp__raiz span { font-size: 0.95rem; }
+.exp__raiz i { font-style: normal; font-size: 0.86rem; color: var(--on-light-2); }
+@media (max-width: 600px) {
+  .exp__item { grid-template-columns: 1fr; row-gap: 0.8rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .exp__seg { transform: scaleY(1); transition: none; }
+  .exp__nodo { transform: rotate(45deg) scale(1); transition: none; }
+  .exp__item .exp__year, .exp__item .exp__body { opacity: 1; transform: none; transition: none; }
+}
+
+/* ────────────────────────────────────────────────────────────────
+   6 · LIDERAZGO (clara · transición al clímax) — metáfora:
+   +70 EN FORMACIÓN. Setenta puntos pasan de dispersión a retícula:
+   el orden coordina a muchos. Un solo golpe; después, quietud.
+   ──────────────────────────────────────────────────────────────── */
+.lid__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  align-items: center;
+  column-gap: clamp(2.5rem, 7vw, 7rem);
+  padding-block: clamp(1rem, 4vh, 3rem);   /* la viñeta más luxury en aire */
+}
+.lid__num {
+  margin: 0;
+  font-size: var(--fs-arma);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.lid__num small {
+  display: inline-block;
+  margin-left: 0.18em;
+  font-size: 0.18em;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--on-light-2);
+}
+.lid__frase {
+  margin: var(--s-4) 0 0;
+  max-width: 52ch;
+}
+.lid__meta {
+  display: block;
+  margin-top: var(--s-2);
+  font-family: var(--font-banner);
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--on-light-2);
+}
+.lid__campo {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(14, 1fr);
+  gap: clamp(10px, 1.6vw, 22px);
+  justify-items: center;
+}
+.lid__dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--terracotta);
+  opacity: 0.25;
+  transition: transform 0.85s var(--ease-out), opacity 0.85s ease;
+  /* posición dispersa inicial via --dx/--dy inline */
+  transform: translate(var(--dx), var(--dy));
+}
+.lid__campo.in .lid__dot { transform: translate(0, 0); opacity: 0.9; }
+@media (max-width: 820px) {
+  .lid__grid { grid-template-columns: 1fr; row-gap: 3rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lid__dot { transform: none; opacity: 0.9; transition: none; }
+}
+
+/* ────────────────────────────────────────────────────────────────
+   7 · CROWN PLANNER (oscura · PICO · clímax) — la prueba ES el
+   sistema operando: carrusel de slides + zoom-lupa sobre captura.
+   ──────────────────────────────────────────────────────────────── */
+.crown__head { max-width: 720px; }
+.crown__title {
+  margin: 0 0 0.6rem;
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--white);
+}
+.crown__sub { margin: 0; color: var(--on-dark-2); }
+
+.crown__carousel { position: relative; margin-top: clamp(2rem, 5vh, 3.4rem); }
+.crown__track {
+  display: flex;
+  gap: clamp(14px, 2vw, 26px);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-bottom: 6px;
+  -webkit-overflow-scrolling: touch;
+}
+.crown__track::-webkit-scrollbar { display: none; }
+.crown__slide {
+  flex: 0 0 min(86%, 880px);   /* peek del siguiente: affordance horizontal */
+  scroll-snap-align: start;
+  border: 1px solid var(--hairline);
+  padding: clamp(1.2rem, 2.5vw, 2rem);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 1.1rem;
+}
+.crown__slide-head { display: flex; align-items: baseline; gap: 1em; }
+.crown__slide-kicker {
+  font-family: var(--font-banner);
+  font-size: var(--fs-meta);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  white-space: nowrap;
+}
+.crown__slide-title {
+  margin: 0;
+  font-size: var(--fs-h3);
+  font-weight: 650;
+  color: var(--white);
+  line-height: 1.25;
+}
+.crown__slide-body { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(1rem, 2.5vw, 2rem); align-items: start; }
+.crown__slide-text { margin: 0; color: var(--on-dark-2); font-size: 0.97rem; }
+.crown__slide--final .crown__slide-body { grid-template-columns: 1fr; }
+@media (max-width: 820px) {
+  .crown__slide-body { grid-template-columns: 1fr; }
+  .crown__slide { flex-basis: 92%; }
+}
+
+/* Placeholder de captura (assets los prepara Marc — datos 100% ficticios) */
+.crown__shot {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--hairline);
+  background:
+    repeating-linear-gradient(0deg,  rgba(192, 84, 42, 0.06) 0 1px, transparent 1px 22px),
+    repeating-linear-gradient(90deg, rgba(192, 84, 42, 0.06) 0 1px, transparent 1px 22px),
+    #101010;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+.crown__shot-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  text-align: center;
+  padding: 1rem;
+}
+.crown__shot-label svg { width: 38px; height: 38px; }
+.crown__shot-label svg :is(path, circle, rect) { fill: none; stroke: var(--terracotta); stroke-width: 1.5; }
+.crown__shot-label small {
+  font-family: var(--font-banner);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--on-dark-3);
+  max-width: 30ch;
+  line-height: 1.7;
+}
+/* Lente de zoom localizado (§5 · solo puntero fino) */
+.crown__lens {
+  position: absolute;
+  width: 168px; height: 168px;
+  border-radius: 50%;
+  border: 1px solid var(--terracotta);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur-fast) ease;
+  overflow: hidden;
+  transform: translate(-50%, -50%);
+  background: #101010;
+}
+.crown__lens > .crown__lens-img {
+  position: absolute;
+  transform-origin: 0 0;
+}
+.crown__shot:hover .crown__lens { opacity: 1; }
+@media not ((hover: hover) and (pointer: fine)) {
+  .crown__lens { display: none; }
+}
+
+/* Affordance: flechas + puntos de progreso */
+.crown__nav {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-top: 1.4rem;
+}
+.crown__arrow {
+  width: 44px; height: 44px;
+  border: 1px solid var(--hairline);
+  background: transparent;
+  color: var(--on-dark-2);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color var(--dur-fast) ease-in-out, border-color var(--dur-fast) ease, transform var(--dur-fast) var(--ease-out);
+}
+.crown__arrow:hover { color: var(--white); border-color: rgba(255,255,255,0.4); }
+.crown__arrow:active { transform: scale(0.94); }
+.crown__arrow:disabled { opacity: 0.35; cursor: default; }
+.crown__dots { display: flex; gap: 8px; }
+.crown__dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  border: 0;
+  padding: 0;
+  background: var(--on-dark-3);
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity var(--dur-fast) ease, transform var(--dur-fast) var(--ease-out), background var(--dur-fast) ease;
+}
+.crown__dot[aria-current="true"] {
+  background: var(--terracotta);
+  opacity: 1;
+  transform: scale(1.25);
+}
+
+/* CTAs del slide final — placeholders honestos hasta tener demo + Excel */
+.crown__ctas { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.2rem; }
+.crown__cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
+  padding: 0.85em 1.3em;
+  border: 1px solid var(--hairline);
+  font-family: var(--font-banner);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--on-dark-2);
+}
+.crown__cta svg { width: 18px; height: 18px; }
+.crown__cta svg :is(path, rect, circle) { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.crown__cta i {
+  font-style: normal;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  color: var(--terracotta);
+}
+.crown__demo { color: var(--on-dark-1); }
+
+/* Visor móvil/tap: captura ampliada a pantalla completa */
+.crown__viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgba(10, 10, 10, 0.94);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5vmin;
+}
+.crown__viewer-close {
+  position: absolute;
+  top: 18px; right: 18px;
+  width: 44px; height: 44px;
+  border: 1px solid var(--hairline);
+  background: transparent;
+  color: var(--white);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+.crown__viewer .crown__shot { width: 100%; max-width: 1100px; cursor: default; }
+
+/* ────────────────────────────────────────────────────────────────
+   8 · CONTACTO (oscura · PICO · espejo del Hero) — metáfora:
+   EL SISTEMA SE COMPLETA. El wireframe en movimiento del Hero
+   se resuelve en un rombo sólido y quieto; el marco del email se
+   ensambla desde las esquinas. El círculo se cierra.
+   ──────────────────────────────────────────────────────────────── */
+.contacto__inner {
+  min-height: 88svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.contacto__sello {
+  width: clamp(40px, 5vw, 58px);
+  height: clamp(40px, 5vw, 58px);
+  margin-bottom: clamp(2rem, 5vh, 3.2rem);
+  opacity: 0;
+  transform: scale(1.12);
+  transition: opacity 0.7s var(--ease-out) 0.1s, transform 0.7s var(--ease-out) 0.1s;
+}
+.contacto__inner.in .contacto__sello { opacity: 1; transform: scale(1); }
+.contacto__sello path { fill: var(--terracotta); }
+.contacto__cierre {
+  margin: 0 0 clamp(2.6rem, 6vh, 4rem);
+  font-size: clamp(2.4rem, 5.4vw, 4.4rem);
+  font-weight: 780;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  color: var(--white);
+  text-wrap: balance;
+}
+
+/* Email con marco técnico de esquinas (CTA · §6.8) */
+.cta-email {
+  position: relative;
+  display: inline-block;
+  padding: clamp(1rem, 2.2vw, 1.5rem) clamp(1.6rem, 3.4vw, 2.6rem);
+  font-size: clamp(1.15rem, 2.4vw, 1.85rem);
+  font-weight: 620;
+  letter-spacing: -0.012em;
+  color: var(--white);
+  transition: color var(--dur-med) ease-in-out;
+}
+.cta-email:hover { color: var(--terracotta-soft); }
+.cta-email .corner {
+  position: absolute;
+  width: 17px; height: 17px;
+  border: 0 solid var(--terracotta);
+  opacity: 0;
+  transition: opacity 0.45s ease, transform 0.55s var(--ease-out),
+              inset 0.3s var(--ease-out);
+}
+.cta-email .corner--tl { top: 0; left: 0; border-top-width: 2px; border-left-width: 2px; transform: translate(-12px, -12px); }
+.cta-email .corner--tr { top: 0; right: 0; border-top-width: 2px; border-right-width: 2px; transform: translate(12px, -12px); }
+.cta-email .corner--bl { bottom: 0; left: 0; border-bottom-width: 2px; border-left-width: 2px; transform: translate(-12px, 12px); }
+.cta-email .corner--br { bottom: 0; right: 0; border-bottom-width: 2px; border-right-width: 2px; transform: translate(12px, 12px); }
+.contacto__inner.in .cta-email .corner { opacity: 1; transform: translate(0, 0); }
+.contacto__inner.in .cta-email .corner--tl { transition-delay: 0.55s; }
+.contacto__inner.in .cta-email .corner--tr { transition-delay: 0.63s; }
+.contacto__inner.in .cta-email .corner--br { transition-delay: 0.71s; }
+.contacto__inner.in .cta-email .corner--bl { transition-delay: 0.79s; }
+/* afinado al hover: el marco respira hacia fuera */
+.cta-email:hover .corner--tl { transform: translate(-4px, -4px); }
+.cta-email:hover .corner--tr { transform: translate(4px, -4px); }
+.cta-email:hover .corner--bl { transform: translate(-4px, 4px); }
+.cta-email:hover .corner--br { transform: translate(4px, 4px); }
+
+.contacto__datos {
+  margin: clamp(2.2rem, 5vh, 3.4rem) 0 0;
+  font-family: var(--font-banner);
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--on-dark-3);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 1.6em;
+  row-gap: 0.7em;
+}
+.contacto__datos a { transition: color var(--dur-med) ease-in-out; }
+.contacto__datos a:hover { color: var(--white); }
+.contacto__idiomas {
+  margin: 1rem 0 0;
+  font-family: var(--font-banner);
+  font-size: var(--fs-meta);
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--on-dark-3);
+}
+.contacto__idiomas b { font-weight: 600; color: var(--on-dark-2); }
+@media (prefers-reduced-motion: reduce) {
+  .contacto__sello, .cta-email .corner { opacity: 1; transform: none; transition: none; }
+}
