@@ -50,6 +50,7 @@ export default function Cita() {
       return getComputedStyle(root).getPropertyValue("--terracotta").trim() || "#C0542A";
     }
 
+    let disposed = false;
     let spriteAccent: Sprite | null = null, spriteWhite: Sprite | null = null;
     function makeSprite(color: string): Sprite {
       const ref = 64, pad = 14;
@@ -71,7 +72,7 @@ export default function Cita() {
     }
     function buildSprites() {
       spriteAccent = makeSprite(accent);
-      if (!spriteWhite) spriteWhite = makeSprite("#FFFFFF");
+      spriteWhite = makeSprite("#FFFFFF");
     }
 
     let mode: "tornado" | "ordering" | "ordered" = "tornado";
@@ -278,15 +279,26 @@ export default function Cita() {
       ctx.globalAlpha = 1;
     }
 
+    /* bucle pausable: solo corre con la sección en viewport (§5 rendimiento);
+       en reduced-motion no hay bucle — estado final quieto, pintado a demanda */
     let rafId = 0;
+    let running = false;
     let last = performance.now();
     function loop(now: number) {
+      if (!running || disposed) return;
       const dt = Math.min((now - last) / 1000, 0.05); last = now;
       ry += (mode === "tornado" ? 0.22 : 0.10) * dt;
-      if (!reduced) step(dt);
+      step(dt);
       draw();
       rafId = requestAnimationFrame(loop);
     }
+    let inViewport = false;
+    const startLoop = () => {
+      if (running || reduced || disposed || !started || !inViewport) return;
+      running = true; last = performance.now();
+      rafId = requestAnimationFrame(loop);
+    };
+    const stopLoop = () => { running = false; cancelAnimationFrame(rafId); };
 
     /* ── activador "DISEÑAR" + fallback ── */
     let userActed = false;
@@ -295,12 +307,14 @@ export default function Cita() {
       if (mode === "ordering" || mode === "ordered") return;
       mode = "ordering";
       seed.classList.remove("idle"); seed.classList.add("placed");
+      seed.setAttribute("aria-pressed", "true");
       clearTimeout(orderT);
       orderT = setTimeout(() => { if (mode === "ordering") mode = "ordered"; }, 1500);
     };
     const scatter = () => {
       mode = "tornado";
       seed.classList.add("idle"); seed.classList.remove("placed");
+      seed.setAttribute("aria-pressed", "false");
       for (const p of P) {
         p.vx += (Math.random() - 0.5) * 3;
         p.vy += (Math.random() - 0.5) * 3;
@@ -314,17 +328,23 @@ export default function Cita() {
     };
     seed.addEventListener("click", onSeed);
 
-    /* fallback: visible sin interacción → la forma se ordena sola */
+    /* visibilidad: pausa el motor totalmente fuera de viewport y arma el
+       fallback (visible sin interacción → la forma se ordena sola) */
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !userActed && mode === "tornado") {
+        inViewport = entry.isIntersecting;
+        if (!entry.isIntersecting) {
+          stopLoop();
+          clearTimeout(fallbackT);
+          return;
+        }
+        startLoop();
+        if (entry.intersectionRatio >= 0.5 && !userActed && mode === "tornado") {
           clearTimeout(fallbackT);
           fallbackT = setTimeout(() => { if (!userActed) order(); }, 6000);
-        } else if (!entry.isIntersecting) {
-          clearTimeout(fallbackT);
         }
       },
-      { threshold: 0.5 }
+      { threshold: [0, 0.5] }
     );
     io.observe(section);
 
@@ -336,9 +356,13 @@ export default function Cita() {
     canvas.addEventListener("pointermove", onPointerMove);
     canvas.addEventListener("pointerleave", onPointerLeave);
 
-    const onResize = () => resize();
+    const onResize = () => { resize(); if (reduced) draw(); };
     window.addEventListener("resize", onResize);
-    const onTweak = () => { accent = readAccent(); spriteAccent = makeSprite(accent); };
+    const onTweak = () => {
+      accent = readAccent();
+      spriteAccent = makeSprite(accent);
+      if (reduced) draw();
+    };
     window.addEventListener("tweakchange", onTweak);
 
     /* API para el panel de Tweaks (mismo contrato que el HTML vivo) */
@@ -359,21 +383,37 @@ export default function Cita() {
     /* arranque: espera la fuente (los sprites miden texto con Cormorant) */
     let started = false;
     const start = () => {
-      if (started) return; started = true;
+      if (started || disposed) return; started = true;
       resize(); buildSprites(); buildParticles();
       if (reduced) {
+        /* §5: estados finales visibles y QUIETOS — forma completa, sin giro */
         mode = "ordered";
         seed.classList.remove("idle"); seed.classList.add("placed");
+        seed.setAttribute("aria-pressed", "true");
         for (const p of P) { const t = targets[p.ti]; p.x = t.x; p.y = t.y; p.z = t.z; }
+        for (const g of SAND) { g.x = g.fx; g.y = g.fy; g.z = g.fz; }
+        draw();
+        return;
       }
-      rafId = requestAnimationFrame(loop);
+      startLoop();
     };
     const startT = setTimeout(start, 1500);
     if (document.fonts?.ready) document.fonts.ready.then(start);
     else start();
+    /* la cara italic 600 no la usa ningún nodo del DOM: fonts.ready no la
+       espera. Se carga explícitamente y se re-rasterizan los sprites para
+       que «sistema» nunca quede congelada en la serif de fallback. */
+    document.fonts
+      ?.load?.('italic 600 64px "Cormorant Garamond"')
+      .then(() => {
+        if (disposed) return;
+        if (started) { buildSprites(); if (reduced) draw(); }
+      })
+      .catch(() => {});
 
     return () => {
-      cancelAnimationFrame(rafId);
+      disposed = true;
+      stopLoop();
       clearTimeout(orderT); clearTimeout(fallbackT); clearTimeout(startT);
       io.disconnect();
       seed.removeEventListener("click", onSeed);
@@ -385,16 +425,25 @@ export default function Cita() {
     };
   }, []);
 
-  const renderWords = (text: string) =>
-    text.split(" ").map((w, i) => (
-      <span
-        key={i}
-        className="w"
-        onMouseEnter={(e) => e.currentTarget.classList.toggle("lit-t")}
-      >
-        {w}
+  /* los spans no llevan espacios textuales (el ritmo lo da el margin del
+     vivo): el texto íntegro va en un nodo sr-only y el juego de palabras
+     queda oculto a lectores de pantalla */
+  const renderWords = (text: string) => (
+    <>
+      <span className="sr-only">{text}</span>
+      <span aria-hidden="true">
+        {text.split(" ").map((w, i) => (
+          <span
+            key={i}
+            className="w"
+            onMouseEnter={(e) => e.currentTarget.classList.toggle("lit-t")}
+          >
+            {w}
+          </span>
+        ))}
       </span>
-    ));
+    </>
+  );
 
   return (
     <section ref={sectionRef} className="cita viñeta viñeta--oscura" id="cita" data-bar="dark" aria-label="Cita: diseñar antes de construir">
@@ -406,7 +455,8 @@ export default function Cita() {
       </aside>
 
       <button ref={seedRef} className="seed idle" type="button"
-        aria-label="Diseñar: ordenar el sistema">
+        aria-pressed={false}
+        aria-label="Diseñar: alternar entre caos y orden del sistema">
         DISEÑAR
       </button>
 

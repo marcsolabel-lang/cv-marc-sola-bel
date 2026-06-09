@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Cormorant_Garamond, Oswald } from "next/font/google";
-import { MotionConfig } from "motion/react";
 import "./globals.css";
 
 const bricolage = Bricolage_Grotesque({
@@ -9,10 +8,11 @@ const bricolage = Bricolage_Grotesque({
   display: "swap",
 });
 
+/* solo las caras usadas: 600 normal (seed) + 600 italic (sprites «sistema») */
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["600"],
   style: ["normal", "italic"],
   display: "swap",
 });
@@ -41,9 +41,7 @@ export default function RootLayout({
       lang="es"
       className={`${bricolage.variable} ${cormorant.variable} ${oswald.variable}`}
     >
-      <body className="antialiased">
-        <MotionConfig reducedMotion="user">{children}</MotionConfig>
-      </body>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }

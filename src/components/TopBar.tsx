@@ -55,7 +55,15 @@ export default function TopBar() {
       if (e.key === "Escape") setOpen(false);
     };
     document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
+    /* overlay a pantalla completa: el fondo no scrollea ni recibe foco */
+    document.body.style.overflow = "hidden";
+    const fondo = document.querySelectorAll<HTMLElement>("main, .tweaks");
+    fondo.forEach((el) => el.setAttribute("inert", ""));
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+      fondo.forEach((el) => el.removeAttribute("inert"));
+    };
   }, [open]);
 
   return (
@@ -89,13 +97,14 @@ export default function TopBar() {
         </div>
       </header>
 
-      <div className={`navscreen ${open ? "open" : ""}`} id="navscreen" aria-hidden={!open}>
+      {/* inert cerrado: su contenedor scrolleable no debe recibir Tab (AUD-2) */}
+      <div className={`navscreen ${open ? "open" : ""}`} id="navscreen" inert={!open}>
         <nav className="navscreen__inner" aria-label="Índice de secciones">
           <p className="navscreen__eyebrow">Índice</p>
           <ul className="navscreen__list">
             {ENTRIES.map((e) => (
               <li key={e.href}>
-                <a href={e.href} onClick={() => setOpen(false)} tabIndex={open ? 0 : -1}>
+                <a href={e.href} onClick={() => setOpen(false)}>
                   <span className="nav-ic">{e.icon}</span>
                   <span className="navscreen__num">{e.num}</span> {e.label}
                 </a>

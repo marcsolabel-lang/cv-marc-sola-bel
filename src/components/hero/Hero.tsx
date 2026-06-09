@@ -190,36 +190,53 @@ export default function Hero() {
       ctx.globalAlpha = 1;
     };
 
-    let last = performance.now(), rafId = 0;
+    /* bucle pausable: solo corre con el Hero en viewport (§5 rendimiento) */
+    let last = performance.now(), rafId = 0, running = false;
     const loop = (now: number) => {
+      if (!running) return;
       const dt = Math.min((now - last) / 16.67, 3); last = now;
       if (!dragging) {
         ry += vel * dt; vel *= Math.pow(FRICTION, dt);
         if (Math.abs(vel) < MIN_IDLE) vel = MIN_IDLE * (vel < 0 ? -1 : 1);
       }
-      const osc = reduced ? 0 : Math.sin(now * 0.00035) * 0.12;
+      const osc = Math.sin(now * 0.00035) * 0.12;
       targetRx = Math.max(-0.80, Math.min(-0.36, cursorTilt + osc));
       draw(now, dt);
       rafId = requestAnimationFrame(loop);
     };
+    const startLoop = () => {
+      if (running || reduced) return;
+      running = true; last = performance.now();
+      rafId = requestAnimationFrame(loop);
+    };
+    const stopLoop = () => { running = false; cancelAnimationFrame(rafId); };
 
     /* reduced-motion: figura estática digna, sin bucle (se repinta a demanda) */
     const drawStatic = () => draw(performance.now(), 1);
+    let io: IntersectionObserver | undefined;
     if (reduced) {
       drawStatic();
       window.addEventListener("resize", drawStatic);
     } else {
-      rafId = requestAnimationFrame(loop);
+      io = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) startLoop();
+          else stopLoop();
+        },
+        { threshold: 0 }
+      );
+      io.observe(hero);
     }
 
     /* Peso del titular: animación de carga 320 → reposo, luego sigue al cursor */
+    let weightT: ReturnType<typeof setTimeout> | undefined;
     if (!reduced) {
       headline.style.transition = "font-weight 1.1s cubic-bezier(0.16,1,0.3,1)";
       headline.style.fontWeight = "320";
       requestAnimationFrame(() => requestAnimationFrame(() => {
         headline.style.fontWeight = String(getRest());
       }));
-      setTimeout(() => {
+      weightT = setTimeout(() => {
         headline.style.transition = "font-weight 0.35s ease-out";
         headline.style.removeProperty("font-weight");
         cursorActive = true;
@@ -259,14 +276,20 @@ export default function Hero() {
     hero.addEventListener("pointerdown", onDown);
     hero.addEventListener("pointermove", onMove, { passive: false });
     window.addEventListener("pointerup", onUp);
+    /* pan-y puede robar el gesto en táctil: el navegador emite pointercancel,
+       no pointerup — sin esto, la peonza quedaría congelada en "dragging" */
+    window.addEventListener("pointercancel", onUp);
     hero.addEventListener("mouseleave", onLeave);
     window.addEventListener("tweakchange", onTweak);
 
     return () => {
-      cancelAnimationFrame(rafId);
+      stopLoop();
+      io?.disconnect();
+      clearTimeout(weightT);
       hero.removeEventListener("pointerdown", onDown);
       hero.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
       hero.removeEventListener("mouseleave", onLeave);
       window.removeEventListener("tweakchange", onTweak);
       window.removeEventListener("resize", drawStatic);

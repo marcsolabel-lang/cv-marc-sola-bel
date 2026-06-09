@@ -54,16 +54,21 @@ const ROLES = [
   },
 ];
 
+/* mismas raíces, monótonas con el eje (descendente) */
 const RAICES = [
-  { year: "2018–19", rol: "Business Consultant — Ondas System", nota: "Estrategia comercial B2B para pymes, para Vodafone en punto de venta. Entre los consultores mejor valorados." },
   { year: "2019–20", rol: "Socio fundador · Productor audiovisual — MalRai Studio", nota: "Comunicación digital, guion, edición, producción." },
+  { year: "2018–19", rol: "Business Consultant — Ondas System", nota: "Estrategia comercial B2B para pymes, para Vodafone en punto de venta. Entre los consultores mejor valorados." },
   { year: "2016", rol: "Ayudante de producción — Produccions Antàrtida (TV)", nota: "Concurso infantil Picalletres." },
 ];
 
 function ExpItem({ item, delay }: { item: (typeof ROLES)[number]; delay: number }) {
   const { ref, inView } = useInViewOnce<HTMLLIElement>();
   return (
-    <li ref={ref} className={`exp__item ${inView ? "in" : ""}`} style={{ transitionDelay: `${delay}ms` }}>
+    <li
+      ref={ref}
+      className={`exp__item ${inView ? "in" : ""}`}
+      style={{ "--d": `${delay}ms` } as React.CSSProperties}
+    >
       <span className="exp__seg" aria-hidden="true" />
       <span className="exp__nodo" aria-hidden="true" />
       <div>
@@ -83,7 +88,7 @@ export default function Experiencia() {
   return (
     <section className="viñeta viñeta--clara" id="experiencia" data-bar="light">
       <div className="viñeta__inner">
-        <p className="sect-label">Experiencia</p>
+        <h2 className="sect-label">Experiencia</h2>
         <ul className="exp__list">
           {ROLES.map((r, i) => (
             <ExpItem key={r.year} item={r} delay={i * 80} />

@@ -174,7 +174,7 @@
   background: var(--terracotta);
   transform: scaleY(0);
   transform-origin: top center;
-  transition: transform 0.8s var(--ease-out);
+  transition: transform 0.8s var(--ease-out) var(--d, 0ms);
 }
 .exp__item.in .exp__seg { transform: scaleY(1); }
 .exp__nodo {
@@ -183,7 +183,7 @@
   width: 12px; height: 12px;
   background: var(--terracotta);
   transform: rotate(45deg) scale(0);
-  transition: transform 0.45s var(--ease-out) 0.3s;
+  transition: transform 0.45s var(--ease-out) calc(0.3s + var(--d, 0ms));
 }
 .exp__item.in .exp__nodo { transform: rotate(45deg) scale(1); }
 .exp__year {
@@ -217,11 +217,12 @@
 .exp__desc a { color: var(--terracotta-deep); border-bottom: 1px solid currentColor; }
 .exp__desc a:hover { opacity: 0.75; }
 
-/* gesto base con stagger descendente */
+/* gesto base con stagger descendente (el delay --d viene del item) */
 .exp__item .exp__year, .exp__item .exp__body {
   opacity: 0;
   transform: translateY(16px);
-  transition: opacity 0.65s var(--ease-out) 0.15s, transform 0.65s var(--ease-out) 0.15s;
+  transition: opacity 0.65s var(--ease-out) calc(0.15s + var(--d, 0ms)),
+              transform 0.65s var(--ease-out) calc(0.15s + var(--d, 0ms));
 }
 .exp__item.in .exp__year, .exp__item.in .exp__body { opacity: 1; transform: none; }
 
@@ -367,7 +368,7 @@
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--terracotta);
+  color: var(--terracotta-soft);   /* texto pequeño sobre oscuro: registro AA (§3.2) */
   white-space: nowrap;
 }
 .crown__slide-title {
@@ -380,6 +381,8 @@
 .crown__slide-body { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(1rem, 2.5vw, 2rem); align-items: start; }
 .crown__slide-text { margin: 0; color: var(--on-dark-2); font-size: 0.97rem; }
 .crown__slide--final .crown__slide-body { grid-template-columns: 1fr; }
+/* el slide final no lleva captura: el contenido se centra en su hueco */
+.crown__slide--final { grid-template-rows: auto; align-content: center; row-gap: 1.4rem; }
 @media (max-width: 820px) {
   .crown__slide-body { grid-template-columns: 1fr; }
   .crown__slide { flex-basis: 92%; }
@@ -463,6 +466,7 @@
 .crown__arrow:disabled { opacity: 0.35; cursor: default; }
 .crown__dots { display: flex; gap: 8px; }
 .crown__dot {
+  position: relative;
   width: 7px; height: 7px;
   border-radius: 50%;
   border: 0;
@@ -471,6 +475,13 @@
   opacity: 0.5;
   cursor: pointer;
   transition: opacity var(--dur-fast) ease, transform var(--dur-fast) var(--ease-out), background var(--dur-fast) ease;
+}
+/* objetivo táctil §9: área de 45px sin alterar el tamaño visual */
+.crown__dot::after {
+  content: "";
+  position: absolute;
+  inset: -19px;
+  border-radius: 50%;
 }
 .crown__dot[aria-current="true"] {
   background: var(--terracotta);
@@ -500,7 +511,7 @@
   font-style: normal;
   font-size: 0.58rem;
   letter-spacing: 0.2em;
-  color: var(--terracotta);
+  color: var(--terracotta-soft);   /* registro AA sobre oscuro */
 }
 .crown__demo { color: var(--on-dark-1); }
 
@@ -508,7 +519,7 @@
 .crown__viewer {
   position: fixed;
   inset: 0;
-  z-index: 80;
+  z-index: var(--z-viewer);
   background: rgba(10, 10, 10, 0.94);
   display: flex;
   align-items: center;

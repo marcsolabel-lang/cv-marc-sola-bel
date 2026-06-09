@@ -14,13 +14,13 @@ export default function Formacion() {
   return (
     <section className="viñeta viñeta--clara" id="formacion" data-bar="light">
       <div className="viñeta__inner">
-        <p className="sect-label">Formación</p>
+        <h2 className="sect-label">Formación</h2>
 
         <div ref={ref} className={`formacion__plano ${inView ? "in" : ""}`}>
-          <h2 className="formacion__leccion">
+          <h3 className="formacion__leccion">
             Donde aprendí a pensar como{" "}
             <span className="fire">arquitecto</span>.
-          </h2>
+          </h3>
           <p className="formacion__detalle">
             Diseñar la estructura de un sistema completo antes de construirlo,
             documentar y gestionar un proyecto de principio a fin. El contexto era

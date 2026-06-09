@@ -50,7 +50,7 @@ export default function SobreMi() {
   return (
     <section className="viñeta viñeta--clara" id="sobre-mi" data-bar="light">
       <div className="viñeta__inner">
-        <p className="sect-label">Sobre mí</p>
+        <h2 className="sect-label">Sobre mí</h2>
         <div className="sobremi__grid">
           <div ref={ref} className={`hilo ${inView ? "in" : ""}`}>
             {geo && (

@@ -119,6 +119,8 @@ function Shot({ onOpen }: { onOpen: () => void }) {
 
 export default function CrownPlanner() {
   const trackRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
   const [active, setActive] = useState(0);
   const [viewer, setViewer] = useState(false);
 
@@ -140,12 +142,34 @@ export default function CrownPlanner() {
     return () => io.disconnect();
   }, []);
 
+  /* dialog accesible: foco dentro al abrir, fondo inerte, foco de vuelta
+     al disparador al cerrar (patrón WAI-ARIA; §9 teclado) */
   useEffect(() => {
-    if (!viewer) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setViewer(false); };
+    if (!viewer) {
+      triggerRef.current?.focus();
+      triggerRef.current = null;
+      return;
+    }
+    closeRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setViewer(false);
+      if (e.key === "Tab") e.preventDefault(); /* único focusable: Cerrar */
+    };
     document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    const fondo = document.querySelectorAll<HTMLElement>("main > :not(#proyecto), .tweaks, .topbar");
+    fondo.forEach((el) => el.setAttribute("inert", ""));
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+      fondo.forEach((el) => el.removeAttribute("inert"));
+    };
   }, [viewer]);
+
+  const openViewer = () => {
+    triggerRef.current = document.activeElement as HTMLElement;
+    setViewer(true);
+  };
 
   const goTo = (i: number) => {
     const track = trackRef.current;
@@ -158,12 +182,12 @@ export default function CrownPlanner() {
   return (
     <section className="viñeta viñeta--oscura" id="proyecto" data-bar="dark">
       <div className="viñeta__inner">
-        <p className="sect-label">Proyecto destacado</p>
+        <h2 className="sect-label">Proyecto destacado</h2>
         <header className="crown__head">
-          <h2 className="crown__title">
+          <h3 className="crown__title">
             Crown Planner — Sistema de asignación inteligente de órdenes de
             servicio.
-          </h2>
+          </h3>
           <p className="crown__sub">Prototipo conceptual, diseñado y construido en solitario.</p>
         </header>
 
@@ -177,10 +201,10 @@ export default function CrownPlanner() {
               >
                 <div className="crown__slide-head">
                   <span className="crown__slide-kicker">{s.kicker}</span>
-                  <h3 className="crown__slide-title">{s.title}</h3>
+                  <h4 className="crown__slide-title">{s.title}</h4>
                 </div>
                 <div className="crown__slide-body">
-                  {s.shot && <Shot onOpen={() => setViewer(true)} />}
+                  {s.shot && <Shot onOpen={openViewer} />}
                   <div>
                     {s.text && <p className="crown__slide-text">{s.text}</p>}
                     {s.final && (
@@ -225,7 +249,7 @@ export default function CrownPlanner() {
             >
               →
             </button>
-            <div className="crown__dots" role="tablist" aria-label="Progreso del carrusel">
+            <div className="crown__dots" role="group" aria-label="Progreso del carrusel">
               {SLIDES.map((_, i) => (
                 <button
                   key={i}
@@ -242,7 +266,7 @@ export default function CrownPlanner() {
 
       {viewer && (
         <div className="crown__viewer" role="dialog" aria-modal="true" aria-label="Captura ampliada" onClick={() => setViewer(false)}>
-          <button className="crown__viewer-close" aria-label="Cerrar" onClick={() => setViewer(false)}>✕</button>
+          <button ref={closeRef} className="crown__viewer-close" aria-label="Cerrar" onClick={() => setViewer(false)}>✕</button>
           <div className="crown__shot" style={{ cursor: "default" }} onClick={(e) => e.stopPropagation()}>
             <div className="crown__shot-label">
               <svg viewBox="0 0 32 32" aria-hidden="true">

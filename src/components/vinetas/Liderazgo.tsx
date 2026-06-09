@@ -23,7 +23,7 @@ export default function Liderazgo() {
   return (
     <section className="viñeta viñeta--clara" id="liderazgo" data-bar="light">
       <div className="viñeta__inner">
-        <p className="sect-label">Liderazgo</p>
+        <h2 className="sect-label">Liderazgo</h2>
         <div className="lid__grid">
           <div>
             <p className="lid__num">
