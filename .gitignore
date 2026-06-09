@@ -43,3 +43,7 @@ next-env.d.ts
 # claude code local config
 .claude/
 
+
+# referencia de diseno (bundles de Claude Design, no se versionan)
+Hero (standalone).html
+Cita (standalone).html

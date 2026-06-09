@@ -1,4 +1,4 @@
-# CV MARC SOLA — ESPECIFICACIÓN DE CONSTRUCCIÓN (Documento A)
+# CV MARC SOLA — ESPECIFICACIÓN DE CONSTRUCCIÓN (Documento A · v3)
 
 Para implementación (Claude Code) y versionado en repo. Contiene el QUÉ y el CÓMO
 construir: contenido, sistema de diseño, fichas de sección, efectos. La estrategia
@@ -6,6 +6,67 @@ personal y el guion de entrevista están en un documento aparte (privado, no en 
 
 Objetivo: web de una página, en español, que sirva de CV para una candidatura en Sylo
 (departamento de proyectos). Plazo orientativo: ~1-2 semanas, calidad por encima de prisa.
+
+───────────────────────────────────────────────────────────
+CAMBIO DE PARADIGMA (v3 — leer antes que nada)
+───────────────────────────────────────────────────────────
+Las versiones previas describían una web SOBRIA con efectos discretos y un catálogo de
+efectos CERRADO. Tras ejecutar Hero y Cita en Design, el proyecto ha dado un giro deliberado
+hacia un principio más ambicioso, ya probado y validado:
+
+  → Cada viñeta encarna su concepto mediante una METÁFORA VISUAL PORTADORA (ver §0).
+
+Esto FLEXIBILIZA dos cosas que antes estaban cerradas, y se hace A CONCIENCIA:
+- El §5 deja de ser un "catálogo cerrado de efectos": ahora cada viñeta puede tener su
+  propio dispositivo conceptual original. Las REGLAS GLOBALES del §5 (transform/opacity,
+  prefers-reduced-motion, un foco por viñeta) SIGUEN vigentes; lo que se abre es el repertorio.
+- El §10 (no-objetivos) se relaja: "La Red" como recurso conceptual ya NO está prohibida en
+  general — puede aparecer como metáfora de una viñeta si la sirve. Lo que sí se mantiene
+  prohibido: clichés vacíos (count-up, marquee, glitch porque sí) y decoración sin función.
+
+La libertad es CONCEPTUAL (qué metáfora), nunca de SISTEMA (tokens, rejilla, tipografía,
+accesibilidad siguen siendo ley). Y está CALIBRADA por acto narrativo (ver §0). Es un cambio
+registrado, no una deriva: el norte sigue siendo "arquitecto que ordena", no "diseñador que
+se luce".
+
+═══════════════════════════════════════════════════════════
+0. PRINCIPIO RECTOR — METÁFORA VISUAL PORTADORA + CALIBRACIÓN
+═══════════════════════════════════════════════════════════
+
+PRINCIPIO (el alma del proyecto):
+Cada viñeta encarna su concepto a través de una metáfora visual/interactiva original — un
+dispositivo de composición o animación que DEMUESTRA el mensaje en lugar de decorarlo. La
+forma ejecuta el argumento. No es un efecto añadido a un texto: es el texto hecho mecánica.
+
+Ejemplos ya construidos (son el listón a igualar o superar):
+- HERO: un poliedro/octaedro de nodos con física real ES el sistema del que habla "pienso en
+  sistemas". La estructura geométrica encarna la palabra.
+- CITA: la palabra "sistema" repetida CONSTRUYE una forma (reloj de arena/diamante); entra
+  en caos y se ORDENA en oleada al pasar el cursor (caos→orden). La mecánica DEMUESTRA la
+  tesis "diseñar es poner orden". El medio es el mensaje.
+
+Las viñetas futuras (Sobre mí, Formación, Experiencia, Liderazgo, Crown Planner, Contacto)
+requieren CADA UNA su propia metáfora portadora. No se acepta "texto sobrio + gesto base"
+como solución para una viñeta: hay que encontrar qué dispositivo encarna su idea.
+
+PRINCIPIO DE CALIBRACIÓN (igual de importante — esto evita el "todo boom"):
+No todas las viñetas gritan con la misma fuerza. La intensidad de la metáfora se calibra
+según el papel narrativo (ver §2, los tres actos):
+- PICOS (Hero, Cita, Crown Planner, Contacto): metáfora al MÁXIMO. Conceptual, memorable,
+  el lector se detiene. Son los momentos donde la web deslumbra.
+- CREDIBILIDAD (Sobre mí, Formación, Experiencia, Liderazgo): metáfora CONTENIDA. Tienen su
+  dispositivo original, pero al servicio de la LECTURA RÁPIDA, no por encima de ella. Son la
+  "zona de riesgo" (§2): si se sienten lentas o exigen demasiado descifrado, se pierde al
+  lector antes del clímax. Originalidad sí, pero que se lea de un vistazo.
+
+Por qué la calibración ES criterio profesional: una web que grita constantemente AGOTA y
+lee como "diseñador luciéndose". Una que sabe cuándo intensificar y cuándo contener
+demuestra dominio — y refuerza el mensaje de Marc ("claridad bajo complejidad"). El contraste
+de intensidad entre picos y credibilidad es, en sí mismo, el ritmo de la web. Sin valles no
+hay picos.
+
+REGLA PRÁCTICA: si una metáfora de viñeta de credibilidad obliga al lector a "trabajar" para
+entender qué pasa, está mal calibrada — recórtala. Si una de pico es tímida, súbela.
 
 ═══════════════════════════════════════════════════════════
 1. CONTENIDO (texto final, literal)
@@ -249,12 +310,22 @@ A replicar además:
   (no apelotonar los 4 elementos en 360px).
 
 ═══════════════════════════════════════════════════════════
-5. CATÁLOGO DE EFECTOS (cerrado — no añadir más)
+5. EFECTOS E INTERACCIÓN (repertorio abierto — gobernado por reglas, no cerrado)
 ═══════════════════════════════════════════════════════════
 
-Reglas globales: solo se anima TRANSFORM y OPACITY · nada rebota ni es cinematográfico ·
-prefers-reduced-motion desactiva todo dejando los estados finales visibles · MÁXIMO un foco
-de interacción por viñeta · duraciones y easing según §3.5.
+CAMBIO v3: esto ya NO es un catálogo cerrado. Cada viñeta puede tener su metáfora portadora
+con su dispositivo propio (§0). Lo que permanece son las REGLAS GLOBALES (abajo) y el sistema
+de HOVER UNIFICADO, que dan coherencia aunque las mecánicas varíen.
+
+REGLAS GLOBALES (siguen siendo LEY, gobiernan cualquier metáfora nueva):
+- Se anima preferentemente TRANSFORM y OPACITY (rendimiento). Si una metáfora necesita canvas
+  u otra técnica (como la peonza del Hero), está permitido, pero debe rendir bien y degradar.
+- Nada rebota de forma cinematográfica gratuita; el movimiento sirve al concepto, no al lucimiento.
+- prefers-reduced-motion desactiva animaciones dejando los ESTADOS FINALES visibles y legibles.
+- Idealmente UN foco de interacción por viñeta (el dispositivo portador). No saturar con
+  micro-efectos que compitan con él.
+- Duraciones y easing según §3.5.
+- Fallback digno siempre: si el JS falla, la viñeta se lee y se entiende.
 
 PRINCIPIO DE HOVER UNIFICADO: "al interactuar, el elemento revela color/intensidad." Un solo
 idioma en tres INTENSIDADES según importancia:
@@ -275,82 +346,140 @@ idioma en tres INTENSIDADES según importancia:
   · Experiencia: los años del eje (dato-ancla).
   · Contacto: "oportunidad" — EXCEPCIÓN consciente al hilo vector (registro emocional del
     cierre, no técnico). Es deliberada, no un descuido. Si se prefiere pureza, omitir.
-  · Cita: NINGUNA (terracota solo en el rombo-sello, nunca en el texto de la cita).
+  · Cita: el "Se" inicial y el encendido acumulativo de cada "sistema" a blanco (ver §6.2).
 
 - Sutil: enlaces y nav, opacidad (tenue → encendido).
 
-Efectos por pieza:
-- GESTO BASE: aparición fade + leve subida al entrar en viewport. TODAS las viñetas.
-- HERO (acento especial): statement con PESO VARIABLE de Bricolage que reacciona al cursor
-  (200↔800 según proximidad). Demuestra dominio técnico sutil. En móvil (sin cursor):
-  reacciona al scroll o entra con animación de peso al cargar. Fallback: peso fijo digno si
-  el JS no carga.
-- CROWN PLANNER (acento especial): CARRUSEL de slides (swipe horizontal, vuelta atrás) +
-  ZOOM-LUPA localizado donde está el cursor sobre la captura de alta resolución (útil:
-  explorar el apartado que interese). En móvil: pinch-to-zoom / tap para ampliar. El
-  carrusel necesita AFFORDANCE clara de su horizontalidad (puntos de progreso/flecha/borde
-  del siguiente slide asomando), porque vive dentro de scroll vertical.
-- CONTACTO: marco técnico de esquinas en el email (firma de precisión), afinable al hover.
-- ROMBO-FIRMA: rotación/parallax sobria al cursor/scroll. Solo Hero, nodos de Experiencia,
-  Contacto.
+DISPOSITIVOS PORTADORES YA DEFINIDOS (los demás se proponen por viñeta, ver §6):
+- GESTO BASE: aparición fade + leve subida al entrar en viewport. Base común de TODAS las
+  viñetas (compatible con su metáfora portadora, no la sustituye).
+- HERO: statement con PESO VARIABLE de Bricolage reactivo al cursor (200↔800 según proximidad)
+  + poliedro/octaedro de nodos con física (momento+fricción+rebote), autoajustado para no
+  recortar. En móvil: reacciona a scroll / entra con animación de peso al cargar. Fallback:
+  peso fijo digno. (Ver §6.1 y §8.)
+- CITA: "sistema" repetida construye una forma (reloj de arena/diamante); mecánica caos→orden
+  activada por cursor (fallback ~2.4s); encendido acumulativo; cajas laterales con hover
+  blanco⇄terracota. (Ver §6.2.)
+- CROWN PLANNER (pico): CARRUSEL de slides (swipe horizontal, vuelta atrás) + ZOOM-LUPA
+  localizado sobre captura HD. En móvil: pinch/tap. Affordance horizontal clara (puntos/flecha/
+  borde del siguiente slide asomando) porque vive dentro de scroll vertical. (Ver §6.7.)
+- CONTACTO: marco técnico de esquinas en el email (firma de precisión), afinable al hover, +
+  su metáfora de cierre (eco invertido del Hero, ver §6.8).
 
-ELIMINADOS a conciencia (no reintroducir): count-up del "+70" (cliché), marquee/teletipo,
-glitch de descomposición.
+ELIMINADOS a conciencia (clichés vacíos — NO reintroducir como recurso gratuito): count-up de
+cifras, marquee/teletipo, glitch porque sí. Si alguno reapareciera, tendría que justificarse
+como metáfora portadora genuina, no como adorno.
 
 ═══════════════════════════════════════════════════════════
-6. FICHAS DE VIÑETA (composición de cada sección)
+6. FICHAS DE VIÑETA (composición + metáfora portadora de cada sección)
 ═══════════════════════════════════════════════════════════
 
-Constantes en todas: rejilla · paleta · Bricolage+Cormorant · gesto base · fondo asignado.
-Varía: composición, elemento dominante, ilustración, foco de interacción.
-(El rombo NO es constante: solo Hero, Experiencia, Contacto.)
+Constantes en todas: rejilla · paleta · Bricolage+Cormorant · gesto base · fondo asignado ·
+sistema de hover unificado. Cada viñeta DEBE tener su metáfora visual portadora (§0),
+calibrada según su acto: máxima en picos, contenida y legible en credibilidad.
 
-1. HERO · oscuro · viñeta-modelo (se diseña primero; las demás heredan su lenguaje)
-   - Domina: el statement (arma tipográfica). Tercios: peso izquierda (col 1-7), aire
-     derecha (col 8-12) — el aire NO se llena. Nombre+eyebrow en N6, segundo plano.
-   - Ilustración: ninguna; rombo terracota como elemento gráfico.
-   - Interacción: peso variable al cursor (acento especial).
+CÓMO PROPONER LA METÁFORA DE LAS VIÑETAS AÚN ABIERTAS (3,4,5,6,7,8): para cada una, antes de
+construir, (a) convocar un consejo de perspectivas (dirección de arte / UX-legibilidad /
+motion / estrategia de marca), (b) proponer el dispositivo que encarna su mensaje conectado
+al contenido real del §1, citando un principio de diseño, (c) declarar su coste y mitigación
+(legibilidad, rendimiento, reduced-motion, responsive), (d) verificar coherencia con el
+sistema (§3) y la calibración (§0). Solo entonces construir. Hero y Cita ya están cerradas y
+sirven de listón.
 
-2. CITA · oscuro
-   - Domina: la cita sola, grande, centrada, mucho aire negro (excepción justificada a la
-     asimetría: el aire es la composición). Cormorant italic, line-height 1.7.
-   - Terracota solo en rombo-sello mínimo, nunca en el texto. Interacción: gesto base lento.
+Las metáforas-candidatas que se anotan abajo son PISTAS, no órdenes: el consejo puede
+superarlas si encuentra algo mejor y mejor calibrado.
 
-3. SOBRE MÍ · claro
+1. HERO · oscuro · CERRADO · viñeta-modelo · metáfora portadora: el poliedro ES el sistema
+   - Domina: el statement (arma tipográfica). Texto: "Pienso en sistemas / construyo
+     soluciones." (SIN coma tras "sistemas" — la palabra encendida queda limpia). Tercios:
+     peso izquierda (col 1-7), aire derecha (col 8-12).
+   - Metáfora: poliedro/octaedro de nodos conectados con física real (momento+fricción+rebote),
+     terracota, autoajustado para no recortar nunca; ES la estructura-sistema de la que habla
+     el statement. Lanzable/rotable al cursor. Exclusivo del Hero (§8).
+   - Interacción: peso variable al cursor en el statement (200↔800) + poliedro reactivo.
+     "sistemas" enciende a terracota. Menú-índice desplegable bajo [MENÚ] (7 entradas).
+   - Tweaks (panel de controles): Voz (Contenida/Editorial/Manifiesto) · Composición
+     (Editorial/Centrada/Elevada) · Acento. Pendiente menor: suavizar el recentrado del
+     arrastre (lerp).
+   - Calibración: es PICO (acto 1). Metáfora al máximo.
+
+2. CITA · oscuro · CERRADA · metáfora portadora: caos→orden
+   - Metáfora: la palabra "sistema" repetida en muchos tamaños CONSTRUYE una forma generada
+     por código (reloj de arena con diamante central; variantes en Tweaks: Reloj/Diamante/
+     Cascada). Encarna "pienso en sistemas" + demuestra "diseñar es ordenar".
+   - Mecánica caos→orden: al cargar, cada "sistema" entra dispersa, girada y en movimiento
+     (chaosDrift). Un activador —el cursor entrando en la composición, con fallback automático
+     a ~2.4s— la ordena en oleada hasta la forma limpia y la asienta en flotación sutil
+     (floatSis). La interacción ES la tesis: el diseño pone orden en el sistema.
+   - "sistema" en terracota; encendido acumulativo: al pasar el cursor sobre cualquier
+     "sistema" se vuelve blanca y se queda (revelado progresivo).
+   - Cajas laterales (la cita en prosa, repartida): recuadradas y alineadas, en blanco;
+     hover alterna blanco⇄terracota en cada entrada del cursor (no permanente, ~0.5s). Son
+     texto estructurado, no decoración. Cormorant italic.
+   - Calibración: es PICO (acto 1). Metáfora al máximo.
+
+3. SOBRE MÍ · claro · ABIERTA · metáfora portadora: A PROPONER (calibrada — credibilidad)
    - Domina: frase-síntesis grande + 3 párrafos en N4 cómodo. Tercios: foto izquierda, texto
      derecha (alterna con Hero).
    - Ilustración: FOTO DE PERFIL (condicional a calidad; si no, tipográfica — ver nota
      plan B abajo). Interacción: hover b/n→color en la foto.
+   - Metáfora-candidata (pista): el "hilo constante" hecho visible — piezas/contextos dispersos
+     (comunicación, ventas, automatización) que revelan un patrón común, un hilo que los cose.
+     CALIBRADA: contenida, legible de un vistazo (zona de riesgo). No debe robar tiempo de
+     lectura a los 3 párrafos.
 
-4. FORMACIÓN · claro
+4. FORMACIÓN · claro · ABIERTA · metáfora portadora: A PROPONER (calibrada — credibilidad)
    - Domina: frase "aprendí a pensar como arquitecto" en grande, ANCLADA a su contexto (no
      flota). Breve y subordinada (no competir con la Cita: la cita declara, esto demuestra
-     el origen). Sin rombo. Interacción: gesto base.
+     el origen). Interacción base: gesto base. "arquitecto" enciende a terracota.
+   - Metáfora-candidata (pista): el origen/raíz del sistema — un plano, un cimiento, un primer
+     trazo del que nace la estructura. CALIBRADA: muy contenida, es la viñeta más subordinada
+     del acto. Su metáfora debe ser un susurro, no competir con la Cita ni con Experiencia.
 
-5. EXPERIENCIA · claro
+5. EXPERIENCIA · claro · ABIERTA · metáfora portadora: A PROPONER (calibrada — credibilidad)
    - Domina: los años en grande (arma), anclando un eje temporal vertical ligero. 3 roles
-     detallados arriba + 3 comprimidos abajo (raíces). Lo reciente pesa.
-   - Rombo marca los NODOS del eje (mejor uso del rombo). Interacción: gesto base con stagger
+     detallados arriba + 3 comprimidos abajo (raíces). Lo reciente pesa. Los años del eje
+     encienden a terracota (dato-ancla).
+   - Metáfora-candidata (pista): el tiempo como ESTRUCTURA que se construye — nodos en una
+     línea/eje que se van encadenando, una década que se erige. Puede dialogar con la idea de
+     sistema sin copiar el poliedro del Hero (ese es exclusivo, §8): aquí marca/punto simple.
+   - CALIBRADA: contenida, pero es la más larga del acto — la metáfora debe AYUDAR a recorrer
+     la década rápido (ritmo, jerarquía), no entorpecerla. Interacción: gesto base con stagger
      descendente; hover de opacidad en los comprimidos.
 
-6. LIDERAZGO · claro · sección propia breve
+6. LIDERAZGO · claro · sección propia breve · ABIERTA · metáfora portadora: A PROPONER
    - Domina: "+70" en grande (arma) con "miembros" pegado pequeño + frase en N4. Mucho aire
-     (la viñeta más luxury en espacio). El "+70" aparece limpio y quieto (sin count-up).
-   - Sin rombo. Interacción: gesto base; hover negro→terracota en el "+70".
+     (la viñeta más luxury en espacio). El "+70" aparece limpio (sin count-up). Enciende a
+     terracota (dato-ancla).
+   - Metáfora-candidata (pista): muchos elementos que un orden coordina — +70 puntos/personas
+     que una estructura alinea, el liderazgo como sistema que organiza a muchos. Un golpe
+     visual breve. CALIBRADA: es transición de credibilidad a clímax (eleva hacia el pico);
+     puede ser algo más enérgica que las otras de credibilidad, pero sigue siendo BREVE — un
+     solo golpe, no un desarrollo.
 
-7. CROWN PLANNER · oscuro · clímax · acento especial
+7. CROWN PLANNER · oscuro · clímax · PICO · metáfora portadora: el sistema FUNCIONANDO
    - FORMATO: carrusel de slides (un concepto por slide, swipe, vuelta atrás). Cada slide =
      captura de alta calidad + explicación. Slide final: enlace a la web (probarla) + icono
-     de Excel descargable (cargarlo en la demo).
-   - Affordance del carrusel (ver §5). Capturas nítidas siempre (son prueba).
+     de Excel descargable (cargarlo en la demo). "automatización"/"IA" enciende en slide clave.
+   - Metáfora: la prueba ES el propio sistema operando — el carrusel + zoom-lupa permiten ver
+     la inteligencia real (las 4 mecánicas). Aquí la metáfora no es abstracta: es enseñar la
+     máquina funcionando. CALIBRADA: PICO, el clímax de la web. Máximo cuidado.
+   - Affordance del carrusel (§5). Capturas nítidas siempre (son prueba).
    - RIESGO CONFIDENCIALIDAD (crítico): Excel y capturas con datos 100% FICTICIOS (inventados,
-     no anonimizados): técnicos, zonas, órdenes ficticios. Revisar antes de publicar.
+     no anonimizados): técnicos, zonas, órdenes ficticios. Revisar antes de publicar. Los
+     assets los prepara Marc — si no están, dejar PLACEHOLDERS claros.
+   - ESTADO: pendiente de las capturas reales de Marc + retoques de coherencia visual.
 
-8. CONTACTO · oscuro · espejo del Hero
+8. CONTACTO · oscuro · espejo del Hero · PICO · metáfora portadora: el sistema se completa
    - Domina: frase de cierre grande + email con marco técnico de esquinas (CTA, email directo,
-     no botón genérico). Datos secundarios + idiomas en N6 debajo.
-   - Tercios: espejo invertido del Hero (cierra el círculo). Rombo terracota a mayor tamaño
-     como sello final. Terracota brilla sobre negro, espejo del Hero.
+     no botón genérico). Datos secundarios + idiomas en N6 debajo. "oportunidad" enciende
+     (excepción consciente, §5).
+   - Metáfora: eco invertido de la apertura — el sistema que se CIERRA/completa. Puede evocar
+     el poliedro del Hero por composición o ritmo (espejo), SIN repetirlo literal (es exclusivo
+     del Hero, §8). El círculo se cierra: empezó "pienso en sistemas", termina "hablemos".
+   - Tercios: espejo invertido del Hero. Terracota brilla sobre negro, espejo del Hero.
+   - CALIBRADA: PICO (cierre pegado al CTA, sin enfriamiento). Metáfora cuidada pero al
+     servicio de la conversión — el email debe ser lo más claro de la viñeta.
 
 ═══════════════════════════════════════════════════════════
 7. REGLAS DE IMAGEN Y ASSETS
@@ -375,15 +504,26 @@ ancla con la frase-síntesis grande desplazada a ese tercio, o con un elemento t
 La viñeta debe funcionar sin foto, no quedar coja.
 
 ═══════════════════════════════════════════════════════════
-8. EL ROMBO-FIRMA (firma visual discreta)
+8. EL ELEMENTO GRÁFICO DEL HERO (decisión revisada en ejecución)
 ═══════════════════════════════════════════════════════════
 
-NO demuestra calidad técnica (eso lo hace el Crown Planner). Es una FIRMA VISUAL discreta
-que da unidad. Solo aparece en Hero (elemento gráfico de apertura), Experiencia (marca los
-nodos del eje — su uso con más función) y Contacto (sello de cierre). En el resto, ausente.
-Efecto sobrio (rotación/parallax, transform puro). Prioridad BAJA: se trabaja al final;
-si no da tiempo a animarlo, estático cumple. Nunca debe restar foco al Hero, al Crown
-Planner ni a las capturas.
+DECISIÓN ACTUALIZADA (sustituye al "rombo-firma discreto repetido"): el Hero lleva un
+ELEMENTO GEOMÉTRICO PROTAGONISTA — una estructura tipo rombo/poliedro de líneas y nodos
+conectados, en terracota, grande, sin marco que lo limite, desplazable/rotable al cursor.
+Semánticamente coherente: "pienso en sistemas" sobre una estructura de nodos conectados =
+metáfora visual de la tesis.
+
+ACOTACIÓN: este poliedro concreto es la metáfora PROPIA del Hero — no se copia literal en
+otras viñetas (cada una tiene la suya, §0/§6). No es que "la geometría esté prohibida salvo
+aquí" (eso cambió en v3, §10); es que este dispositivo específico identifica al Hero. Otras
+viñetas pueden usar geometría/movimiento si su concepto lo pide, pero con SU forma, no esta.
+El impacto del Hero se concentra en su entrada; cada viñeta tiene su propio carácter.
+
+Comportamiento: reacciona al cursor con elegancia (rotación/parallax/desplazamiento), sin
+pulsos frenéticos. Sobrio en movimiento pese a ser protagonista en presencia.
+NOTA: el texto (statement) sigue mandando; el elemento es el protagonista GRÁFICO, no debe
+tapar ni competir en legibilidad con la frase. Equilibrio: presencia fuerte, pero detrás/
+alrededor del texto, no encima de su lectura.
 
 ═══════════════════════════════════════════════════════════
 9. ESTADOS, FALLBACKS Y ACCESIBILIDAD
@@ -403,32 +543,62 @@ ACCESIBILIDAD (verificada en el diseño, no después):
 - Objetivos táctiles mínimo 44px en móvil.
 
 ═══════════════════════════════════════════════════════════
-10. NO-OBJETIVOS (fuera de alcance — no reintroducir)
+10. NO-OBJETIVOS (fuera de alcance — actualizado v3)
 ═══════════════════════════════════════════════════════════
 
-Descartado A CONCIENCIA. No "mejorar" reincorporando:
-- "La red" (nodos conectados, pulsos, 3D, ondas táctiles) — demasiado para una web sobria.
+SIGUE descartado a conciencia (no "mejorar" reincorporando):
 - Versión en inglés (v2; ahora solo español).
-- Más de 2 imágenes / fotos de relleno.
-- Count-up del "+70", marquee/teletipo, glitch — clichés contra el norte sobrio.
-- Rombo protagonista (es firma discreta).
+- Más de 2 imágenes "de archivo" / fotos de relleno decorativas sin función. (Las metáforas
+  generadas por código —poliedro, formas tipográficas— no cuentan como "imágenes": son parte
+  del lenguaje.)
+- Clichés VACÍOS: count-up de cifras, marquee/teletipo, glitch usado como adorno. Solo
+  entrarían si fueran una metáfora portadora genuina y justificada, nunca como relleno.
 - LinkedIn enlazado sin actualizar.
+
+YA NO descartado (cambio v3, deliberado):
+- "La Red" / nodos / estructuras geométricas dejan de estar prohibidas como recurso. El
+  paradigma de metáfora portadora (§0) las admite cuando sirven al concepto de una viñeta. La
+  antigua regla "rombo solo discreto en 3 sitios" queda DEROGADA: el poliedro es protagonista
+  del Hero (§8) y otras viñetas pueden tener sus propias metáforas geométricas/de movimiento,
+  siempre CALIBRADAS por acto y al servicio del mensaje, no del lucimiento.
+
+El límite real ya no es "qué efectos están permitidos" sino DOS preguntas: ¿la metáfora
+DEMUESTRA el mensaje de la viñeta (no solo decora)? ¿está CALIBRADA para su acto (no rompe la
+legibilidad de la zona de credibilidad)? Si ambas son sí, entra.
 
 ═══════════════════════════════════════════════════════════
 11. MÉTODO DE EJECUCIÓN Y CABOS
 ═══════════════════════════════════════════════════════════
 
-- Pieza a pieza, NO en paralelo. Viñeta-modelo: HERO — se lleva a la perfección; su lenguaje
-  lo heredan las demás. Después, Crown Planner. Luego el resto. Rombo y pulido al final.
-- Prioridad de esfuerzo artístico: Hero y Crown Planner (deciden la entrevista). Secciones
-  menores, sobrias.
-- Principio de plazo: una web sobria e impecable vence a una compleja a medias. Si algo
-  amenaza con quedar a medias, fuera.
-- Tokens primero (color, tipo, espaciado, radios, duraciones), luego construir sobre ellos.
+ESTADO ACTUAL (v3): HERO y CITA cerradas en Design y validadas. Hero integrándose en el repo
+Next.js (HTML vivo). Cita aún en sandbox de Design (NO integrar su código hasta validación).
+Faltan 6 viñetas: Sobre mí, Formación, Experiencia, Liderazgo, Crown Planner, Contacto.
+
+MÉTODO:
+- Cada viñeta nueva: PRIMERO proponer su metáfora portadora con consejo de perspectivas
+  (arte/UX/motion/marca), justificarla, declarar coste, verificar sistema y calibración (§0,
+  §6). LUEGO construir. El director (en chat aparte) y Marc validan las metáforas propuestas
+  antes de dar nada por cerrado.
+- Hero es la viñeta-modelo: su lenguaje técnico (tokens, canvas/JS, fallbacks) lo heredan las
+  demás. Prioridad de esfuerzo: los PICOS (Hero ✓, Cita ✓, Crown Planner, Contacto) deciden
+  la entrevista. La credibilidad (Sobre mí, Formación, Experiencia, Liderazgo) con metáfora
+  CONTENIDA y legible.
+- Calibración por acto es ley (§0): no convertir la web en "todo boom". Picos gritan, valles
+  respiran. El contraste es el ritmo.
+- Tokens primero, construir sobre ellos. prefers-reduced-motion y responsive en cada viñeta.
+- Principio de plazo: una web coherente e impecable vence a una recargada a medias. Si una
+  metáfora amenaza con quedar a medias o rompe la legibilidad, se simplifica.
+
+PANEL DE TWEAKS: el Hero y la Cita llevan un panel de controles (React montado solo para eso;
+el resto es HTML vanilla autocontenido). Mantener ese patrón si se extiende a otras viñetas.
 
 CABOS PENDIENTES:
-- Despliegue: ¿quién publica y en qué URL? (la versión previa estaba en Vercel). Verificar
-  que publicar no tiene fricción antes de la fecha objetivo.
+- Pulir el arrastre de la peonza del Hero (suavizar recentrado con lerp).
+- Capturas reales del Crown Planner (datos 100% FICTICIOS) + Excel ficticio — los prepara
+  Marc. Hasta entonces, placeholders.
+- Despliegue: repo en GitHub + auto-deploy Vercel. Verificar que dispara.
 - Demo Crown Planner: el enlace público debe apuntar a la versión con datos de ejemplo.
+- LinkedIn /in/marc-sola-bel: actualizar antes de enlazar, o no enlazar.
 - Valores exactos a calcular al implementar: px del salto Display, terracota-profundo que
   pasa AA, grises de la escala de neutros, radio de esquina.
+- Documento B (estrategia/entrevista) NUNCA se sube al repo.
