@@ -1,6 +1,7 @@
 "use client";
 
 import { useInViewOnce } from "../useInViewOnce";
+import SelloConvergente from "./SelloConvergente";
 import "./vinetas.css";
 
 /* CONTACTO (§6.8 · PICO · espejo del Hero) — metáfora: EL SISTEMA SE
@@ -16,9 +17,7 @@ export default function Contacto() {
     <section className="viñeta viñeta--oscura" id="contacto" data-bar="dark">
       <div className="viñeta__inner">
         <div ref={ref} className={`contacto__inner ${inView ? "in" : ""}`}>
-          <svg className="contacto__sello" viewBox="0 0 32 32" aria-hidden="true">
-            <path d="M16 1 L31 16 L16 31 L1 16 Z" />
-          </svg>
+          <SelloConvergente inView={inView} />
 
           <h2 className="contacto__cierre">
             Hablemos de la próxima{" "}

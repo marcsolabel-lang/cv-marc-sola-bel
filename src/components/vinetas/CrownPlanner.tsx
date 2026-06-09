@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import CrownSim from "./CrownSim";
 import "./vinetas.css";
 
 /* CROWN PLANNER (§6.7 · PICO · clímax) — metáfora: el sistema FUNCIONANDO.
@@ -14,6 +15,7 @@ type Slide = {
   title: React.ReactNode;
   text?: React.ReactNode;
   shot?: boolean;
+  sim?: boolean;
   final?: boolean;
 };
 
@@ -28,7 +30,7 @@ const SLIDES: Slide[] = [
     kicker: "La solución",
     title: "El sistema distribuye automáticamente las órdenes del día.",
     text: "Lee el informe del ERP, propone una asignación equilibrada, marca los casos sin cobertura y prepara el aviso.",
-    shot: true,
+    sim: true,   /* propuesta: la máquina funcionando, no una captura muerta */
   },
   {
     kicker: "Mecánica 1",
@@ -204,6 +206,7 @@ export default function CrownPlanner() {
                   <h4 className="crown__slide-title">{s.title}</h4>
                 </div>
                 <div className="crown__slide-body">
+                  {s.sim && <CrownSim />}
                   {s.shot && <Shot onOpen={openViewer} />}
                   <div>
                     {s.text && <p className="crown__slide-text">{s.text}</p>}
