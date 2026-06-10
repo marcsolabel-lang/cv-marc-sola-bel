@@ -1,6 +1,7 @@
 "use client";
 
 import { useInViewOnce } from "../useInViewOnce";
+import { GLIFOS } from "../glifos";
 import "./vinetas.css";
 
 /* EXPERIENCIA (§6.5 · credibilidad, la más larga) — metáfora: LA DÉCADA
@@ -97,7 +98,10 @@ export default function Experiencia() {
   return (
     <section className="viñeta viñeta--clara" id="experiencia" data-bar="light">
       <div className="viñeta__inner">
-        <h2 className="sect-label">Experiencia</h2>
+        <h2 className="sect-label">
+          <i className="sect-glifo" aria-hidden="true">{GLIFOS["experiencia"]}</i>
+          Experiencia
+        </h2>
         <ul className="exp__list">
           {ROLES.map((r, i) => (
             <ExpItem key={r.year} item={r} delay={i * 80} />

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { GLIFOS } from "../glifos";
 import "./vinetas.css";
 
 /* CROWN PLANNER (§6.7 · PICO · clímax) — metáfora: el sistema FUNCIONANDO.
@@ -182,7 +183,10 @@ export default function CrownPlanner() {
   return (
     <section className="viñeta viñeta--oscura" id="proyecto" data-bar="dark">
       <div className="viñeta__inner">
-        <h2 className="sect-label">Proyecto destacado</h2>
+        <h2 className="sect-label">
+          <i className="sect-glifo" aria-hidden="true">{GLIFOS["proyecto"]}</i>
+          Proyecto destacado
+        </h2>
         <header className="crown__head">
           <h3 className="crown__title">
             Crown Planner — Sistema de asignación inteligente de órdenes de

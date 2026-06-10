@@ -63,8 +63,9 @@ export default function Cita() {
     const root = document.documentElement;
     const DPR = Math.min(window.devicePixelRatio || 1, 2);
 
-    /* ── parámetros del motor (del HTML vivo) ── */
-    const CAM = 4.2, HY = 1.18, RAD = 1.0, VY = 1.18, RD = 0.42, RX = -0.22;
+    /* ── parámetros del motor (del HTML vivo; presencia rev. 2026-06-10:
+       boca +6%, proyección menos estirada, colchón mínimo) ── */
+    const CAM = 4.2, HY = 1.18, RAD = 1.06, VY = 1.12, RD = 0.42, RX = -0.22;
     let TORN = 1, DENS = 1.35;          /* defaults aprobados: tornado Media · densidad Densa */
     let accent = readAccent();
     function readAccent() {
@@ -293,7 +294,7 @@ export default function Cita() {
       W = canvas.clientWidth; H = canvas.clientHeight;
       canvas.width = Math.round(W * DPR); canvas.height = Math.round(H * DPR);
       /* colchón mínimo: el conjunto pesa en el escenario */
-      const cushion = Math.max(0.015 * Math.min(W, H), 20);
+      const cushion = Math.max(0.008 * Math.min(W, H), 12);
       const pe = CAM / (CAM - RAD);
       S = Math.min((W / 2 - cushion) / (RAD * pe), (H / 2 - cushion) / (HY * VY * pe));
       cx = W / 2; cy = H / 2;
@@ -310,7 +311,7 @@ export default function Cita() {
       return { sx: cx + X * persp * S, sy: cy - Y2 * persp * S, depth: Z2, persp };
     }
     /* masa de la palabra: el conjunto tornado/reloj pesa (DISEÑAR no cambia) */
-    const baseFont = (persp: number, size: number) => Math.max(9, S * 0.082 * persp * size);
+    const baseFont = (persp: number, size: number) => Math.max(9, S * 0.088 * persp * size);
 
     let mx = -1e4, my = -1e4;
     function draw() {
@@ -328,7 +329,7 @@ export default function Cita() {
         const col = s.white ? "#FFFFFF" : accent;
         if (col !== curColor) { ctx.fillStyle = col; curColor = col; }
         ctx.globalAlpha = tornado ? (0.18 + d * 0.55) : (0.44 + d * 0.45);
-        const rad = Math.max(0.6, S * 0.0039 * pr.persp * s.size);
+        const rad = Math.max(0.6, S * 0.0042 * pr.persp * s.size);
         ctx.fillRect(pr.sx - rad, pr.sy - rad, rad * 2, rad * 2);
       }
 

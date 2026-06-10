@@ -165,6 +165,28 @@ tormenta desenfrenada del concepto, y que en móvil el reloj seguía asfixiado.
 - **Fallback**: 6 s → 9 s visible sin interacción (el teatro también es
   tesis). Giro de cámara del tornado 0.22→0.26.
 
+## Glifos-leyenda e índice de 8 (2026-06-10, tercera pasada)
+
+1. **Los glifos del índice pasan a las secciones** (junto al sect-label,
+   20 px, terracota): el índice se vuelve leyenda del mapa — consejo:
+   refuerza orientación, es material propio del sistema (familia wireframe
+   del poliedro), no icon-soup. Contraste gráfico 3.45:1 sobre blanco
+   (supera el 3:1 de WCAG para no-texto).
+2. **Tres glifos refinados** para dialogar con las metáforas construidas:
+   Sobre mí (convergencia: tres ramas a un nodo-rombo), Experiencia (eje
+   con nodos-rombo), Liderazgo (retícula de puntos en formación). Única
+   fuente en src/components/glifos.tsx.
+3. **La Cita entra al índice como "MANIFIESTO"** (03, glifo reloj de
+   arena): es la declaración del cómo pienso y dialoga con la voz
+   Manifiesto del Hero. Ocho entradas.
+4. **Más presencia del tornado/reloj**: boca del embudo +6% (RAD 1.06),
+   proyección menos estirada (VY 1.12 → +5% de escala), colchón 0.8%/12px,
+   palabras +7% y granos +8% adicionales. El reloj nunca se recorta.
+5. **Panel de Tweaks eliminado** (decisión de Marc): voz Manifiesto,
+   composición centrada y acento #C0542A consagrados como definitivos en
+   los tokens; las composiciones editorial/elevada retiradas del código.
+   window.__cita queda como contrato de auditoría sin UI.
+
 ## Decisiones de integración transversales (registro)
 
 1. **Oswald como tercera familia** (--font-banner): la traen los HTML vivos

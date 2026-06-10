@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useInViewOnce } from "../useInViewOnce";
+import { GLIFOS } from "../glifos";
 import "./vinetas.css";
 
 /* SOBRE MÍ (§6.3 · credibilidad, contenida) — metáfora: EL HILO CONSTANTE
@@ -61,7 +62,10 @@ export default function SobreMi() {
   return (
     <section className="viñeta viñeta--clara" id="sobre-mi" data-bar="light">
       <div className="viñeta__inner">
-        <h2 className="sect-label">Sobre mí</h2>
+        <h2 className="sect-label">
+          <i className="sect-glifo" aria-hidden="true">{GLIFOS["sobre-mi"]}</i>
+          Sobre mí
+        </h2>
         <div className="sobremi__grid">
           <div className="sobremi__col">
             {/* marco de la foto de perfil — colgar la imagen aquí:

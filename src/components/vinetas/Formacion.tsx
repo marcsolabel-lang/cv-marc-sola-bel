@@ -1,6 +1,7 @@
 "use client";
 
 import { useInViewOnce } from "../useInViewOnce";
+import { GLIFOS } from "../glifos";
 import "./vinetas.css";
 
 /* FORMACIÓN (§6.4 · credibilidad, la más subordinada) — metáfora:
@@ -14,7 +15,10 @@ export default function Formacion() {
   return (
     <section className="viñeta viñeta--clara" id="formacion" data-bar="light">
       <div className="viñeta__inner">
-        <h2 className="sect-label">Formación</h2>
+        <h2 className="sect-label">
+          <i className="sect-glifo" aria-hidden="true">{GLIFOS["formacion"]}</i>
+          Formación
+        </h2>
 
         <div ref={ref} className={`formacion__plano ${inView ? "in" : ""}`}>
           <h3 className="formacion__leccion">

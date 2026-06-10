@@ -1,6 +1,7 @@
 "use client";
 
 import { useInViewOnce } from "../useInViewOnce";
+import { GLIFOS } from "../glifos";
 import "./vinetas.css";
 
 /* LIDERAZGO (§6.6 · transición al clímax) — metáfora: +70 EN FORMACIÓN.
@@ -23,7 +24,10 @@ export default function Liderazgo() {
   return (
     <section className="viñeta viñeta--clara" id="liderazgo" data-bar="light">
       <div className="viñeta__inner">
-        <h2 className="sect-label">Liderazgo</h2>
+        <h2 className="sect-label">
+          <i className="sect-glifo" aria-hidden="true">{GLIFOS["liderazgo"]}</i>
+          Liderazgo
+        </h2>
         <div className="lid__grid">
           <div>
             <p className="lid__num">
