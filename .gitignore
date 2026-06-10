@@ -47,3 +47,6 @@ next-env.d.ts
 # referencia de diseno (bundles de Claude Design, no se versionan)
 Hero (standalone).html
 Cita (standalone).html
+
+# capturas reales de Atlas (datos sensibles — JAMAS al repo)
+crown-planner-muestra/
