@@ -122,6 +122,28 @@ da por CERRADA hasta validación de Marc.
 
 ---
 
+## Revisión de Marc sobre lo construido (2026-06-10, registro)
+
+1. **Orden narrativo**: la Cita pasa tras Sobre mí (ritmo O–C–O–C–C–C–O–O):
+   los dos picos oscuros pegados se fundían. Registrado también en doc-A §2.
+2. **Sobre mí**: el hilo gana protagonismo — rediseñado como ÁRBOL DE
+   CONVERGENCIA (tronco 3px + ramas a 45° + nodos rombo, geometría del Hero
+   en marca simple) y se añade el MARCO TÉCNICO de la foto de perfil
+   (esquinas como el CTA; hover b/n→color listo; falta el asset).
+3. **Topbar**: la línea de la barra ahora cruza el hueco 2016—26 en reposo
+   (solo los números la enmascaran); el eje la tapa al activarse.
+4. **Cita**: cajas más anchas e igualadas (min-height común, cuerpo +8%) y
+   reloj con más presencia (colchón 3.5%→2%).
+5. **Logos**: slots tipográficos con data-logo en Formación (Level Up, UdL,
+   ESCAC) y Experiencia (Crown, Beral, rombo para el proyecto propio) — se
+   sustituyen por las imágenes reales cuando Marc las aporte. Se decidió NO
+   añadir "fotografías de muestra" en Formación: §7 las excluye (solo foto
+   de perfil + capturas del Crown); si Marc las quiere, decisión consciente
+   contra §7 a registrar.
+6. **Idiomas**: fuera de Contacto (nada que genere duda pegado al CTA;
+   el B2 le restaba seguridad a Marc) → ficha discreta en Formación, sin
+   destacar el nivel.
+
 ## Decisiones de integración transversales (registro)
 
 1. **Oswald como tercera familia** (--font-banner): la traen los HTML vivos

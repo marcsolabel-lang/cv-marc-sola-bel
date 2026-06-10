@@ -28,21 +28,35 @@ export default function Formacion() {
             iterar — es la que aplico hoy a cualquier sistema.
           </p>
           <span className="formacion__meta">
+            {/* logo: sustituir el slot por <img src="/logos/levelup.svg" alt="Level Up Game Dev Hub" /> */}
+            <i className="logo-slot" data-logo="levelup" aria-hidden="true">LU</i>
             Game &amp; Concept Design — Level Up Game Dev Hub · 2023–2024
           </span>
         </div>
 
         <ul className="formacion__otros">
           <li className="formacion__otro">
-            <strong>Grado en Comunicación Audiovisual</strong>
+            <strong>
+              <i className="logo-slot" data-logo="udl" aria-hidden="true">UdL</i>
+              Grado en Comunicación Audiovisual
+            </strong>
             <span>
               Universitat de Lleida · 2012–2017 · Con intercambio en la
               Universidade de Santiago de Compostela
             </span>
           </li>
           <li className="formacion__otro">
-            <strong>Narrativa interactiva</strong>
+            <strong>
+              <i className="logo-slot" data-logo="escac" aria-hidden="true">EC</i>
+              Narrativa interactiva
+            </strong>
             <span>ESCAC · 2025</span>
+          </li>
+          <li className="formacion__otro">
+            <strong>Idiomas</strong>
+            <span>
+              Catalán y español — nativos · Inglés B2 (IELTS) · Portugués básico
+            </span>
           </li>
         </ul>
       </div>

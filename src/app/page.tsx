@@ -9,10 +9,9 @@ import Liderazgo from "@/components/vinetas/Liderazgo";
 import CrownPlanner from "@/components/vinetas/CrownPlanner";
 import Contacto from "@/components/vinetas/Contacto";
 
-/* CV de una página (doc-A v3 §2) — tres actos, ritmo O-O-C-C-C-C-O-O:
-   apertura oscura (Hero + Cita) → cuerpo claro de credibilidad
-   (Sobre mí, Formación, Experiencia, Liderazgo) → clímax y cierre
-   oscuros (Crown Planner + Contacto). */
+/* CV de una página (doc-A v3 §2, orden revisado 2026-06-10) — ritmo
+   O-C-O-C-C-C-O-O: la Cita pasa tras Sobre mí para que los dos picos
+   oscuros de apertura no se fundan (negro · blanco · negro). */
 
 export default function CVPage() {
   return (
@@ -20,8 +19,8 @@ export default function CVPage() {
       <TopBar />
       <main>
         <Hero />
-        <Cita />
         <SobreMi />
+        <Cita />
         <Formacion />
         <Experiencia />
         <Liderazgo />

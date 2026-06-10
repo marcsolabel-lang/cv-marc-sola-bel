@@ -33,13 +33,11 @@ export default function Contacto() {
             marcsolabel@gmail.com
           </a>
 
+          {/* idiomas reubicados en Formación (decisión 2026-06-10):
+              nada que genere duda pegado al CTA */}
           <p className="contacto__datos">
             <a href="tel:+34608254126">608 254 126</a>
             <span>Esparreguera, Barcelona</span>
-          </p>
-          <p className="contacto__idiomas">
-            Catalán · Español — nativos · <b>Inglés B2 (IELTS)</b> · Portugués —
-            básico
           </p>
         </div>
       </div>

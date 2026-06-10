@@ -210,7 +210,8 @@ export default function Cita() {
     const resize = () => {
       W = canvas.clientWidth; H = canvas.clientHeight;
       canvas.width = Math.round(W * DPR); canvas.height = Math.round(H * DPR);
-      const cushion = Math.max(0.035 * Math.min(W, H), 32);
+      /* colchón reducido: el reloj gana presencia entre las cajas */
+      const cushion = Math.max(0.02 * Math.min(W, H), 24);
       const pe = CAM / (CAM - RAD);
       S = Math.min((W / 2 - cushion) / (RAD * pe), (H / 2 - cushion) / (HY * VY * pe));
       cx = W / 2; cy = H / 2;

@@ -176,6 +176,16 @@ ACTO 3 — CRESCENDO, CLÍMAX Y CIERRE:
 RITMO DE FONDOS: O–O–C–C–C–C–O–O. No es alternancia mecánica: dos bloques oscuros (apertura
 y clímax+cierre) enmarcan un cuerpo claro de credibilidad. El fondo refuerza los tres actos.
 
+DECISIÓN 2026-06-10 (Marc, sobre lo construido): la CITA pasa a ir DESPUÉS de Sobre mí.
+Orden vigente: Hero (O) · Sobre mí (C) · Cita (O) · Formación (C) · Experiencia (C) ·
+Liderazgo (C) · Crown Planner (O) · Contacto (O) — ritmo O–C–O–C–C–C–O–O. Razón: los dos
+picos oscuros de apertura pegados se fundían sin separación; el blanco intermedio crea el
+contraste negro·blanco·negro y deja respirar ambos dispositivos. La cita sigue siendo la
+bisagra conceptual (declara el cómo pienso) y conserva su calibración de PICO. En la misma
+revisión: idiomas salen de Contacto (nada que genere duda pegado al CTA) y se reubican
+discretos en Formación; se preparan slots de logo (instituciones y empresas) y el marco de
+la foto de perfil en Sobre mí.
+
 CURVA DE ENGAGEMENT: gancho fuerte → bajada controlada a credibilidad → subida (Liderazgo) →
 pico (Crown Planner) → conversión (Contacto). Clímax tardío elegido a conciencia: máximo
 impacto para quien llega, A CAMBIO de que cada viñeta previa se gane el siguiente scroll.

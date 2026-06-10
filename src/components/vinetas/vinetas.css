@@ -5,8 +5,8 @@
 
 /* ────────────────────────────────────────────────────────────────
    3 · SOBRE MÍ (clara · credibilidad) — metáfora: EL HILO CONSTANTE
-   Cuatro contextos dispersos cosidos por una línea que desemboca
-   en la tesis. Un solo gesto de entrada; después, quieta.
+   como ÁRBOL DE CONVERGENCIA (rev. 2026-06-10). Tronco + ramas a 45°
+   + nodos rombo; marco técnico para la foto. Un gesto; después, quieto.
    ──────────────────────────────────────────────────────────────── */
 .sobremi__grid {
   display: grid;
@@ -14,49 +14,127 @@
   column-gap: clamp(2rem, 6vw, 6rem);
   align-items: start;
 }
-.hilo { position: relative; padding-left: 26px; }
-.hilo__svg {
+
+/* Marco técnico de la foto de perfil (asset pendiente; §6.3/§7).
+   Mismo idioma de esquinas que el CTA del email. Hover b/n→color listo. */
+.foto-marco {
+  position: relative;
+  margin: 0 0 clamp(2.2rem, 4.5vh, 3rem);
+  max-width: 300px;
+  aspect-ratio: 4 / 5;
+  background:
+    repeating-linear-gradient(0deg,  rgba(192, 84, 42, 0.05) 0 1px, transparent 1px 22px),
+    repeating-linear-gradient(90deg, rgba(192, 84, 42, 0.05) 0 1px, transparent 1px 22px),
+    #FAF8F6;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.foto-marco img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: grayscale(1);                      /* §5 hover notable: b/n → color */
+  transition: filter var(--dur-slow) ease-in-out;
+}
+.foto-marco:hover img { filter: none; }
+.fcorner {
   position: absolute;
-  left: 0; top: 6px; bottom: 0;
-  width: 18px; height: calc(100% - 6px);
-  overflow: visible;
+  width: 16px; height: 16px;
+  border: 0 solid var(--terracotta);
+  z-index: 1;
 }
-.hilo__path {
-  fill: none;
-  stroke: var(--terracotta);
-  stroke-width: 1.5;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  transition: stroke-dashoffset 1.3s var(--ease-out) 0.1s;
+.fcorner--tl { top: 0; left: 0; border-top-width: 2px; border-left-width: 2px; }
+.fcorner--tr { top: 0; right: 0; border-top-width: 2px; border-right-width: 2px; }
+.fcorner--bl { bottom: 0; left: 0; border-bottom-width: 2px; border-left-width: 2px; }
+.fcorner--br { bottom: 0; right: 0; border-bottom-width: 2px; border-right-width: 2px; }
+.foto-marco__hint {
+  display: grid;
+  justify-items: center;
+  gap: 0.8rem;
+  text-align: center;
+  margin: 0;
 }
-.hilo.in .hilo__path { stroke-dashoffset: 0; }
-.hilo__node {
-  fill: var(--terracotta);
-  opacity: 0;
-  transition: opacity 0.4s ease;
+.foto-marco__hint svg { width: 44px; height: 44px; }
+.foto-marco__hint svg :is(circle, path) {
+  fill: none; stroke: var(--terracotta); stroke-width: 1.5; stroke-linecap: round;
 }
-.hilo.in .hilo__node--1 { opacity: 1; transition-delay: 0.15s; }
-.hilo.in .hilo__node--2 { opacity: 1; transition-delay: 0.45s; }
-.hilo.in .hilo__node--3 { opacity: 1; transition-delay: 0.75s; }
-.hilo.in .hilo__node--4 { opacity: 1; transition-delay: 1.05s; }
-.hilo__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: clamp(1.4rem, 3vh, 2.2rem); }
-.hilo__item {
+.foto-marco__hint small {
   font-family: var(--font-banner);
-  font-size: 0.86rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--on-light-2);
+}
+
+/* El árbol de convergencia: tronco + ramas a 45° + nodos rombo */
+.arbol { position: relative; }
+.arbol__svg {
+  position: absolute;
+  left: 0; top: 0;
+  width: 56px;
+  overflow: visible;
+}
+.arbol__tronco {
+  fill: none;
+  stroke: var(--terracotta);
+  stroke-width: 3;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.9s var(--ease-out) 0.1s;
+}
+.arbol.in .arbol__tronco { stroke-dashoffset: 0; }
+.arbol__rama {
+  fill: none;
+  stroke: var(--terracotta);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.45s var(--ease-out);
+}
+.arbol.in .arbol__rama--1 { stroke-dashoffset: 0; transition-delay: 0.5s; }
+.arbol.in .arbol__rama--2 { stroke-dashoffset: 0; transition-delay: 0.68s; }
+.arbol.in .arbol__rama--3 { stroke-dashoffset: 0; transition-delay: 0.86s; }
+.arbol.in .arbol__rama--4 { stroke-dashoffset: 0; transition-delay: 1.04s; }
+.arbol__nodo, .arbol__final {
+  fill: var(--terracotta);
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: rotate(45deg) scale(0);
+  transition: transform 0.4s var(--ease-out);
+}
+.arbol.in .arbol__nodo--1 { transform: rotate(45deg) scale(1); transition-delay: 0.6s; }
+.arbol.in .arbol__nodo--2 { transform: rotate(45deg) scale(1); transition-delay: 0.78s; }
+.arbol.in .arbol__nodo--3 { transform: rotate(45deg) scale(1); transition-delay: 0.96s; }
+.arbol.in .arbol__nodo--4 { transform: rotate(45deg) scale(1); transition-delay: 1.14s; }
+.arbol.in .arbol__final   { transform: rotate(45deg) scale(1); transition-delay: 1.4s; }
+.arbol__list {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 68px;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.8rem, 3.6vh, 2.6rem);
+}
+.arbol__item {
+  font-family: var(--font-banner);
+  font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink);
   opacity: 0;
   transform: translateX(-8px);
   transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
 }
-.hilo.in .hilo__item:nth-child(1) { opacity: 1; transform: none; transition-delay: 0.1s; }
-.hilo.in .hilo__item:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.4s; }
-.hilo.in .hilo__item:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.7s; }
-.hilo.in .hilo__item:nth-child(4) { opacity: 1; transform: none; transition-delay: 1.0s; }
-.hilo__sintesis {
-  margin: clamp(1.8rem, 4vh, 2.6rem) 0 0;
+.arbol.in .arbol__item:nth-child(1) { opacity: 1; transform: none; transition-delay: 0.55s; }
+.arbol.in .arbol__item:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.73s; }
+.arbol.in .arbol__item:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.91s; }
+.arbol.in .arbol__item:nth-child(4) { opacity: 1; transform: none; transition-delay: 1.09s; }
+.arbol__sintesis {
+  margin: clamp(2rem, 4.5vh, 3rem) 0 0;
+  padding-left: 34px;
   font-size: var(--fs-h2);
   font-weight: 700;
   line-height: 1.1;
@@ -64,9 +142,9 @@
   color: var(--ink);
   opacity: 0;
   transform: translateY(10px);
-  transition: opacity 0.6s var(--ease-out) 1.25s, transform 0.6s var(--ease-out) 1.25s;
+  transition: opacity 0.6s var(--ease-out) 1.5s, transform 0.6s var(--ease-out) 1.5s;
 }
-.hilo.in .hilo__sintesis { opacity: 1; transform: none; }
+.arbol.in .arbol__sintesis { opacity: 1; transform: none; }
 .sobremi__text p {
   margin: 0 0 1.3em;
   max-width: 62ch;
@@ -76,10 +154,12 @@
 .sobremi__text p:last-child { margin-bottom: 0; }
 @media (max-width: 820px) {
   .sobremi__grid { grid-template-columns: 1fr; row-gap: 2.6rem; }
+  .foto-marco { max-width: 240px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hilo__path { stroke-dashoffset: 0; transition: none; }
-  .hilo__node, .hilo__item, .hilo__sintesis { opacity: 1; transform: none; transition: none; }
+  .arbol__tronco, .arbol__rama { stroke-dashoffset: 0; transition: none; }
+  .arbol__nodo, .arbol__final { transform: rotate(45deg) scale(1); transition: none; }
+  .arbol__item, .arbol__sintesis { opacity: 1; transform: none; transition: none; }
 }
 
 /* ────────────────────────────────────────────────────────────────
@@ -117,7 +197,9 @@
   color: var(--ink);
 }
 .formacion__meta {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.9em;
   margin-top: 1rem;
   font-family: var(--font-banner);
   font-size: var(--fs-meta);
@@ -126,6 +208,30 @@
   text-transform: uppercase;
   color: var(--on-light-2);
 }
+
+/* Slots de logo (instituciones/empresas) — sustituir por <img> reales.
+   Información de credibilidad, no decoración: tipográficos hasta entonces. */
+.logo-slot {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 44px; height: 44px;
+  border: 1px solid var(--hairline-d);
+  font-family: var(--font-banner);
+  font-style: normal;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--on-light-2);
+}
+.logo-slot img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
+.logo-slot--sm {
+  width: 28px; height: 28px;
+  margin-right: 0.7em;
+  font-size: 0.5rem;
+  vertical-align: middle;
+}
+.logo-slot[data-logo="propio"] { color: var(--terracotta-deep); font-size: 0.7rem; }
 .formacion__otros {
   list-style: none;
   margin: clamp(1.8rem, 4vh, 2.6rem) 0 0;
@@ -139,7 +245,9 @@
   border-top: 1px solid var(--hairline-d);
 }
 .formacion__otro strong {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
   font-size: var(--fs-h3);
   font-weight: 600;
   line-height: 1.25;
@@ -623,16 +731,6 @@
 }
 .contacto__datos a { transition: color var(--dur-med) ease-in-out; }
 .contacto__datos a:hover { color: var(--white); }
-.contacto__idiomas {
-  margin: 1rem 0 0;
-  font-family: var(--font-banner);
-  font-size: var(--fs-meta);
-  font-weight: 400;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--on-dark-3);
-}
-.contacto__idiomas b { font-weight: 600; color: var(--on-dark-2); }
 @media (prefers-reduced-motion: reduce) {
   .contacto__sello, .cta-email .corner { opacity: 1; transform: none; transition: none; }
 }

@@ -214,14 +214,25 @@ a { color: inherit; text-decoration: none; }
 }
 .topbar__name { padding-left: 0; letter-spacing: 0.12em; color: var(--bar-fg-1); }
 
-/* "2016—26": eje de tiempo que se enciende al abrir el índice */
+/* "2016—26": eje de tiempo que se enciende al abrir el índice.
+   En reposo el eje es invisible y la LÍNEA de la barra cruza el hueco
+   (separador); solo los números enmascaran la línea. */
 .topbar__years {
   position: relative;
   display: inline-flex; align-items: center; gap: 0.7em;
+  background: transparent;
+  padding: 0;
   transition: color var(--dur-slow) ease, letter-spacing var(--dur-slow) var(--ease-out),
               transform var(--dur-slow) var(--ease-out);
   transform-origin: center;
 }
+.topbar__years .years__lbl {
+  background: var(--bar-bg);
+  padding: 0 0.7rem;
+  transition: background var(--dur-med) ease;
+}
+/* con el índice abierto, el eje activo enmascara la línea bajo el sparkline */
+.topbar.nav-open .years__axis { background: var(--bar-bg); }
 .topbar.nav-open .topbar__years { color: var(--white); letter-spacing: 0.12em; transform: scale(1.14); }
 .years__lbl { font-variant-numeric: tabular-nums; transition: color var(--dur-med) ease; }
 .years__axis {

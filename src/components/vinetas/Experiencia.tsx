@@ -17,6 +17,7 @@ const ROLES = [
     range: "2026 — actualidad",
     rol: "Proyecto propio · E-commerce B2C",
     org: "Diseño y operación de principio a fin",
+    logo: { id: "propio", text: "◆" },
     desc: (
       <>
         Nicho con análisis de datos, automatización con IA, pricing y canal.
@@ -30,6 +31,7 @@ const ROLES = [
     range: "dic. 2025 — actualidad",
     rol: "Coordinador de servicios técnicos",
     org: "Crown Lift Trucks",
+    logo: { id: "crown", text: "CR" },
     desc: (
       <>
         Coordino un equipo técnico y la planificación de sus intervenciones;
@@ -44,6 +46,7 @@ const ROLES = [
     range: "feb. 2021 — sept. 2024",
     rol: "Sales Specialist",
     org: "Beral Projects",
+    logo: { id: "beral", text: "BP" },
     desc: (
       <>
         Ventas y postventa de cartera B2B, contenido web, apoyo a marketing
@@ -77,7 +80,13 @@ function ExpItem({ item, delay }: { item: (typeof ROLES)[number]; delay: number 
       </div>
       <div className="exp__body">
         <h3 className="exp__rol">{item.rol}</h3>
-        <span className="exp__org">{item.org}</span>
+        <span className="exp__org">
+          {/* logo: sustituir el slot por <img src="/logos/{id}.svg" alt="" /> */}
+          <i className="logo-slot logo-slot--sm" data-logo={item.logo.id} aria-hidden="true">
+            {item.logo.text}
+          </i>
+          {item.org}
+        </span>
         <p className="exp__desc">{item.desc}</p>
       </div>
     </li>
