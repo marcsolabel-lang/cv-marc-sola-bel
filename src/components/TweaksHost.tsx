@@ -23,6 +23,7 @@ declare global {
       setAccent(c: string): void;
       order(): void;
       scatter(): void;
+      state(): { mode: string; t: number; vMedia: number; rStd: number };
     };
   }
 }

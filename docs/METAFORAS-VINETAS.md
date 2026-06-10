@@ -144,6 +144,27 @@ da por CERRADA hasta validación de Marc.
    el B2 le restaba seguridad a Marc) → ficha discreta en Formación, sin
    destacar el nivel.
 
+## Cita — física de tormenta y escenario móvil (2026-06-10, segunda pasada)
+
+Marc detectó que el tornado "empeoraba con el tiempo" y no transmitía la
+tormenta desenfrenada del concepto, y que en móvil el reloj seguía asfixiado.
+
+- **Tres defectos del motor heredado**: damping aplicado por frame (doble
+  freno a 120 Hz), pared del embudo rígida que asentaba las palabras en
+  órbita laminar (el caos degeneraba en cilindro), y un NaN silencioso del
+  HTML vivo (seed vertical fuera de rango → `pow(neg, 1.5)`) que perdía ~9%
+  de las palabras y dejaba huecos en el reloj.
+- **Física nueva**: damping normalizado por dt; remolino estratificado
+  (spin propio por palabra); embudo más ancho de pared elástica; ráfagas
+  coherentes con oleadas globales; recirculación por kicks (la tormenta
+  escupe y vuelve a tragar — nada se asienta); autocuración con contador
+  (ninguna partícula puede perderse). Verificado: energía sostenida sin
+  decaer en 32 s (vMedia 0.92→0.76→0.81, healed 0).
+- **Móvil**: el escenario pasa a pantalla propia (~82svh) y las cajas se
+  leen DEBAJO en flujo — la tormenta ya no compite con el texto.
+- **Fallback**: 6 s → 9 s visible sin interacción (el teatro también es
+  tesis). Giro de cámara del tornado 0.22→0.26.
+
 ## Decisiones de integración transversales (registro)
 
 1. **Oswald como tercera familia** (--font-banner): la traen los HTML vivos

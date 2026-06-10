@@ -17,12 +17,19 @@ type Particle = {
   x: number; y: number; z: number;
   vx: number; vy: number; vz: number;
   ti: number; lit: boolean; rot: number; size: number;
+  /* carácter de tormenta: ritmo orbital propio + fases de ráfaga + kick */
+  spin: number; w1: number; w2: number; ph1: number; ph2: number; kickAt: number;
 };
 type Grain = {
   x: number; y: number; z: number;
   vx: number; vy: number; vz: number;
   fx: number; fy: number; fz: number;
   size: number; white: boolean;
+  spin: number; w1: number; ph1: number; kickAt: number;
+};
+type Vortexable = {
+  x: number; y: number; z: number;
+  spin: number; w1: number; ph1: number; w2?: number; ph2?: number;
 };
 type Target = { x: number; y: number; z: number; bob: number; wsize: number };
 type Sprite = { canvas: HTMLCanvasElement; w: number; h: number; ref: number };
@@ -102,11 +109,17 @@ export default function Cita() {
       P = targets.map((t, i) => {
         const a = Math.random() * Math.PI * 2, r = 0.2 + Math.random() * 1.0;
         return {
-          x: Math.cos(a) * r, y: (Math.random() * 2 - 1) * HY * 1.1, z: Math.sin(a) * r,
+          x: Math.cos(a) * r, y: (Math.random() * 2 - 1) * HY, z: Math.sin(a) * r,
           vx: 0, vy: 0, vz: 0,
           ti: i, lit: false,
           rot: Math.random() * 0.5 - 0.25,
           size: t.wsize,
+          spin: 0.75 + Math.random() * 0.6,
+          w1: 0.6 + Math.random() * 1.1,
+          w2: 0.9 + Math.random() * 1.3,
+          ph1: Math.random() * Math.PI * 2,
+          ph2: Math.random() * Math.PI * 2,
+          kickAt: Math.random() * 2,        /* arranque ya tormentoso */
         };
       });
       const sn = Math.round(900 * DENS);
@@ -122,38 +135,84 @@ export default function Cita() {
           fx: Math.cos(ang) * rr, fy: tyN * HY, fz: Math.sin(ang) * rr,
           size: 0.5 + Math.random() * 0.55,
           white: Math.random() < 0.12,
+          spin: 0.7 + Math.random() * 0.7,
+          w1: 0.5 + Math.random() * 1.4,
+          ph1: Math.random() * Math.PI * 2,
+          kickAt: Math.random() * 2.5,
         };
       });
     }
 
-    /* ── física ── */
-    function tornadoForce(p: { x: number; y: number; z: number }, isSand: boolean): [number, number, number] {
+    /* ── física de TORMENTA (rev. 2026-06-10) ──
+       El motor anterior degeneraba: damping por frame (no por segundo,
+       doble freno a 120 Hz), pared rígida que asentaba las palabras en
+       órbita laminar y turbulencia blanca incapaz de despegarlas. Ahora:
+       remolino estratificado (cada palabra a su ritmo), embudo ancho y
+       elástico, ráfagas coherentes con oleadas globales y recirculación
+       por kicks — el caos se SOSTIENE, no se apaga. */
+    let tSim = 0;
+    function tornadoForce(p: Vortexable, isSand: boolean, t: number): [number, number, number] {
       const T = TORN * (isSand ? 1.25 : 1.0);
       const r = Math.hypot(p.x, p.z) || 1e-4;
       const ux = p.x / r, uz = p.z / r;
       const tx = -uz, tz = ux;
       let ax = 0, ay = 0, az = 0;
-      const swirl = (1.6 + 1.5 / (0.28 + r)) * T;
+      /* remolino estratificado: capas que se adelantan y atrasan */
+      const swirl = (2.6 + 2.2 / (0.3 + r)) * T * p.spin;
       ax += tx * swirl; az += tz * swirl;
-      const yn = (p.y + HY) / (2 * HY);
-      const rt = 0.025 + Math.pow(yn, 1.7) * 0.60;
-      ax += ux * (rt - r) * 5.5;
-      az += uz * (rt - r) * 5.5;
-      ay += -p.y * 0.32;
-      const core = Math.exp(-(r * r) / 0.04);
-      ay += core * 1.0 * T;
-      const tanJ = (Math.random() - 0.5) * 1.4 * T;
-      ax += tx * tanJ; az += tz * tanJ;
-      ay += (Math.random() - 0.5) * 1.8 * T;
+      /* embudo ancho de pared elástica: la silueta es media, no jaula.
+         yn clampeado: pow(neg, 1.5) = NaN — el bug que perdía palabras
+         en silencio (heredado del HTML vivo, seed fuera de rango) */
+      const yn = Math.max(0, Math.min(1, (p.y + HY) / (2 * HY)));
+      const rt = 0.05 + Math.pow(yn, 1.5) * 0.8;
+      ax += ux * (rt - r) * 3.6;
+      az += uz * (rt - r) * 3.6;
+      /* respiración vertical + tiro ascendente del núcleo */
+      ay += -p.y * 0.3;
+      const core = Math.exp(-(r * r) / 0.05);
+      ay += core * 1.2 * T;
+      /* ráfagas coherentes en oleadas: la tormenta viene en olas, no en ruido */
+      const G = 1 + 0.55 * Math.sin(t * 0.62) + 0.35 * Math.sin(t * 1.31 + 1.7);
+      const gust = 2.4 * T * G;
+      const s1 = Math.sin(t * p.w1 + p.ph1);
+      const s2 = Math.sin(t * (p.w2 ?? p.w1 * 1.37) + (p.ph2 ?? p.ph1 + 2.1));
+      ax += (s1 * tx + s2 * 0.6 * ux) * gust;
+      az += (s1 * tz + s2 * 0.6 * uz) * gust;
+      ay += Math.cos(t * p.w1 + (p.ph2 ?? p.ph1)) * gust * 0.9;
       return [ax, ay, az];
     }
 
+    /* autocuración: ninguna partícula se pierde jamás — si un cálculo
+       degenera (NaN/Inf), se reinyecta a la tormenta y se cuenta */
+    let healed = 0;
+    const heal = (p: { x: number; y: number; z: number; vx: number; vy: number; vz: number }) => {
+      if (Number.isFinite(p.x + p.y + p.z + p.vx + p.vy + p.vz)) return;
+      const a = Math.random() * Math.PI * 2, r = 0.3 + Math.random() * 0.8;
+      p.x = Math.cos(a) * r; p.y = (Math.random() * 2 - 1) * HY; p.z = Math.sin(a) * r;
+      p.vx = 0; p.vy = 0; p.vz = 0;
+      healed++;
+    };
+
     function step(dt: number) {
       const tornado = mode === "tornado";
+      tSim += dt;
+      /* damping normalizado por dt: misma tormenta a 60 y a 120 Hz */
+      const kWord = Math.pow(tornado ? 0.885 : 0.74, dt * 60);
+      const kSand = Math.pow(tornado ? 0.88 : 0.7, dt * 60);
       for (const p of P) {
         let ax = 0, ay = 0, az = 0;
         if (tornado) {
-          [ax, ay, az] = tornadoForce(p, false);
+          /* recirculación: la tormenta escupe la palabra y el vórtice
+             la vuelve a tragar — nada se asienta jamás */
+          if (tSim > p.kickAt) {
+            const a = Math.random() * Math.PI * 2;
+            const kick = 2 + Math.random() * 2.5;
+            p.vx += Math.cos(a) * kick;
+            p.vz += Math.sin(a) * kick;
+            p.vy += (Math.random() - 0.5) * 5;
+            p.kickAt = tSim + 1.2 + Math.random() * 2.8;
+          }
+          [ax, ay, az] = tornadoForce(p, false, tSim);
         } else {
           const t = targets[p.ti];
           const ty = t.y + (mode === "ordered" ? Math.sin(performance.now() * 0.0012 + t.bob) * 0.018 : 0);
@@ -162,9 +221,8 @@ export default function Cita() {
           az += (t.z - p.z) * 17.0;
         }
         p.vx += ax * dt; p.vy += ay * dt; p.vz += az * dt;
-        const damp = tornado ? 0.885 : 0.74;
-        p.vx *= damp; p.vy *= damp; p.vz *= damp;
-        const sp = Math.hypot(p.vx, p.vy, p.vz), MAXV = tornado ? 6.2 : 6.5;
+        p.vx *= kWord; p.vy *= kWord; p.vz *= kWord;
+        const sp = Math.hypot(p.vx, p.vy, p.vz), MAXV = tornado ? 7.5 : 6.5;
         if (sp > MAXV) { const k = MAXV / sp; p.vx *= k; p.vy *= k; p.vz *= k; }
         p.x += p.vx * dt; p.y += p.vy * dt; p.z += p.vz * dt;
         if (p.y > HY) { p.y = HY; if (p.vy > 0) p.vy *= -0.45; }
@@ -176,14 +234,23 @@ export default function Cita() {
           const vn = p.vx * nx + p.vy * ny + p.vz * nz;
           if (vn < 0) { const e = 1.5; p.vx -= e * vn * nx; p.vy -= e * vn * ny; p.vz -= e * vn * nz; }
         }
+        heal(p);
       }
       for (const s of SAND) {
         if (tornado) {
-          const [ax, ay, az] = tornadoForce(s, true);
+          if (tSim > s.kickAt) {
+            const a = Math.random() * Math.PI * 2;
+            const kick = 1.2 + Math.random() * 1.8;
+            s.vx += Math.cos(a) * kick;
+            s.vz += Math.sin(a) * kick;
+            s.vy += (Math.random() - 0.5) * 3.4;
+            s.kickAt = tSim + 1.5 + Math.random() * 3;
+          }
+          const [ax, ay, az] = tornadoForce(s, true, tSim);
           s.vx += ax * dt; s.vy += ay * dt; s.vz += az * dt;
-          s.vx *= 0.88; s.vy *= 0.88; s.vz *= 0.88;
+          s.vx *= kSand; s.vy *= kSand; s.vz *= kSand;
           const sp = Math.hypot(s.vx, s.vy, s.vz);
-          if (sp > 6.5) { const k = 6.5 / sp; s.vx *= k; s.vy *= k; s.vz *= k; }
+          if (sp > 7.5) { const k = 7.5 / sp; s.vx *= k; s.vy *= k; s.vz *= k; }
           s.x += s.vx * dt; s.y += s.vy * dt; s.z += s.vz * dt;
           if (s.y > HY) { s.y = HY; if (s.vy > 0) s.vy *= -0.4; }
           if (s.y < -HY) { s.y = -HY; if (s.vy < 0) s.vy *= -0.4; }
@@ -191,9 +258,10 @@ export default function Cita() {
           s.vx += (s.fx - s.x) * 13 * dt;
           s.vy += (s.fy - s.y) * 13 * dt;
           s.vz += (s.fz - s.z) * 13 * dt;
-          s.vx *= 0.7; s.vy *= 0.7; s.vz *= 0.7;
+          s.vx *= kSand; s.vy *= kSand; s.vz *= kSand;
           s.x += s.vx * dt; s.y += s.vy * dt; s.z += s.vz * dt;
         }
+        heal(s);
       }
       if (mode === "ordering") {
         let maxd = 0;
@@ -288,7 +356,7 @@ export default function Cita() {
     function loop(now: number) {
       if (!running || disposed) return;
       const dt = Math.min((now - last) / 1000, 0.05); last = now;
-      ry += (mode === "tornado" ? 0.22 : 0.10) * dt;
+      ry += (mode === "tornado" ? 0.26 : 0.10) * dt;
       step(dt);
       draw();
       rafId = requestAnimationFrame(loop);
@@ -340,12 +408,13 @@ export default function Cita() {
           return;
         }
         startLoop();
-        if (entry.intersectionRatio >= 0.5 && !userActed && mode === "tornado") {
+        if (entry.intersectionRatio >= 0.35 && !userActed && mode === "tornado") {
           clearTimeout(fallbackT);
-          fallbackT = setTimeout(() => { if (!userActed) order(); }, 6000);
+          /* 9 s de tormenta antes de ordenarse sola: el teatro también es tesis */
+          fallbackT = setTimeout(() => { if (!userActed) order(); }, 9000);
         }
       },
-      { threshold: [0, 0.5] }
+      { threshold: [0, 0.35] }
     );
     io.observe(section);
 
@@ -379,6 +448,22 @@ export default function Cita() {
       },
       setAccent(c: string) { accent = c; spriteAccent = makeSprite(c); },
       order, scatter,
+      /* métricas de tormenta (verificación: el caos no debe decaer) */
+      state() {
+        const n = P.length || 1;
+        let vm = 0, rm = 0;
+        for (const p of P) { vm += Math.hypot(p.vx, p.vy, p.vz); rm += Math.hypot(p.x, p.z); }
+        vm /= n; rm /= n;
+        let rv = 0;
+        for (const p of P) { const d = Math.hypot(p.x, p.z) - rm; rv += d * d; }
+        return {
+          mode,
+          t: Math.round(tSim * 10) / 10,
+          vMedia: +vm.toFixed(3),
+          rStd: +Math.sqrt(rv / n).toFixed(3),
+          healed,
+        };
+      },
     };
 
     /* arranque: espera la fuente (los sprites miden texto con Cormorant) */
@@ -448,18 +533,22 @@ export default function Cita() {
 
   return (
     <section ref={sectionRef} className="cita viñeta viñeta--oscura" id="cita" data-bar="dark" aria-label="Cita: diseñar antes de construir">
-      <canvas ref={canvasRef} className="cita__stage" aria-hidden="true" />
+      {/* el escenario de la tormenta: en escritorio cubre la sección;
+          en móvil es una pantalla casi completa propia y las cajas
+          pasan a leerse debajo, sin robarle espacio */}
+      <div className="cita__escenario">
+        <canvas ref={canvasRef} className="cita__stage" aria-hidden="true" />
+        <button ref={seedRef} className="seed idle" type="button"
+          aria-pressed={false}
+          aria-label="Diseñar: alternar entre caos y orden del sistema">
+          DISEÑAR
+        </button>
+      </div>
 
       <aside className="side side--l">
         <span className="side__label">El sistema emergente</span>
         <span className="side__text">{renderWords(TEXT_L)}</span>
       </aside>
-
-      <button ref={seedRef} className="seed idle" type="button"
-        aria-pressed={false}
-        aria-label="Diseñar: alternar entre caos y orden del sistema">
-        DISEÑAR
-      </button>
 
       <aside className="side side--r">
         <span className="side__label">La estructura concebida</span>
