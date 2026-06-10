@@ -44,12 +44,15 @@ export default function TopBar() {
       }
     };
     /* la franja del observer se ANCLA al centro de la barra: el evento
-       llega en el instante exacto del cruce, sin retardo perceptible */
+       llega en el instante exacto del cruce, sin retardo perceptible.
+       rootMargin solo admite px/% (sin calc): el borde inferior se
+       expresa en px contra la altura real del viewport. */
     const arm = () => {
       io?.disconnect();
       const y = Math.round(centro());
+      const abajo = window.innerHeight - (y + 1);
       io = new IntersectionObserver(decide, {
-        rootMargin: `${-(y - 1)}px 0px calc(-100% + ${y + 1}px) 0px`,
+        rootMargin: `${-(y - 1)}px 0px ${-abajo}px 0px`,
         threshold: 0,
       });
       sections.forEach((s) => io!.observe(s));
