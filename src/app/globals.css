@@ -167,11 +167,10 @@ a { color: inherit; text-decoration: none; }
   z-index: var(--z-topbar);
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: clamp(18px, 3vw, 30px) var(--gutter);
   cursor: default;
-  /* variables de tema (oscuro por defecto; .topbar--light las invierte) */
-  --bar-bg: var(--ink);
+  /* variables de tema (oscuro por defecto; .topbar--light las invierte).
+     SIN fondos: solo conmuta el color de tipografía y línea (rev. 2026-06-10) */
   --bar-fg-1: var(--on-dark-1);
   --bar-fg-2: var(--on-dark-2);
   --bar-fg-3: var(--on-dark-3);
@@ -179,7 +178,6 @@ a { color: inherit; text-decoration: none; }
   transition: padding .45s var(--ease-out) .12s;
 }
 .topbar--light {
-  --bar-bg: var(--white);
   --bar-fg-1: var(--ink);
   --bar-fg-2: #4A453F;
   --bar-fg-3: var(--on-light-2);
@@ -187,7 +185,6 @@ a { color: inherit; text-decoration: none; }
 }
 /* Con el índice abierto la barra vuelve a leerse sobre oscuro siempre */
 .topbar.nav-open {
-  --bar-bg: var(--ink);
   --bar-fg-1: var(--on-dark-1);
   --bar-fg-2: var(--on-dark-2);
   --bar-fg-3: var(--on-dark-3);
@@ -201,17 +198,17 @@ a { color: inherit; text-decoration: none; }
 .topbar.nav-open .topbar__cv { color: var(--bar-fg-3); }
 .topbar.nav-open .topbar__menu { color: var(--white); }
 
-.topbar__line {
-  position: absolute;
-  left: 0; right: 0; top: 50%;
+/* la línea vive POR TRAMOS en los huecos (nada que enmascarar ni tapar) */
+.topbar__gap {
+  flex: 1 1 0;
   height: 1px;
+  margin: 0 0.85rem;
+  align-self: center;
   background: var(--bar-line);
-  z-index: -1;
   transition: background var(--dur-med) ease;
 }
 .topbar__item {
-  background: var(--bar-bg);     /* enmascara la línea: queda en los huecos */
-  padding: 0 0.85rem;
+  padding: 0;
   font-family: var(--font-banner);
   font-size: var(--fs-meta);
   font-weight: 500;
@@ -219,27 +216,26 @@ a { color: inherit; text-decoration: none; }
   text-transform: uppercase;
   color: var(--bar-fg-2);
   white-space: nowrap;
-  transition: color var(--dur-med) ease-in-out, background var(--dur-med) ease,
+  transition: color var(--dur-med) ease-in-out,
               font-size .5s var(--ease-out), letter-spacing .5s var(--ease-out);
 }
-.topbar__name { padding-left: 0; letter-spacing: 0.12em; color: var(--bar-fg-1); }
+.topbar__name { letter-spacing: 0.12em; color: var(--bar-fg-1); }
 
-/* "2016—26": eje de tiempo que se enciende al abrir el índice.
-   En reposo el eje es invisible y la LÍNEA de la barra cruza el hueco
-   (separador); solo los números enmascaran la línea. */
+/* "2016—26": el grupo del eje de tiempo (sin fondos: nada enmascara) */
 .topbar__years {
   position: relative;
   display: inline-flex; align-items: center; gap: 0.7em;
-  background: transparent;
-  padding: 0;
+  font-family: var(--font-banner);
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bar-fg-2);
+  white-space: nowrap;
   transition: color var(--dur-slow) ease, letter-spacing var(--dur-slow) var(--ease-out),
-              transform var(--dur-slow) var(--ease-out);
+              transform var(--dur-slow) var(--ease-out),
+              font-size .5s var(--ease-out);
   transform-origin: center;
-}
-.topbar__years .years__lbl {
-  background: var(--bar-bg);
-  padding: 0 0.7rem;
-  transition: background var(--dur-med) ease;
 }
 .topbar.nav-open .topbar__years { color: var(--white); letter-spacing: 0.12em; transform: scale(1.14); }
 .years__lbl { font-variant-numeric: tabular-nums; transition: color var(--dur-med) ease; }
@@ -248,8 +244,7 @@ a { color: inherit; text-decoration: none; }
 .years__axis {
   position: relative; flex: none; display: inline-block;
   width: 16px; height: 18px;
-  background: var(--bar-bg);
-  transition: width .5s var(--ease-out), background var(--dur-med) ease;
+  transition: width .5s var(--ease-out);
 }
 .topbar.nav-open .years__axis { width: clamp(58px, 6vw, 124px); }
 .yx-line {
@@ -301,8 +296,8 @@ a { color: inherit; text-decoration: none; }
 .topbar__menu-wrap { position: relative; }
 .topbar__menu {
   position: relative;
-  background: var(--bar-bg);
-  padding: 0 0 0 0.85rem;
+  background: transparent;
+  padding: 0;
   border: 0;
   font-family: var(--font-banner);
   font-size: var(--fs-meta);
@@ -311,7 +306,7 @@ a { color: inherit; text-decoration: none; }
   text-transform: uppercase;
   color: var(--bar-fg-2);
   cursor: pointer;
-  transition: color var(--dur-med) ease-in-out, background var(--dur-med) ease,
+  transition: color var(--dur-med) ease-in-out,
               font-size .5s var(--ease-out), letter-spacing .5s var(--ease-out);
 }
 /* objetivo táctil §9 sin alterar la línea de la barra */
@@ -428,13 +423,14 @@ a { color: inherit; text-decoration: none; }
 
 /* ── Responsive topbar / navscreen ── */
 @media (max-width: 1024px) {
-  .topbar__item, .topbar__menu { font-size: 0.82rem; }
+  .topbar__item, .topbar__menu, .topbar__years { font-size: 0.82rem; }
   .topbar { padding-block: clamp(20px, 3.4vw, 30px); }
   .navscreen__list a { font-size: clamp(1.6rem, 5vw, 2.7rem); }
   .navscreen__inner { max-width: 760px; }
 }
 @media (max-width: 600px) {
-  .topbar__cv, .topbar__years { display: none; }
+  .topbar__cv, .topbar__years,
+  .topbar__gap--a, .topbar__gap--b { display: none; }   /* queda un solo tramo name—menú */
   .topbar__item, .topbar__menu { font-size: 0.92rem; letter-spacing: 0.1em; }
   .navscreen__inner {
     justify-content: flex-start;

@@ -30,7 +30,9 @@ export default function TopBar() {
     const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-bar]"));
     if (!sections.length) return;
     const decide = () => {
-      const y = 48; /* punto bajo la línea de la barra */
+      /* el tema conmuta cuando la frontera cruza el CENTRO de la barra:
+         minimiza el tramo a caballo entre dos fondos */
+      const y = (document.querySelector(".topbar")?.getBoundingClientRect().height ?? 80) / 2;
       for (const s of sections) {
         const r = s.getBoundingClientRect();
         if (r.top <= y && r.bottom > y) {
@@ -68,14 +70,17 @@ export default function TopBar() {
 
   return (
     <>
+      {/* sin fondos: la línea se dibuja POR TRAMOS en los huecos — nada
+          tapa el contenido que pasa por debajo (peonza, tormenta) */}
       <header
         className={`topbar ${light && !open ? "topbar--light" : ""} ${open ? "nav-open" : ""}`}
         aria-label="Barra de navegación"
       >
-        <span className="topbar__line" aria-hidden="true" />
         <span className="topbar__item topbar__name">Marc Sola Bel</span>
+        <span className="topbar__gap topbar__gap--a" aria-hidden="true" />
         <span className="topbar__item topbar__cv">CV</span>
-        <span className="topbar__item topbar__years">
+        <span className="topbar__gap topbar__gap--b" aria-hidden="true" />
+        <span className="topbar__years">
           <span className="years__lbl">2016</span>
           <span className="years__axis" aria-hidden="true">
             <span className="yx-line" />
@@ -84,6 +89,7 @@ export default function TopBar() {
           </span>
           <span className="years__lbl">26</span>
         </span>
+        <span className="topbar__gap topbar__gap--c" aria-hidden="true" />
         <div className="topbar__menu-wrap">
           <button
             className="topbar__menu"

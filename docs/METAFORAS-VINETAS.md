@@ -187,6 +187,20 @@ tormenta desenfrenada del concepto, y que en móvil el reloj seguía asfixiado.
    los tokens; las composiciones editorial/elevada retiradas del código.
    window.__cita queda como contrato de auditoría sin UI.
 
+## Topbar sin fondos (2026-06-10, cuarta pasada — propuesta de Marc)
+
+El conmutador claro/oscuro seguía "fallando": el diagnóstico real es que
+los PARCHES de fondo de los items (que enmascaraban la línea continua)
+tapaban contenido (peonza, tormenta) y delataban cualquier instante a
+caballo entre secciones. El consejo evaluó `mix-blend-mode: difference`
+(perfección píxel a píxel) y lo descartó: sobre el terracota omnipresente
+produce texto azul cian — el complementario exacto, un color ajeno al
+sistema. Ganó la propuesta de Marc refinada: **sin fondos** — la línea se
+dibuja POR TRAMOS en los huecos entre elementos (idioma Yann Novak
+intacto), solo conmuta el color de tipografía/línea, y el cambio ocurre
+cuando la frontera cruza el CENTRO de la barra. Verificado: 6/6 fronteras
+y la barra limpia sobre la tormenta en móvil.
+
 ## Decisiones de integración transversales (registro)
 
 1. **Oswald como tercera familia** (--font-banner): la traen los HTML vivos
