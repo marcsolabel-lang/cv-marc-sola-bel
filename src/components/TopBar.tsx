@@ -33,20 +33,30 @@ export default function TopBar() {
   const [open, setOpen] = useState(false);
   const [light, setLight] = useState(false);
 
-  /* Tema adaptable: una franja fina bajo la barra decide claro/oscuro */
+  /* Tema adaptable: en cada disparo se RECALCULA qué sección cruza la
+     barra (geometría real, no el último evento — el orden de entries en
+     scroll rápido producía temas desfasados) */
   useEffect(() => {
     const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-bar]"));
     if (!sections.length) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) setLight(e.target.getAttribute("data-bar") === "light");
+    const decide = () => {
+      const y = 48; /* punto bajo la línea de la barra */
+      for (const s of sections) {
+        const r = s.getBoundingClientRect();
+        if (r.top <= y && r.bottom > y) {
+          setLight(s.getAttribute("data-bar") === "light");
+          return;
         }
-      },
-      { rootMargin: "-1% 0px -97% 0px", threshold: 0 }
-    );
+      }
+    };
+    const io = new IntersectionObserver(decide, { rootMargin: "-1% 0px -96% 0px", threshold: 0 });
     sections.forEach((s) => io.observe(s));
-    return () => io.disconnect();
+    window.addEventListener("resize", decide);
+    decide();
+    return () => {
+      io.disconnect();
+      window.removeEventListener("resize", decide);
+    };
   }, []);
 
   useEffect(() => {

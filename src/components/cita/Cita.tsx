@@ -278,8 +278,8 @@ export default function Cita() {
     const resize = () => {
       W = canvas.clientWidth; H = canvas.clientHeight;
       canvas.width = Math.round(W * DPR); canvas.height = Math.round(H * DPR);
-      /* colchón reducido: el reloj gana presencia entre las cajas */
-      const cushion = Math.max(0.02 * Math.min(W, H), 24);
+      /* colchón mínimo: el conjunto pesa en el escenario */
+      const cushion = Math.max(0.015 * Math.min(W, H), 20);
       const pe = CAM / (CAM - RAD);
       S = Math.min((W / 2 - cushion) / (RAD * pe), (H / 2 - cushion) / (HY * VY * pe));
       cx = W / 2; cy = H / 2;
@@ -295,7 +295,8 @@ export default function Cita() {
       const persp = CAM / (CAM - Z2);
       return { sx: cx + X * persp * S, sy: cy - Y2 * persp * S, depth: Z2, persp };
     }
-    const baseFont = (persp: number, size: number) => Math.max(8, S * 0.072 * persp * size);
+    /* masa de la palabra: el conjunto tornado/reloj pesa (DISEÑAR no cambia) */
+    const baseFont = (persp: number, size: number) => Math.max(9, S * 0.082 * persp * size);
 
     let mx = -1e4, my = -1e4;
     function draw() {
@@ -312,8 +313,8 @@ export default function Cita() {
         const d = (pr.depth + 1) / 2;
         const col = s.white ? "#FFFFFF" : accent;
         if (col !== curColor) { ctx.fillStyle = col; curColor = col; }
-        ctx.globalAlpha = tornado ? (0.14 + d * 0.5) : (0.40 + d * 0.45);
-        const rad = Math.max(0.5, S * 0.0032 * pr.persp * s.size);
+        ctx.globalAlpha = tornado ? (0.18 + d * 0.55) : (0.44 + d * 0.45);
+        const rad = Math.max(0.6, S * 0.0039 * pr.persp * s.size);
         ctx.fillRect(pr.sx - rad, pr.sy - rad, rad * 2, rad * 2);
       }
 
@@ -338,7 +339,7 @@ export default function Cita() {
         const d = (it.depth + 1) / 2, fs = baseFont(it.persp, it.p.size);
         const spr = it.p.lit ? spriteWhite : spriteAccent;
         const sc = fs / spr.ref;
-        ctx.globalAlpha = 0.30 + d * 0.70;
+        ctx.globalAlpha = 0.38 + d * 0.62;
         ctx.save();
         ctx.translate(it.sx, it.sy);
         ctx.rotate(it.p.rot * (tornado ? 1 : 0.5));

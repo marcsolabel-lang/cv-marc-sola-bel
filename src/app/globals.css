@@ -231,23 +231,27 @@ a { color: inherit; text-decoration: none; }
   padding: 0 0.7rem;
   transition: background var(--dur-med) ease;
 }
-/* con el índice abierto, el eje activo enmascara la línea bajo el sparkline */
-.topbar.nav-open .years__axis { background: var(--bar-bg); }
 .topbar.nav-open .topbar__years { color: var(--white); letter-spacing: 0.12em; transform: scale(1.14); }
 .years__lbl { font-variant-numeric: tabular-nums; transition: color var(--dur-med) ease; }
+/* En reposo, el eje es un GUIÓN compacto ("2016—26"); al abrir el índice
+   se estira y despliega la década en terracota. El guión ES el eje dormido. */
 .years__axis {
   position: relative; flex: none; display: inline-block;
-  width: clamp(58px, 6vw, 124px); height: 18px;
-  opacity: 0; transition: opacity var(--dur-med) ease .12s;
+  width: 16px; height: 18px;
+  background: var(--bar-bg);
+  transition: width .5s var(--ease-out), background var(--dur-med) ease;
 }
-.topbar.nav-open .years__axis { opacity: 1; }
+.topbar.nav-open .years__axis { width: clamp(58px, 6vw, 124px); }
 .yx-line {
-  position: absolute; left: 0; right: 7px; bottom: 4px; height: 3px; border-radius: 1.5px;
-  background: var(--terracotta);
-  transform: scaleX(0); transform-origin: left center;
-  transition: transform .8s var(--ease-out) .2s;
+  position: absolute; left: 0; right: 0; bottom: 8px; height: 2px; border-radius: 1px;
+  background: var(--bar-fg-2);
+  transition: background .4s ease, bottom .5s var(--ease-out),
+              right .5s var(--ease-out), height .3s ease;
 }
-.topbar.nav-open .yx-line { transform: scaleX(1); }
+.topbar.nav-open .yx-line {
+  background: var(--terracotta);
+  right: 7px; bottom: 4px; height: 3px; border-radius: 1.5px;
+}
 .yx-ticks {
   position: absolute; left: 0; right: 7px; bottom: 6px; height: 12px;
   display: flex; justify-content: space-between; align-items: flex-end;
@@ -279,7 +283,7 @@ a { color: inherit; text-decoration: none; }
 }
 .topbar.nav-open .yx-dot { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
-  .topbar.nav-open .yx-line { transition: none; transform: scaleX(1); }
+  .years__axis, .yx-line { transition: none; }
   .topbar.nav-open .yx-ticks i { transition: none; opacity: 0.78; transform: none; }
   .topbar.nav-open .yx-dot { transition: none; opacity: 1; transform: none; }
 }
@@ -467,8 +471,15 @@ a { color: inherit; text-decoration: none; }
   cursor: pointer;
   transition: color var(--dur-med) ease-in-out, border-color var(--dur-med) ease;
 }
+/* discreto hasta que se busca: es herramienta de diseño, no contenido */
+.tweaks__toggle { opacity: 0.45; }
 .tweaks__toggle:hover,
-.tweaks__toggle[aria-expanded="true"] { color: var(--white); border-color: rgba(255,255,255,0.4); }
+.tweaks__toggle:focus-visible,
+.tweaks__toggle[aria-expanded="true"] {
+  opacity: 1;
+  color: var(--white);
+  border-color: rgba(255,255,255,0.4);
+}
 .tweaks__panel {
   position: absolute;
   right: 0; bottom: calc(100% + 10px);
