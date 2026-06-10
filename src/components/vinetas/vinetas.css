@@ -51,11 +51,30 @@
   object-fit: cover;
   object-position: center 28%;
   filter: grayscale(1);                      /* §5 hover notable: b/n → color */
-  transition: filter var(--dur-slow) ease-in-out, transform 600ms var(--ease-out);
+  transition: filter var(--dur-slow) ease-in-out, transform 650ms var(--ease-out);
 }
-.foto3d:hover .foto-marco img {
+/* el sujeto recortado: alineado al fondo en reposo; plano cercano */
+.foto-marco__sujeto {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transform: translateZ(18px);
+  /* puede sobresalir SOLO por arriba (pop-out); lados y base, a ras */
+  clip-path: inset(-22% 0% 0% 0%);
+  pointer-events: none;
+}
+.foto-marco__img--sujeto {
+  transform-origin: 50% 26%;                 /* el zoom nace en el rostro */
+}
+/* AL CONTACTO: el fondo se hunde (zoom suave + desenfoque) y el sujeto
+   se despega — plano medio → primer plano */
+.foto3d:hover .foto-marco__clip img {
+  filter: blur(2.5px);
+  transform: scale(1.18);
+}
+.foto3d:hover .foto-marco__img--sujeto {
   filter: none;
-  transform: scale(1.03);
+  transform: scale(1.45);
 }
 .fcorner {
   position: absolute;
@@ -71,7 +90,8 @@
 @media (prefers-reduced-motion: reduce) {
   .foto-marco { transform: none; transition: box-shadow var(--dur-slow) ease; }
   .foto-marco img { transition: filter var(--dur-slow) ease-in-out; }
-  .foto3d:hover .foto-marco img { transform: none; }
+  .foto3d:hover .foto-marco__clip img { transform: none; filter: none; }
+  .foto3d:hover .foto-marco__img--sujeto { transform: none; }
 }
 
 /* El árbol de convergencia: tronco + ramas a 45° + nodos rombo */

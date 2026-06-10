@@ -59,6 +59,18 @@ export default function FotoPerfil() {
             className="foto-marco__img"
           />
         </span>
+        {/* el sujeto recortado: al contacto se despega del fondo y
+            sobresale del marco por arriba (recorte: scripts/recortar-perfil.mjs;
+            regenerar con la fotografía definitiva) */}
+        <span className="foto-marco__sujeto" aria-hidden="true">
+          <Image
+            src="/foto-perfil-cut.png"
+            alt=""
+            fill
+            sizes="(max-width: 820px) 240px, 300px"
+            className="foto-marco__img foto-marco__img--sujeto"
+          />
+        </span>
       </figure>
     </div>
   );

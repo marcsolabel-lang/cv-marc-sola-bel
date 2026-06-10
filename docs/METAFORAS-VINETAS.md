@@ -215,6 +215,20 @@ también a blanco pleno. Además: el conmutador de la topbar ahora ancla
 la franja del observer al centro real de la barra (cambio en el instante
 exacto del cruce) y la transición de color baja a 150 ms.
 
+## Foto de perfil — pop-out (2026-06-10, prototipo a validar)
+
+Sobre la foto provisional (frontal, camisa blanca — elegida por mirada a
+cámara, registro de candidatura y fondo afín al terracota): al contacto,
+el fondo se hunde (zoom 1.18 + blur 2.5px) y el SUJETO SE DESPEGA (zoom
+a primer plano 1.45 con origen en el rostro), sobresaliendo del marco
+solo por arriba. Dos capas alineadas (foto + recorte PNG con alpha)
+sobre el tilt 3D existente. El recorte se genera con
+`scripts/recortar-perfil.mjs` (crecimiento de región con escudo central;
+borde calidad prototipo — el residuo junto a la silueta cae sobre el
+mismo fondo de la base y el blur lo funde). **Pendiente**: fotografía
+definitiva pensada para el efecto (plano americano, fondo liso
+contrastado con la piel, luz lateral) — re-ejecutar el script y listo.
+
 ## Decisiones de integración transversales (registro)
 
 1. **Oswald como tercera familia** (--font-banner): la traen los HTML vivos
