@@ -133,7 +133,18 @@ Dirección de una asociación cultural — 2017–2021. Dirigí durante cuatro a
 cultural sin ánimo de lucro de más de 70 miembros: coordinación de personas, organización de
 actividades y sostenibilidad de un proyecto colectivo a lo largo del tiempo.
 
-CROWN PLANNER (proyecto destacado / clímax)
+ATLAS (proyecto destacado / clímax) — REVISIÓN 2026-06-10
+Crown Planner evolucionó a ATLAS: motor de planificación del servicio técnico con
+cuatro módulos en uso (diaria, mensual, anual, asignación CAT), equidad por horas
+reales calibrada con datos, tiers de prioridad operativa (emergencia → urgente →
+antigüedad → revisión), memoria de flota (~4.500 máquinas) y resultados validados en
+simulador (~1.500 máquinas: −26% desequilibrio, −38% km, −47% carga pico, <200 ms).
+La viñeta usa RECREACIONES en HTML vivo con la identidad control-tower de Atlas y
+datos 100% INVENTADOS (cero información operativa de Crown Lift Trucks, cero datos
+personales). La lupa sobre capturas reales volverá cuando exista el perfil visitante
+de la demo. El bloque siguiente se conserva como registro del origen:
+
+CROWN PLANNER (texto original v3)
 Crown Planner — Sistema de asignación inteligente de órdenes de servicio. Prototipo
 conceptual, diseñado y construido en solitario.
 - El problema: la asignación de órdenes a técnicos se hacía a mano, dependía del criterio

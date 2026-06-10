@@ -39,7 +39,7 @@ const ROLES = [
         intervenciones; asignación de trabajo, comunicación del equipo y
         seguimiento contable. Por iniciativa propia{" "}
         <strong>diseñé un sistema de asignación inteligente de órdenes</strong>{" "}
-        (<a href="#proyecto">ver Crown Planner</a>).
+        (<a href="#proyecto">ver Atlas</a>).
       </>
     ),
   },

@@ -229,6 +229,26 @@ mismo fondo de la base y el blur lo funde). **Pendiente**: fotografía
 definitiva pensada para el efecto (plano americano, fondo liso
 contrastado con la piel, luz lateral) — re-ejecutar el script y listo.
 
+## Crown Planner → ATLAS (2026-06-10, sexta pasada)
+
+La app real evolucionó mucho más allá del prototipo (repo crown-planner:
+motor de equidad por horas calibrado, 4 módulos, optimización GAP, memoria
+de flota, tiers de emergencia, control-tower UI). La viñeta se renombra a
+ATLAS y se re-narra en 8 slides: problema · solución (asignación en vivo) ·
+motor de equidad · prioridad real · cuatro módulos · memoria · resultados
+del simulador (−26% desequilibrio, −38% km, −47% carga pico, <200 ms,
+~1.500 máquinas) · la prueba.
+
+**Decisión del consejo — recreaciones, no capturas**: las capturas reales
+contienen nombres de técnicos, clientes y zonas (sanearlas a píxel es
+arriesgado y a tamaño slide se vuelven ilegibles). Se recrean las pantallas
+clave como mini-UI en HTML vivo con la identidad control-tower de Atlas
+(crema, cards, sello naranja ≈ terracota del CV) y datos 100% INVENTADOS
+desde el origen. Los KPIs se presentan como lo que son: cifras del
+simulador, no de la operación real. La lupa del §6.7 se reactivará con las
+capturas del perfil visitante que preparará Marc. El índice pasa de
+"Proyecto" a "Atlas"; Experiencia enlaza "(ver Atlas)".
+
 ## Decisiones de integración transversales (registro)
 
 1. **Oswald como tercera familia** (--font-banner): la traen los HTML vivos

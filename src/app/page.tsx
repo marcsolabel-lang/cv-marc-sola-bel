@@ -5,7 +5,7 @@ import SobreMi from "@/components/vinetas/SobreMi";
 import Formacion from "@/components/vinetas/Formacion";
 import Experiencia from "@/components/vinetas/Experiencia";
 import Liderazgo from "@/components/vinetas/Liderazgo";
-import CrownPlanner from "@/components/vinetas/CrownPlanner";
+import Atlas from "@/components/vinetas/Atlas";
 import Contacto from "@/components/vinetas/Contacto";
 
 /* CV de una página (doc-A v3 §2, orden revisado 2026-06-10) — ritmo
@@ -23,7 +23,7 @@ export default function CVPage() {
         <Formacion />
         <Experiencia />
         <Liderazgo />
-        <CrownPlanner />
+        <Atlas />
         <Contacto />
       </main>
     </>

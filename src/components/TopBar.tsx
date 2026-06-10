@@ -15,7 +15,7 @@ const ENTRIES = [
   { href: "#formacion",   num: "04", label: "Formación",   glifo: "formacion" },
   { href: "#experiencia", num: "05", label: "Experiencia", glifo: "experiencia" },
   { href: "#liderazgo",   num: "06", label: "Liderazgo",   glifo: "liderazgo" },
-  { href: "#proyecto",    num: "07", label: "Proyecto",    glifo: "proyecto" },
+  { href: "#proyecto",    num: "07", label: "Atlas",       glifo: "proyecto" },
   { href: "#contacto",    num: "08", label: "Contacto",    glifo: "contacto" },
 ];
 
