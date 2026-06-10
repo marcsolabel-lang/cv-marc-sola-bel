@@ -119,26 +119,32 @@ export default function SobreMi() {
 
           <div className="sobremi__text">
             <p>
-              Llevo una década resolviendo problemas en contextos muy distintos:
-              comunicación audiovisual, ventas B2B, dirección comercial y, ahora,
-              coordinación de equipo y automatización de procesos. Ese recorrido
-              variado tiene un hilo constante — pienso en sistemas. Descompongo un
-              problema en sus piezas, entiendo cómo encajan y diseño la solución.
+              Llevo <strong>una década resolviendo problemas</strong> en contextos
+              muy distintos: comunicación audiovisual, ventas B2B, dirección
+              comercial y, ahora, coordinación de equipo y automatización de
+              procesos. Ese recorrido variado tiene un hilo constante —{" "}
+              <strong>pienso en sistemas</strong>. Descompongo un problema en sus
+              piezas, entiendo cómo encajan y <strong>diseño la solución</strong>.
             </p>
             <p>
-              Hoy coordino un equipo técnico, y he aprendido que liderar no es
-              repartir tareas: es leer dónde hay fricción, mantener la comunicación
-              clara y cuidar la carga de cada persona. Detecto pronto cuándo algo no
-              fluye y me centro en resolverlo, porque me importa de verdad que el
-              problema se solucione, no solo que quede registrado.
+              Hoy <strong>coordino un equipo técnico</strong>, y he aprendido que
+              liderar no es repartir tareas: es leer dónde hay fricción, mantener
+              la comunicación clara y cuidar la carga de cada persona. Detecto
+              pronto cuándo algo no fluye y me centro en resolverlo, porque{" "}
+              <strong>me importa de verdad que el problema se solucione</strong>,
+              no solo que quede registrado.
             </p>
             <p>
-              Esa misma lógica me llevó a la automatización con IA. Diseño el
-              sistema, oriento herramientas como Claude y construyo soluciones que
+              Esa misma lógica me llevó a la{" "}
+              <strong>automatización con IA</strong>. Diseño el sistema, oriento
+              herramientas como Claude y <strong>construyo soluciones</strong> que
               quitan el trabajo mecánico para que las personas se dediquen a lo que
-              de verdad aporta. No vengo del código — vengo del{" "}
-              <span className="fire">problema</span>. Y cada vez me obsesiona más
-              construir la herramienta que lo resuelve.
+              de verdad aporta. No vengo del código —{" "}
+              <strong>
+                vengo del <span className="fire">problema</span>
+              </strong>
+              . Y cada vez me obsesiona más construir la herramienta que lo
+              resuelve.
             </p>
           </div>
         </div>

@@ -35,9 +35,10 @@ export default function Liderazgo() {
               <small>miembros</small>
             </p>
             <p className="lid__frase">
-              Dirigí durante cuatro años una asociación cultural sin ánimo de
-              lucro de más de 70 miembros: coordinación de personas, organización
-              de actividades y sostenibilidad de un proyecto colectivo a lo largo
+              Dirigí durante <strong>cuatro años</strong> una asociación cultural
+              sin ánimo de lucro de <strong>más de 70 miembros</strong>:{" "}
+              <strong>coordinación de personas</strong>, organización de
+              actividades y sostenibilidad de un proyecto colectivo a lo largo
               del tiempo.
             </p>
             <span className="lid__meta">

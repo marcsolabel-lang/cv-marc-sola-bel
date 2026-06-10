@@ -21,9 +21,9 @@ const ROLES = [
     logo: { id: "propio", text: "◆" },
     desc: (
       <>
-        Nicho con análisis de datos, automatización con IA, pricing y canal.
-        Entorno donde aplico las mismas capacidades que desarrollo
-        profesionalmente.
+        Nicho con análisis de datos, <strong>automatización con IA</strong>,
+        pricing y canal. Entorno donde aplico las mismas capacidades que
+        desarrollo profesionalmente, <strong>de principio a fin</strong>.
       </>
     ),
   },
@@ -35,10 +35,11 @@ const ROLES = [
     logo: { id: "crown", text: "CR" },
     desc: (
       <>
-        Coordino un equipo técnico y la planificación de sus intervenciones;
-        asignación de trabajo, comunicación del equipo y seguimiento contable.
-        Por iniciativa propia diseñé un sistema de asignación inteligente de
-        órdenes (<a href="#proyecto">ver Crown Planner</a>).
+        <strong>Coordino un equipo técnico</strong> y la planificación de sus
+        intervenciones; asignación de trabajo, comunicación del equipo y
+        seguimiento contable. Por iniciativa propia{" "}
+        <strong>diseñé un sistema de asignación inteligente de órdenes</strong>{" "}
+        (<a href="#proyecto">ver Crown Planner</a>).
       </>
     ),
   },
@@ -51,8 +52,11 @@ const ROLES = [
     desc: (
       <>
         Ventas y postventa de cartera B2B, contenido web, apoyo a marketing
-        audiovisual, estrategia comercial y contabilidad. Superé los 2 M€ en
-        ventas liderando la estrategia con clientes.
+        audiovisual, <strong>estrategia comercial</strong> y contabilidad.{" "}
+        <strong>
+          Superé los <span className="fire">2 M€</span> en ventas
+        </strong>{" "}
+        liderando la estrategia con clientes.
       </>
     ),
   },

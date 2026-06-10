@@ -201,6 +201,20 @@ intacto), solo conmuta el color de tipografía/línea, y el cambio ocurre
 cuando la frontera cruza el CENTRO de la barra. Verificado: 6/6 fronteras
 y la barra limpia sobre la tormenta en móvil.
 
+## Destacados de lectura rápida (2026-06-10, quinta pasada)
+
+Marc pidió destacar las palabras clave para comprensión inmediata,
+valorando negrita vs terracota interactivo. El consejo: **negrita
+estática (peso 600)** — el escaneo no puede depender del hover, y el
+terracota sigue reservado al hilo vector (§5: si todo enciende, el color
+deja de narrar). Única excepción amparada por la regla de datos-ancla:
+«2 M€» gana el encendido al hover además de la negrita. Selección
+editorial conservadora (2-3 por párrafo) en Sobre mí, Formación,
+Experiencia, Liderazgo y slides del Crown; sobre oscuro el strong sube
+también a blanco pleno. Además: el conmutador de la topbar ahora ancla
+la franja del observer al centro real de la barra (cambio en el instante
+exacto del cruce) y la transición de color baja a 150 ms.
+
 ## Decisiones de integración transversales (registro)
 
 1. **Oswald como tercera familia** (--font-banner): la traen los HTML vivos

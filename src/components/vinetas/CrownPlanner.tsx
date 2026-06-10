@@ -22,13 +22,25 @@ const SLIDES: Slide[] = [
   {
     kicker: "El problema",
     title: "La asignación de órdenes se hacía a mano.",
-    text: "Dependía del criterio del coordinador y el desequilibrio de carga no se veía hasta que daba problemas.",
+    text: (
+      <>
+        Dependía del criterio del coordinador y el{" "}
+        <strong>desequilibrio de carga</strong> no se veía hasta que daba
+        problemas.
+      </>
+    ),
     shot: true,
   },
   {
     kicker: "La solución",
     title: "El sistema distribuye automáticamente las órdenes del día.",
-    text: "Lee el informe del ERP, propone una asignación equilibrada, marca los casos sin cobertura y prepara el aviso.",
+    text: (
+      <>
+        Lee el informe del ERP, propone una{" "}
+        <strong>asignación equilibrada</strong>, marca los{" "}
+        <strong>casos sin cobertura</strong> y prepara el aviso.
+      </>
+    ),
     shot: true,
   },
   {
@@ -56,11 +68,11 @@ const SLIDES: Slide[] = [
     title: "Diseñado y construido en solitario, sin ser programador.",
     text: (
       <>
-        Diseñé la lógica y la materialicé orquestando{" "}
+        <strong>Diseñé la lógica</strong> y la materialicé orquestando{" "}
         <span className="fire">IA</span> (Claude, entre otras) sobre datos en
-        Excel. Prototipo funcional de principio a fin: detectar un problema
-        operativo, diseñar el sistema que lo resuelve y construirlo con las
-        herramientas disponibles, sin esperar a que alguien lo programe.
+        Excel. <strong>Prototipo funcional de principio a fin</strong>: detectar
+        un problema operativo, diseñar el sistema que lo resuelve y construirlo
+        con las herramientas disponibles, sin esperar a que alguien lo programe.
       </>
     ),
     final: true,

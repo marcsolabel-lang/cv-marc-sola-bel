@@ -29,10 +29,12 @@ export default function TopBar() {
   useEffect(() => {
     const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-bar]"));
     if (!sections.length) return;
+    let io: IntersectionObserver | undefined;
+    const centro = () =>
+      (document.querySelector(".topbar")?.getBoundingClientRect().height ?? 80) / 2;
     const decide = () => {
-      /* el tema conmuta cuando la frontera cruza el CENTRO de la barra:
-         minimiza el tramo a caballo entre dos fondos */
-      const y = (document.querySelector(".topbar")?.getBoundingClientRect().height ?? 80) / 2;
+      /* el tema conmuta cuando la frontera cruza el CENTRO de la barra */
+      const y = centro();
       for (const s of sections) {
         const r = s.getBoundingClientRect();
         if (r.top <= y && r.bottom > y) {
@@ -41,13 +43,24 @@ export default function TopBar() {
         }
       }
     };
-    const io = new IntersectionObserver(decide, { rootMargin: "-1% 0px -96% 0px", threshold: 0 });
-    sections.forEach((s) => io.observe(s));
-    window.addEventListener("resize", decide);
-    decide();
+    /* la franja del observer se ANCLA al centro de la barra: el evento
+       llega en el instante exacto del cruce, sin retardo perceptible */
+    const arm = () => {
+      io?.disconnect();
+      const y = Math.round(centro());
+      io = new IntersectionObserver(decide, {
+        rootMargin: `${-(y - 1)}px 0px calc(-100% + ${y + 1}px) 0px`,
+        threshold: 0,
+      });
+      sections.forEach((s) => io!.observe(s));
+      decide();
+    };
+    const onResize = () => arm();
+    arm();
+    window.addEventListener("resize", onResize);
     return () => {
-      io.disconnect();
-      window.removeEventListener("resize", decide);
+      io?.disconnect();
+      window.removeEventListener("resize", onResize);
     };
   }, []);
 
