@@ -118,10 +118,14 @@
     position: absolute; left: 50%; right: auto; top: auto;
     transform: translateX(-50%); transform-origin: center;
     width: min(88vw, 460px); max-width: none;
+    /* apiladas arriba/abajo: altura de CONTENIDO — el min-height de
+       escritorio se comía el escenario del reloj en móvil */
+    min-height: 0;
+    padding: clamp(16px, 4vw, 24px) clamp(18px, 4.5vw, 28px);
     font-size: 1.16rem; line-height: 1.55;
     background: rgba(10,10,10,0.84);
   }
-  .side--l { top: clamp(14px, 3.5vw, 28px); }
+  .side--l { top: clamp(78px, 11vh, 100px); }   /* despeja la topbar fija */
   .side--r { bottom: clamp(14px, 3.5vw, 28px); }
   .side--r .side__label { text-align: left; }
   .side--r .w { margin-right: 0.44em; margin-left: 0; }

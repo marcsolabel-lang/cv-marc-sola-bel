@@ -446,6 +446,11 @@ a { color: inherit; text-decoration: none; }
   z-index: var(--z-tweaks);
   font-family: var(--font-banner);
 }
+/* herramienta de exploración (Marc): en pantallas pequeñas tapa
+   contenido (pisaba la caja inferior de la Cita) — solo escritorio */
+@media (max-width: 600px) {
+  .tweaks { display: none; }
+}
 .tweaks__toggle {
   border: 1px solid var(--hairline);
   background: rgba(10, 10, 10, 0.82);
