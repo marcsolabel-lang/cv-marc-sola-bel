@@ -15,56 +15,63 @@
   align-items: start;
 }
 
-/* Marco técnico de la foto de perfil (asset pendiente; §6.3/§7).
-   Mismo idioma de esquinas que el CTA del email. Hover b/n→color listo. */
+/* Marco técnico de la foto de perfil (§6.3/§7) — objeto con PROFUNDIDAD:
+   tilt 3D al cursor, esquinas flotando en un plano más cercano (parallax
+   interno) y b/n → color al acercarse. Mismo idioma de esquinas que el CTA. */
+.foto3d {
+  max-width: 300px;
+  margin: 0 0 clamp(2.2rem, 4.5vh, 3rem);
+  perspective: 900px;
+}
 .foto-marco {
   position: relative;
-  margin: 0 0 clamp(2.2rem, 4.5vh, 3rem);
-  max-width: 300px;
+  margin: 0;
   aspect-ratio: 4 / 5;
   background:
     repeating-linear-gradient(0deg,  rgba(192, 84, 42, 0.05) 0 1px, transparent 1px 22px),
     repeating-linear-gradient(90deg, rgba(192, 84, 42, 0.05) 0 1px, transparent 1px 22px),
     #FAF8F6;
-  display: grid;
-  place-items: center;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 200ms var(--ease-out), box-shadow var(--dur-slow) ease;
+  box-shadow: 0 14px 34px -16px rgba(10, 10, 10, 0.3);
+  will-change: transform;
+}
+.foto3d:hover .foto-marco {
+  box-shadow: 0 26px 52px -20px rgba(10, 10, 10, 0.42);
+}
+/* el recorte vive en una capa interior: las esquinas flotan libres */
+.foto-marco__clip {
+  position: absolute;
+  inset: 0;
   overflow: hidden;
+  transform: translateZ(0);
 }
 .foto-marco img {
-  width: 100%; height: 100%;
   object-fit: cover;
+  object-position: center 28%;
   filter: grayscale(1);                      /* §5 hover notable: b/n → color */
-  transition: filter var(--dur-slow) ease-in-out;
+  transition: filter var(--dur-slow) ease-in-out, transform 600ms var(--ease-out);
 }
-.foto-marco:hover img { filter: none; }
+.foto3d:hover .foto-marco img {
+  filter: none;
+  transform: scale(1.03);
+}
 .fcorner {
   position: absolute;
   width: 16px; height: 16px;
   border: 0 solid var(--terracotta);
   z-index: 1;
+  transform: translateZ(26px);               /* plano cercano: parallax al girar */
 }
 .fcorner--tl { top: 0; left: 0; border-top-width: 2px; border-left-width: 2px; }
 .fcorner--tr { top: 0; right: 0; border-top-width: 2px; border-right-width: 2px; }
 .fcorner--bl { bottom: 0; left: 0; border-bottom-width: 2px; border-left-width: 2px; }
 .fcorner--br { bottom: 0; right: 0; border-bottom-width: 2px; border-right-width: 2px; }
-.foto-marco__hint {
-  display: grid;
-  justify-items: center;
-  gap: 0.8rem;
-  text-align: center;
-  margin: 0;
-}
-.foto-marco__hint svg { width: 44px; height: 44px; }
-.foto-marco__hint svg :is(circle, path) {
-  fill: none; stroke: var(--terracotta); stroke-width: 1.5; stroke-linecap: round;
-}
-.foto-marco__hint small {
-  font-family: var(--font-banner);
-  font-size: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--on-light-2);
+@media (prefers-reduced-motion: reduce) {
+  .foto-marco { transform: none; transition: box-shadow var(--dur-slow) ease; }
+  .foto-marco img { transition: filter var(--dur-slow) ease-in-out; }
+  .foto3d:hover .foto-marco img { transform: none; }
 }
 
 /* El árbol de convergencia: tronco + ramas a 45° + nodos rombo */
@@ -154,7 +161,7 @@
 .sobremi__text p:last-child { margin-bottom: 0; }
 @media (max-width: 820px) {
   .sobremi__grid { grid-template-columns: 1fr; row-gap: 2.6rem; }
-  .foto-marco { max-width: 240px; }
+  .foto3d { max-width: 240px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .arbol__tronco, .arbol__rama { stroke-dashoffset: 0; transition: none; }

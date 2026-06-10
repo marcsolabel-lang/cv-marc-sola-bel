@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useInViewOnce } from "../useInViewOnce";
 import { GLIFOS } from "../glifos";
+import FotoPerfil from "./FotoPerfil";
 import "./vinetas.css";
 
 /* SOBRE MÍ (§6.3 · credibilidad, contenida) — metáfora: EL HILO CONSTANTE
@@ -68,21 +69,7 @@ export default function SobreMi() {
         </h2>
         <div className="sobremi__grid">
           <div className="sobremi__col">
-            {/* marco de la foto de perfil — colgar la imagen aquí:
-                <img src="/foto-perfil.jpg" alt="Marc Sola Bel" /> */}
-            <figure className="foto-marco" data-slot="foto-perfil">
-              <span className="fcorner fcorner--tl" aria-hidden="true" />
-              <span className="fcorner fcorner--tr" aria-hidden="true" />
-              <span className="fcorner fcorner--bl" aria-hidden="true" />
-              <span className="fcorner fcorner--br" aria-hidden="true" />
-              <figcaption className="foto-marco__hint" aria-hidden="true">
-                <svg viewBox="0 0 32 32">
-                  <circle cx="16" cy="11.5" r="5.5" />
-                  <path d="M5 28 C5 20.5 27 20.5 27 28" />
-                </svg>
-                <small>Fotografía — pendiente</small>
-              </figcaption>
-            </figure>
+            <FotoPerfil />
 
             <div ref={ref} className={`arbol ${inView ? "in" : ""}`}>
               {geo && (
