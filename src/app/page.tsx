@@ -1,5 +1,4 @@
 import TopBar from "@/components/TopBar";
-import TweaksHost from "@/components/TweaksHost";
 import Hero from "@/components/hero/Hero";
 import Cita from "@/components/cita/Cita";
 import SobreMi from "@/components/vinetas/SobreMi";
@@ -27,7 +26,6 @@ export default function CVPage() {
         <CrownPlanner />
         <Contacto />
       </main>
-      <TweaksHost />
     </>
   );
 }

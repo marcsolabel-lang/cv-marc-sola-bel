@@ -67,7 +67,7 @@ export default function TopBar() {
     document.addEventListener("keydown", onKey);
     /* overlay a pantalla completa: el fondo no scrollea ni recibe foco */
     document.body.style.overflow = "hidden";
-    const fondo = document.querySelectorAll<HTMLElement>("main, .tweaks");
+    const fondo = document.querySelectorAll<HTMLElement>("main");
     fondo.forEach((el) => el.setAttribute("inert", ""));
     return () => {
       document.removeEventListener("keydown", onKey);

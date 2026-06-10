@@ -80,10 +80,7 @@ export default function Hero() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const CAM = 3.3;
     const getRest = () => parseInt(getComputedStyle(root).getPropertyValue("--hl-weight"), 10) || 830;
-    let accent = readAccent();
-    function readAccent() {
-      return getComputedStyle(root).getPropertyValue("--terracotta").trim() || "#C0542A";
-    }
+    const accent = getComputedStyle(root).getPropertyValue("--terracotta").trim() || "#C0542A";
 
     /* Extents máximos sobre todo el giro y rango de inclinación:
        la peonza nunca se recorta, gire como gire. */
@@ -271,7 +268,6 @@ export default function Hero() {
       cursorTilt = BASE_TILT;
       if (cursorActive) headline.style.removeProperty("font-weight");
     };
-    const onTweak = () => { accent = readAccent(); if (reduced) drawStatic(); };
 
     hero.addEventListener("pointerdown", onDown);
     hero.addEventListener("pointermove", onMove, { passive: false });
@@ -280,7 +276,6 @@ export default function Hero() {
        no pointerup — sin esto, la peonza quedaría congelada en "dragging" */
     window.addEventListener("pointercancel", onUp);
     hero.addEventListener("mouseleave", onLeave);
-    window.addEventListener("tweakchange", onTweak);
 
     return () => {
       stopLoop();
@@ -291,13 +286,12 @@ export default function Hero() {
       window.removeEventListener("pointerup", onUp);
       window.removeEventListener("pointercancel", onUp);
       hero.removeEventListener("mouseleave", onLeave);
-      window.removeEventListener("tweakchange", onTweak);
       window.removeEventListener("resize", drawStatic);
     };
   }, []);
 
   return (
-    <section ref={heroRef} className="hero viñeta viñeta--oscura" id="hero" data-comp="centrada" data-bar="dark">
+    <section ref={heroRef} className="hero viñeta viñeta--oscura" id="hero" data-bar="dark">
       <div className="hero__inner">
         <div className="hero__row">
           <div className="hero__text">

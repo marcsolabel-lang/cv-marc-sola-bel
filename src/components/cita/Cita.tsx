@@ -13,6 +13,20 @@ import "./cita.css";
 const TEXT_L = "Se puede dejar que un sistema encuentre su forma, o concebir su estructura desde los cimientos.";
 const TEXT_R = "Elijo lo segundo: diseñar antes de construir, pensar el todo antes de la parte.";
 
+declare global {
+  interface Window {
+    /* contrato de auditoría/depuración del motor (sin UI asociada) */
+    __cita?: {
+      setIntensity(v: number): void;
+      setDensity(v: number): void;
+      setAccent(c: string): void;
+      order(): void;
+      scatter(): void;
+      state(): { mode: string; t: number; vMedia: number; rStd: number; healed: number };
+    };
+  }
+}
+
 type Particle = {
   x: number; y: number; z: number;
   vx: number; vy: number; vz: number;
@@ -429,14 +443,9 @@ export default function Cita() {
 
     const onResize = () => { resize(); if (reduced) draw(); };
     window.addEventListener("resize", onResize);
-    const onTweak = () => {
-      accent = readAccent();
-      spriteAccent = makeSprite(accent);
-      if (reduced) draw();
-    };
-    window.addEventListener("tweakchange", onTweak);
 
-    /* API para el panel de Tweaks (mismo contrato que el HTML vivo) */
+    /* contrato de auditoría/depuración del motor (el panel de Tweaks
+       fue retirado; los parámetros vigentes son los consagrados) */
     window.__cita = {
       setIntensity(v: number) { TORN = v; },
       setDensity(v: number) {
@@ -507,7 +516,6 @@ export default function Cita() {
       canvas.removeEventListener("pointermove", onPointerMove);
       canvas.removeEventListener("pointerleave", onPointerLeave);
       window.removeEventListener("resize", onResize);
-      window.removeEventListener("tweakchange", onTweak);
       delete window.__cita;
     };
   }, []);

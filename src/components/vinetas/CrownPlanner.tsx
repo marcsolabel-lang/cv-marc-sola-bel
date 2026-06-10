@@ -157,7 +157,7 @@ export default function CrownPlanner() {
     };
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
-    const fondo = document.querySelectorAll<HTMLElement>("main > :not(#proyecto), .tweaks, .topbar");
+    const fondo = document.querySelectorAll<HTMLElement>("main > :not(#proyecto), .topbar");
     fondo.forEach((el) => el.setAttribute("inert", ""));
     return () => {
       document.removeEventListener("keydown", onKey);
