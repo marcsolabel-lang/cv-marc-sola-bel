@@ -1,32 +1,89 @@
-# Encargo — mejorar DRÁSTICAMENTE el apartado de la foto de perfil
+# Encargo 1 — Foto de perfil (viñeta 3): propuestas WOW
 
-> Para el director visual conectado al repo `cv-linkedin`. Tienes contexto del proyecto;
-> esto fija el objetivo, el estado real y los límites. Lee los archivos citados antes de tocar.
+> Para el director visual (este Project, conectado al repo de GitHub). **Sustituye al
+> encargo anterior de este archivo** (aquel pedía elevar el tratamiento de profundidad;
+> ese tratamiento ya se revirtió). Este encargo va ANTES y POR SEPARADO de la revisión
+> general (`docs/PROMPT-REVISION-GENERAL.md`): primero se resuelve la foto.
+>
+> Lee antes: `docs/FOTO-PERFIL-ESTADO.md` (estado técnico real tras la reversión, commit
+> `fce1d29`) y mira `public/foto-perfil.jpg`. No improvises sobre memoria de versiones viejas.
 
-## Dónde vive hoy
-- `src/components/vinetas/FotoPerfil.tsx` — el componente (viñeta 3, Sobre mí).
-- `src/components/vinetas/vinetas.css` — bloque `.foto3d` / `.foto-marco` (≈ líneas 18-95): el tratamiento.
-- `scripts/recortar-perfil.mjs` — pipeline `sharp` que recorta el sujeto del fondo (BFS desde los bordes + feather) → genera el PNG del pop-out.
-- `public/foto-perfil.jpg` (base) · `public/foto-perfil-cut.png` (sujeto recortado).
-- Ficha: `docs/doc-A-construccion.md` §6.3 (Sobre mí) y §7 (reglas de imagen).
+---
 
-## Qué hace hoy (no rompas lo que funciona)
-Marco técnico crema con cuadrícula terracota + 4 esquinas; **tilt 3D** al cursor (las esquinas flotan en un plano más cercano, parallax); la foto en **b/n que revela color** al acercarse; y un **sujeto recortado que se despega del fondo y sobresale por arriba** (pop-out, plano medio → primer plano). Reduced-motion y táctil quedan estáticos.
+## Situación
 
-## La foto — DECIDIDA: la terracota (no la reabras)
-La foto es **`public/foto-perfil.jpg`** (fondo **terracota**), que además **ya es la que está viva**. Es la mejor para este sistema y la elección está cerrada: el fondo es el color de marca (#C0542A), así el **revelado b/n→color** aterriza en un tono que casa con todo el CV, y el contraste sujeto/fondo (camisa blanca + piel sobre rust) es el ideal para el **recorte del pop-out**. **No la sustituyas por otra.** Único pero: es un **JPEG comprimido (~82 KB)** → si puedes, re-expórtala/limpia con denoise suave + nitidez + un leve grading cálido, **sin alterar la identidad** del retrato.
+El tratamiento anterior (tilt 3D + pop-out con ampliación del sujeto) **desvirtuaba la
+viñeta** y se revirtió. Hoy la foto está en un estado base sobrio: marco técnico de
+esquinas terracota + hover b/n→color. Es correcto y profesional — **pero no convence:
+aporta poco**. La foto debería ser un momento visual **impactante y resolutivo** de la
+viñeta, no "una foto con marco".
 
-## El encargo: "drásticamente mejor", PERO calibrado
-Sobre mí es **CREDIBILIDAD** (§0): contenida, de lectura rápida. La foto puede volverse más **editorial y premium**, NO un pico que compita con Hero/Cita. Lema: *"un gesto; después, quieto."* Elige y **eleva** (no acumules efectos):
+## El encargo
 
-- **Tratamiento de imagen**: grading que armonice con el terracota; limpieza/nitidez. El revelado podría dejar de ser `grayscale` plano y pasar por un **duotono terracota** antes del color pleno (más de marca) — explóralo, no es obligatorio.
-- **Marco y profundidad**: que el marco técnico lea **más caro** (revisa cuadrícula, esquinas, sombra, parallax). Que el **recorte del pop-out sea impecable** con la foto elegida → regenera `foto-perfil-cut.png` con `recortar-perfil.mjs` ajustando tolerancias al fondo nuevo.
-- **Composición en Sobre mí**: tercios foto-izquierda / texto-derecha (§6.3); la foto ancla la columna sin robar lectura a los 3 párrafos.
-- **No toques**: §7 (solo 2 imágenes en todo el CV; b/n→color **solo** en la foto), fallbacks reduced-motion/táctil, `alt`, `next/image`, tokens de `globals.css`.
+**Genera 3 propuestas de tratamiento, priorizadas**, con un objetivo claro: **WOW
+elegante**. Que quien llegue a Sobre mí sienta que la foto es una pieza diseñada — no un
+retrato colocado. Cada propuesta debe ser un CONCEPTO (no una lista de efectos): qué idea
+encarna (idealmente dialoga con la tesis de la viñeta — el hilo constante, "pienso en
+sistemas"), cómo se ve en reposo, qué hace al interactuar, y por qué es memorable.
+
+**La tensión que debes resolver** (es el corazón del encargo): Sobre mí es CREDIBILIDAD
+(§0 del doc-A) — lectura rápida, "un gesto; después, quieto". Pero el encargo pide WOW.
+Resuélvelo con criterio de director: impacto sí, **al servicio de la viñeta** — la foto
+puede ser el golpe visual de Sobre mí sin convertir la viñeta en un pico que compita con
+Hero/Cita/Atlas, y sin robar la lectura de los 3 párrafos. Si crees que Sobre mí admite
+subir un punto su intensidad (es la primera viñeta tras el Hero), decláralo y justifícalo
+contra el doc-A. Lo aprendido con el pop-out: la ampliación agresiva al interactuar
+ROMPE la viñeta — no vuelvas a ese patrón.
+
+## La fotografía: qué se puede tocar
+
+- La base es el retrato terracota (`public/foto-perfil.jpg`, 1200×1600, JPEG ~82 KB algo
+  blando). **Se puede — y se anima a — modificar o recrear con IA** para jugar
+  visualmente: fondo, iluminación, grading, separación sujeto/fondo, outpainting del
+  fondo para encuadres nuevos, versiones duotono/tritono, limpieza y re-export a más
+  calidad.
+- **Línea roja: el rostro es intocable.** Nada de regenerar/embellecer/alterar la cara
+  con IA — es un CV; un retrato que huela a sintético destruye exactamente la
+  credibilidad que la viñeta construye. El juego es todo lo que rodea al rostro.
+- **Listón de calidad (innegociable):** elegante; nada pixelado ni mal renderizado; sin
+  halos de recorte, bordes sucios, sombras falsas ni efectos "AI-slop" (glows baratos,
+  plástico, HDR falso). Salida mínima 1200×1600 (mejor 2×). Revisar al 200% antes de dar
+  por bueno.
+
+## Rutas de ejecución (elige una POR PROPUESTA — parte del encargo es decidir esto)
+
+- **(A) Claude Design** → prototipo HTML vivo → Claude Code lo porta al repo (patrón ya
+  rodado con Atlas). Útil si la propuesta necesita iteración visual en vivo (motion,
+  composición, interacción).
+- **(B) Directo a Claude Code** → entregas una spec precisa (comportamiento, valores,
+  estados) y Code lo implementa sin pasar por Design. **Nos ahorramos un paso** — elige
+  esta ruta siempre que la propuesta sea implementable sin iteración visual (tratamientos
+  CSS/sharp bien definidos).
+- **(C) IA de imagen externa** → si la propuesta exige retocar/recrear la foto: entrega el
+  **brief exacto de retoque** (herramienta sugerida, prompt/instrucciones literales, specs
+  de salida) para que Marc lo ejecute y el asset vuelva al repo. Luego (A) o (B) aplican
+  el tratamiento. Ni este Project ni Design ni Code generan fotografía — sé explícito en
+  qué pides exactamente.
+
+## Restricciones del sistema (ley)
+
+- §7: solo DOS imágenes en toda la web (esta foto + capturas Atlas); b/n→color SOLO en
+  esta foto (si tu propuesta sustituye ese gesto por algo mejor, decláralo — es el gesto
+  canónico del §6.3, cambiarlo es decisión de dirección, no un default).
+- Tokens y tipografías del sistema (`globals.css`): terracota #C0542A, esquinas vivas
+  (--radius: 0), Bricolage/Oswald/Cormorant. Nada a pelo.
+- Accesibilidad: alt intacto, AA en cualquier texto, reduced-motion con fallback digno
+  (no "sin nada": una versión estática bien compuesta).
+- Táctil/móvil: la propuesta debe decir qué pasa sin hover (el estado de reposo debe
+  sostenerse solo).
+- La interfaz técnica es estable: `<FotoPerfil />` dentro de `.sobremi__col`
+  (ver FOTO-PERFIL-ESTADO.md §2 y §8). El resto de Sobre mí (árbol, texto) no se toca.
 
 ## Entregable
-1. **Antes de codificar**, enséñame **1-2 direcciones de arte** (grading/duotono, marco, reveal, parallax) sobre la foto terracota, para que elija.
-2. Implementa la elegida: `FotoPerfil.tsx` + bloque CSS, **regenera los assets** (base + recorte) con la foto definitiva, y verifica `npm run build`.
-3. Respeta el sistema (terracota #C0542A, Bricolage/Oswald, esquinas vivas salvo donde el diseño pida lo contrario).
 
-Cierra con tu recomendación priorizada: qué foto y qué cambio elevan más con menos riesgo.
+1. **3 propuestas priorizadas.** Por cada una: concepto y por qué es WOW · reposo/hover/
+   táctil/reduced-motion · qué necesita (CSS puro / sharp / IA externa con brief) · ruta
+   de ejecución (A/B/C) · riesgo principal y cómo lo mitiga · veredicto de calibración
+   (por qué no rompe §0).
+2. **Tu recomendación: UNA ganadora** y el primer paso concreto para ejecutarla.
+3. **No implementes nada todavía** — Marc elige primero.
