@@ -138,7 +138,7 @@ Crown Planner evolucionó a ATLAS: motor de planificación del servicio técnico
 cuatro módulos en uso (diaria, mensual, anual, asignación CAT), equidad por horas
 reales calibrada con datos, tiers de prioridad operativa (emergencia → urgente →
 antigüedad → revisión), memoria de flota (~4.500 máquinas) y resultados validados en
-simulador (~1.500 máquinas: −26% desequilibrio, −38% km, −47% carga pico, <200 ms).
+simulador (~1.500 máquinas: −28% desequilibrio [CoV 0.55→0.394], −38% km, −47% carga pico, <200 ms).
 La viñeta usa RECREACIONES en HTML vivo con la identidad control-tower de Atlas y
 datos 100% INVENTADOS (cero información operativa de Crown Lift Trucks, cero datos
 personales). La lupa sobre capturas reales volverá cuando exista el perfil visitante
