@@ -190,6 +190,26 @@ p strong {
   --bar-fg-3: var(--on-light-2);
   --bar-line: var(--hairline-d);
 }
+
+/* Filtro de opacidad al navegar (rev. 2026-06-12): vidrio esmerilado que
+   aparece SOLO con scroll — en reposo (inicio del Hero) la barra mantiene
+   la decisión "sin fondos" de 2026-06-10. Solo opacity: compuesto, sin jank. */
+.topbar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: color-mix(in oklab, var(--ink) 58%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  backdrop-filter: blur(16px) saturate(1.5);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out);
+  pointer-events: none;
+}
+.topbar.is-scrolled::before { opacity: 1; }
+.topbar--light::before { background: color-mix(in oklab, var(--white) 70%, transparent); }
+/* con el índice abierto, el navscreen ya pinta el fondo: el vidrio sobra */
+.topbar.nav-open::before { opacity: 0; }
 /* Con el índice abierto la barra vuelve a leerse sobre oscuro siempre */
 .topbar.nav-open {
   --bar-fg-1: var(--on-dark-1);

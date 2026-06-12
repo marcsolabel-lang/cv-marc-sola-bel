@@ -22,6 +22,18 @@ const ENTRIES = [
 export default function TopBar() {
   const [open, setOpen] = useState(false);
   const [light, setLight] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  /* Filtro de opacidad al navegar (rev. 2026-06-12): con scroll, la barra
+     gana un vidrio esmerilado que la separa del contenido; arriba del todo
+     sigue sin fondo (la decisión "sin fondos" de 2026-06-10 queda intacta
+     en el arranque del Hero). El estilo vive en globals.css (.is-scrolled). */
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   /* Tema adaptable: en cada disparo se RECALCULA qué sección cruza la
      barra (geometría real, no el último evento — el orden de entries en
@@ -89,7 +101,7 @@ export default function TopBar() {
       {/* sin fondos: la línea se dibuja POR TRAMOS en los huecos — nada
           tapa el contenido que pasa por debajo (peonza, tormenta) */}
       <header
-        className={`topbar ${light && !open ? "topbar--light" : ""} ${open ? "nav-open" : ""}`}
+        className={`topbar ${light && !open ? "topbar--light" : ""} ${open ? "nav-open" : ""} ${scrolled ? "is-scrolled" : ""}`}
         aria-label="Barra de navegación"
       >
         <span className="topbar__item topbar__name">Marc Sola Bel</span>
