@@ -1,5 +1,18 @@
 # Foto de perfil (viñeta 3 · Sobre mí) — estado técnico para el rediseño
 
+> **ACTUALIZACIÓN 2026-06-12 (noche): el rediseño ya está implementado.** El tratamiento
+> vigente es "retrato dentro del sistema" + fondo duotono con sujeto siempre a color:
+> tres capas (fondo de la foto en duotono terracota/negro que aterriza en color al hover ·
+> líneas-nodo del sistema que conectan la timeline con el marco · sujeto recortado SIEMPRE
+> a color pleno por delante). Sin JS — sigue siendo server component; el gesto es CSS puro.
+> La fuente de verdad es el código: `src/components/vinetas/FotoPerfil.tsx` (geometría de
+> líneas/nodo parametrizada en constantes) + bloque "Marco técnico" de
+> `src/components/vinetas/vinetas.css` (intensidad del duotono en `--duo-tinte`/`--duo-luz`).
+> El recorte `public/foto-perfil-cut.png` se regeneró con rembg (matting, sin halos);
+> pipeline reproducible en `scripts/recortar-perfil.mjs`. Táctil y reduced-motion muestran
+> el estado final (fondo a color, nodo encendido). Lo que sigue abajo describe el **estado
+> base previo** sobre el que se integró — vale como historia y contexto del marco.
+
 > Documento de handoff hacia Claude Design. Refleja el **estado base** tras revertir el
 > tratamiento de profundidad (2026-06-12): el tilt 3D y el pop-out/ampliación del sujeto
 > desvirtuaban la viñeta y se retiraron. Lo que queda es el mínimo sólido y canónico.

@@ -15,12 +15,18 @@
   align-items: start;
 }
 
-/* Marco técnico de la foto de perfil (§6.3/§7) — ESTADO BASE (rev. 2026-06-12):
-   marco con cuadrícula tenue + 4 esquinas terracota y hover b/n→color (la
-   interacción canónica del §6.3). El tratamiento de profundidad (tilt 3D +
-   pop-out del sujeto) se revirtió; el rediseño se integrará desde Design
-   (contexto técnico: docs/FOTO-PERFIL-ESTADO.md). */
+/* Marco técnico de la foto de perfil (§6.3/§7) — RETRATO DENTRO DEL SISTEMA
+   (rev. 2026-06-12 noche). Tres capas: FONDO en duotono terracota/negro que
+   aterriza en color al hover · LÍNEAS-NODO del sistema (la timeline entra
+   hacia el marco) · SUJETO recortado SIEMPRE a color pleno por delante.
+   El §7 se mantiene: foto base + recorte = la misma imagen lógica; b/n→color
+   sigue siendo el gesto exclusivo de esta foto, aplicado solo al fondo.
+   Un gesto al hover (fondo aterriza, nodo se enciende); después, quieto.
+   Geometría de líneas y nodo: constantes en FotoPerfil.tsx. */
 .foto-marco {
+  /* parámetros del duotono del fondo (ajuste fino aquí) */
+  --duo-tinte: 0.9;   /* opacidad del tinte terracota: 0 = b/n puro, 1 = duotono pleno */
+  --duo-luz: 1.5;     /* aclarado de la base gris antes del tinte (sube = más terracota) */
   position: relative;
   margin: 0 0 clamp(2.2rem, 4.5vh, 3rem);
   max-width: 300px;
@@ -31,18 +37,90 @@
     #FAF8F6;
   box-shadow: 0 14px 34px -16px rgba(10, 10, 10, 0.3);
 }
-.foto-marco__clip {
+
+/* capa 1 · fondo en duotono: foto en gris aclarado × tinte terracota
+   multiplicado (luces→terracota, sombras→negro). El hover funde el tinte
+   (opacity) y devuelve el color (filter: el gesto canónico b/n→color). */
+.foto-marco__fondo {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  isolation: isolate;                        /* el multiply no atraviesa la capa */
+}
+.foto-marco__fondo img {
+  object-fit: cover;
+  object-position: center 28%;               /* encuadre: el rostro manda */
+  filter: grayscale(1) brightness(var(--duo-luz));
+  transition: filter var(--dur-slow) var(--ease-out);
+}
+.foto-marco__fondo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--terracotta);
+  mix-blend-mode: multiply;
+  opacity: var(--duo-tinte);
+  transition: opacity var(--dur-slow) var(--ease-out);
+}
+.foto-marco:hover .foto-marco__fondo img { filter: none; }
+.foto-marco:hover .foto-marco__fondo::after { opacity: 0; }
+
+/* capa 2 · el sistema: la línea de la timeline entra hacia el nodo.
+   El conector cae por debajo del marco y se desvanece hacia el árbol. */
+.foto-sistema {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.foto-sistema__linea,
+.foto-sistema__conector {
+  fill: none;
+  stroke: var(--terracotta);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;         /* trazo 2px nítido a cualquier tamaño */
+  opacity: 0.65;
+  transition: opacity var(--dur-slow) var(--ease-out);
+}
+.foto-sistema__conector { stroke: url(#foto-conector-fade); }
+.foto-sistema__fade-a { stop-color: var(--terracotta); }
+.foto-sistema__fade-b { stop-color: var(--terracotta); stop-opacity: 0; }
+.foto-marco:hover .foto-sistema__linea,
+.foto-marco:hover .foto-sistema__conector { opacity: 0.9; }
+
+/* capa 3 · sujeto: SIEMPRE a color pleno — reposo, hover, táctil,
+   reduced-motion. Sin excepción: la persona es el ancla cálida. */
+.foto-marco__sujeto {
   position: absolute;
   inset: 0;
   overflow: hidden;
 }
-.foto-marco img {
+.foto-marco__sujeto img {
   object-fit: cover;
-  object-position: center 28%;               /* encuadre: el rostro manda */
-  filter: grayscale(1);                      /* §5 hover notable: b/n → color */
-  transition: filter var(--dur-slow) ease-in-out;
+  object-position: center 28%;               /* idéntico al fondo: casan al píxel */
 }
-.foto-marco:hover img { filter: none; }
+
+/* nodo de conexión: bisecado por el borde inferior, nivel del marco */
+.foto-nodo {
+  position: absolute;
+  bottom: 0;
+  width: 9px;
+  height: 9px;
+  background: var(--terracotta);
+  opacity: 0.85;
+  transform: translate(-50%, 50%) rotate(45deg);
+  transition: transform var(--dur-slow) var(--ease-out),
+              opacity var(--dur-slow) var(--ease-out);
+  z-index: 1;
+}
+.foto-marco:hover .foto-nodo {
+  opacity: 1;
+  transform: translate(-50%, 50%) rotate(45deg) scale(1.35);  /* se enciende */
+}
+
+/* esquinas vivas → puntos de conexión del sistema */
 .fcorner {
   position: absolute;
   width: 16px; height: 16px;
@@ -53,6 +131,40 @@
 .fcorner--tr { top: 0; right: 0; border-top-width: 2px; border-right-width: 2px; }
 .fcorner--bl { bottom: 0; left: 0; border-bottom-width: 2px; border-left-width: 2px; }
 .fcorner--br { bottom: 0; right: 0; border-bottom-width: 2px; border-right-width: 2px; }
+.fcorner::after {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--terracotta);
+  opacity: 0.8;
+  transition: opacity var(--dur-slow) var(--ease-out);
+}
+.fcorner--tl::after { top: -1px; left: -1px; }
+.fcorner--tr::after { top: -1px; right: -1px; }
+.fcorner--bl::after { bottom: -1px; left: -1px; }
+.fcorner--br::after { bottom: -1px; right: -1px; }
+.foto-marco:hover .fcorner::after { opacity: 1; }
+
+/* táctil y reduced-motion: estado final completo desde el principio —
+   fondo a color, nodo encendido, líneas plenas (fallback digno; el sujeto
+   ya está a color siempre). */
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .foto-marco__fondo img { filter: none; }
+  .foto-marco__fondo::after { opacity: 0; }
+  .foto-sistema__linea,
+  .foto-sistema__conector { opacity: 0.9; }
+  .foto-nodo { opacity: 1; transform: translate(-50%, 50%) rotate(45deg) scale(1.35); }
+  .fcorner::after { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .foto-marco__fondo img,
+  .foto-marco__fondo::after,
+  .foto-sistema__linea,
+  .foto-sistema__conector,
+  .foto-nodo,
+  .fcorner::after { transition: none; }
+}
 
 /* El árbol de convergencia: tronco + ramas a 45° + nodos rombo */
 .arbol { position: relative; }
