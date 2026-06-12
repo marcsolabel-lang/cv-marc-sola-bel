@@ -15,7 +15,7 @@ import "./vinetas.css";
 const ROLES = [
   {
     year: "2026",
-    range: "2026 — actualidad",
+    range: "2026 – actualidad",
     rol: "Proyecto propio · E-commerce B2C",
     org: "Diseño y operación de principio a fin",
     logo: { id: "propio", text: "◆" },
@@ -29,7 +29,7 @@ const ROLES = [
   },
   {
     year: "2025",
-    range: "dic. 2025 — actualidad",
+    range: "dic. 2025 – actualidad",
     rol: "Coordinador de servicios técnicos",
     org: "Crown Lift Trucks",
     logo: { id: "crown", text: "CR" },
@@ -45,7 +45,7 @@ const ROLES = [
   },
   {
     year: "2021",
-    range: "feb. 2021 — sept. 2024",
+    range: "feb. 2021 – sept. 2024",
     rol: "Sales Specialist",
     org: "Beral Projects",
     logo: { id: "beral", text: "BP" },
@@ -64,9 +64,9 @@ const ROLES = [
 
 /* mismas raíces, monótonas con el eje (descendente) */
 const RAICES = [
-  { year: "2019–20", rol: "Socio fundador · Productor audiovisual — MalRai Studio", nota: "Comunicación digital, guion, edición, producción." },
-  { year: "2018–19", rol: "Business Consultant — Ondas System", nota: "Estrategia comercial B2B para pymes, para Vodafone en punto de venta. Entre los consultores mejor valorados." },
-  { year: "2016", rol: "Ayudante de producción — Produccions Antàrtida (TV)", nota: "Concurso infantil Picalletres." },
+  { year: "2019–20", rol: "Socio fundador · Productor audiovisual · MalRai Studio", nota: "Comunicación digital, guion, edición, producción." },
+  { year: "2018–19", rol: "Business Consultant · Ondas System", nota: "Estrategia comercial B2B para pymes, para Vodafone en punto de venta. Entre los consultores mejor valorados." },
+  { year: "2016", rol: "Ayudante de producción · Produccions Antàrtida (TV)", nota: "Concurso infantil Picalletres." },
 ];
 
 function ExpItem({ item, delay }: { item: (typeof ROLES)[number]; delay: number }) {

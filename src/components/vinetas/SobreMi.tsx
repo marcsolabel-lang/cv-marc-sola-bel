@@ -230,7 +230,7 @@ export default function SobreMi() {
               Llevo una década resolviendo problemas en contextos muy distintos:
               comunicación audiovisual, ventas B2B, dirección comercial y, ahora,
               coordinación de equipo y automatización de procesos. Ese recorrido
-              variado tiene un hilo constante — pienso en{" "}
+              variado tiene un hilo constante: pienso en{" "}
               <span className="hl">sistemas</span>. Descompongo un problema en sus
               piezas, entiendo cómo encajan y diseño la solución.
             </p>
@@ -245,7 +245,7 @@ export default function SobreMi() {
               Esa misma lógica me llevó a la automatización con IA. Diseño el
               sistema, oriento herramientas como Claude y construyo soluciones que
               quitan el trabajo mecánico para que las personas se dediquen a lo que
-              de verdad aporta. No vengo del código — vengo del{" "}
+              de verdad aporta. No vengo del código; vengo del{" "}
               <span className="hl">problema</span>. Y cada vez me obsesiona más
               construir la herramienta que lo resuelve.
             </p>

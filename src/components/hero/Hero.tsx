@@ -297,12 +297,12 @@ export default function Hero() {
           <div className="hero__text">
             <p className="eyebrow">Proyectos · Automatización con IA · Estrategia comercial</p>
             <h1 ref={headlineRef} className="headline">
-              Pienso en <span className="hl-accent">sistemas</span>
+              Pienso en <span className="hl-accent">sistemas</span>;
               <br />
-              construyo soluciones
+              construyo soluciones.
             </h1>
             <p className="lead">
-              Una década entre comunicación, ventas y liderazgo de equipo — hoy
+              Una década entre comunicación, ventas y liderazgo de equipo, hoy
               volcada en diseñar y automatizar procesos con IA.
             </p>
           </div>

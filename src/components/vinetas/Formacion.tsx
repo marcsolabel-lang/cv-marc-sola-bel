@@ -29,14 +29,14 @@ export default function Formacion() {
             Diseñar{" "}
             <strong>la estructura de un sistema completo antes de construirlo</strong>,
             documentar y gestionar un proyecto de principio a fin. El contexto era
-            el diseño de videojuegos; la lección —{" "}
-            <strong>estructurar, planificar, iterar</strong> — es la que aplico hoy
+            el diseño de videojuegos; la lección (
+            <strong>estructurar, planificar, iterar</strong>) es la que aplico hoy
             a cualquier sistema.
           </p>
           <span className="formacion__meta">
             {/* logo: sustituir el slot por <img src="/logos/levelup.svg" alt="Level Up Game Dev Hub" /> */}
             <i className="logo-slot" data-logo="levelup" aria-hidden="true">LU</i>
-            Game &amp; Concept Design — Level Up Game Dev Hub · 2023–2024
+            Game &amp; Concept Design · Level Up Game Dev Hub · 2023–2024
           </span>
         </div>
 
@@ -61,7 +61,7 @@ export default function Formacion() {
           <li className="formacion__otro">
             <strong>Idiomas</strong>
             <span>
-              Catalán y español — nativos · Inglés B2 (IELTS) · Portugués básico
+              Catalán y español nativos · Inglés B2 (IELTS) · Portugués básico
             </span>
           </li>
         </ul>

@@ -28,7 +28,7 @@ const oswald = Oswald({
 export const metadata: Metadata = {
   title: "Marc Sola Bel — CV",
   description:
-    "Pienso en sistemas, construyo soluciones. Proyectos, automatización con IA y estrategia comercial.",
+    "Pienso en sistemas; construyo soluciones. Proyectos, automatización con IA y estrategia comercial.",
 };
 
 export default function RootLayout({

@@ -42,7 +42,7 @@ export default function Liderazgo() {
               del tiempo.
             </p>
             <span className="lid__meta">
-              Dirección de una asociación cultural — 2017–2021
+              Dirección de una asociación cultural · 2017–2021
             </span>
           </div>
           <div
