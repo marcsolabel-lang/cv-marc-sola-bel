@@ -8,10 +8,31 @@ import "./cita.css";
    la semilla "DISEÑAR", viaja a un reloj de arena giratorio. Clicarla ES la
    tesis: diseñar pone orden en el sistema. Encendido acumulativo al hover.
    Añadido de integración: fallback automático (~6s visible sin interacción
-   → la forma se ordena sola; doc-A §6.2 pide activador con fallback). */
+   → la forma se ordena sola; doc-A §6.2 pide activador con fallback).
+   Rev. 2026-06-12: pulsar el torbellino (ratón o dedo) abre el LÉXICO del
+   sistema — las palabras alternan entre «sistema» y el vocabulario de su
+   arquitectura. La tormenta no solo gira: enseña de qué está hecha. */
 
 const TEXT_L = "Se puede dejar que un sistema encuentre su forma, o concebir su estructura desde los cimientos.";
 const TEXT_R = "Elijo lo segundo: diseñar antes de construir, pensar el todo antes de la parte.";
+
+/* Léxico de la arquitectura de sistemas: DICT[0] es el estado base; el
+   resto responde a cómo se estructura un sistema (módulos, relaciones,
+   dinámica). Cada palabra rasteriza a su propio sprite (coste mínimo). */
+const DICT = [
+  "sistema",
+  "estructura",
+  "módulo",
+  "flujo",
+  "jerarquía",
+  "patrón",
+  "proceso",
+  "equilibrio",
+  "feedback",
+  "iteración",
+  "escala",
+  "orden",
+];
 
 declare global {
   interface Window {
@@ -22,6 +43,7 @@ declare global {
       setAccent(c: string): void;
       order(): void;
       scatter(): void;
+      lexicon(): void;
       state(): { mode: string; t: number; vMedia: number; rStd: number; healed: number };
     };
   }
@@ -30,7 +52,7 @@ declare global {
 type Particle = {
   x: number; y: number; z: number;
   vx: number; vy: number; vz: number;
-  ti: number; lit: boolean; rot: number; size: number;
+  ti: number; lit: boolean; wi: number; rot: number; size: number;
   /* carácter de tormenta: ritmo orbital propio + fases de ráfaga + kick */
   spin: number; w1: number; w2: number; ph1: number; ph2: number; kickAt: number;
 };
@@ -73,14 +95,14 @@ export default function Cita() {
     }
 
     let disposed = false;
-    let spriteAccent: Sprite | null = null, spriteWhite: Sprite | null = null;
-    function makeSprite(color: string): Sprite {
+    let sprAccent: Sprite[] = [], sprWhite: Sprite[] = [];
+    function makeSprite(word: string, color: string): Sprite {
       const ref = 64, pad = 14;
       const c = document.createElement("canvas");
       const g = c.getContext("2d")!;
       const font = `italic 600 ${ref}px "Cormorant Garamond", Georgia, serif`;
       g.font = font;
-      const m = g.measureText("sistema");
+      const m = g.measureText(word);
       const asc = m.actualBoundingBoxAscent || ref * 0.72;
       const desc = m.actualBoundingBoxDescent || ref * 0.30;
       const w = Math.ceil(m.width) + pad * 2;
@@ -89,15 +111,19 @@ export default function Cita() {
       g.font = font;
       g.textAlign = "center"; g.textBaseline = "middle";
       g.fillStyle = color;
-      g.fillText("sistema", w / 2, h / 2);
+      g.fillText(word, w / 2, h / 2);
       return { canvas: c, w, h, ref };
     }
     function buildSprites() {
-      spriteAccent = makeSprite(accent);
-      spriteWhite = makeSprite("#FFFFFF");
+      sprAccent = DICT.map((wd) => makeSprite(wd, accent));
+      sprWhite = DICT.map((wd) => makeSprite(wd, "#FFFFFF"));
     }
 
     let mode: "tornado" | "ordering" | "ordered" = "tornado";
+    /* léxico abierto: las partículas reparten el vocabulario de DICT */
+    let lexicon = false;
+    const wordIndex = () =>
+      lexicon ? 1 + Math.floor(Math.random() * (DICT.length - 1)) : 0;
     let orderT: ReturnType<typeof setTimeout> | undefined;
     let ry = 0.5;
 
@@ -126,7 +152,7 @@ export default function Cita() {
         return {
           x: Math.cos(a) * r, y: (Math.random() * 2 - 1) * HY, z: Math.sin(a) * r,
           vx: 0, vy: 0, vz: 0,
-          ti: i, lit: false,
+          ti: i, lit: false, wi: wordIndex(),
           rot: Math.random() * 0.5 - 0.25,
           size: t.wsize,
           spin: 0.75 + Math.random() * 0.6,
@@ -315,7 +341,7 @@ export default function Cita() {
 
     let mx = -1e4, my = -1e4;
     function draw() {
-      if (!spriteAccent || !spriteWhite) return;
+      if (!sprAccent.length || !sprWhite.length) return;
       ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
       ctx.clearRect(0, 0, W, H);
       const tornado = mode === "tornado";
@@ -352,7 +378,7 @@ export default function Cita() {
       for (const it of arr) {
         if (it.sx < -60 || it.sx > W + 60 || it.sy < -60 || it.sy > H + 60) continue;
         const d = (it.depth + 1) / 2, fs = baseFont(it.persp, it.p.size);
-        const spr = it.p.lit ? spriteWhite : spriteAccent;
+        const spr = it.p.lit ? sprWhite[it.p.wi] : sprAccent[it.p.wi];
         const sc = fs / spr.ref;
         ctx.globalAlpha = 0.38 + d * 0.62;
         ctx.save();
@@ -413,6 +439,16 @@ export default function Cita() {
     };
     seed.addEventListener("click", onSeed);
 
+    /* léxico del sistema (rev. 2026-06-12): pulsar el torbellino — ratón
+       o dedo — alterna «sistema» ↔ vocabulario de arquitectura. El gesto
+       no toca la física: solo cambia qué palabra encarna cada partícula. */
+    const toggleLexicon = () => {
+      lexicon = !lexicon;
+      for (const p of P) p.wi = wordIndex();
+      if (reduced) draw();
+    };
+    canvas.addEventListener("click", toggleLexicon);
+
     /* visibilidad: pausa el motor totalmente fuera de viewport y arma el
        fallback (visible sin interacción → la forma se ordena sola) */
     const io = new IntersectionObserver(
@@ -457,8 +493,9 @@ export default function Cita() {
           seed.classList.add("idle"); seed.classList.remove("placed");
         }
       },
-      setAccent(c: string) { accent = c; spriteAccent = makeSprite(c); },
+      setAccent(c: string) { accent = c; sprAccent = DICT.map((wd) => makeSprite(wd, c)); },
       order, scatter,
+      lexicon: toggleLexicon,
       /* métricas de tormenta (verificación: el caos no debe decaer) */
       state() {
         const n = P.length || 1;
@@ -514,6 +551,7 @@ export default function Cita() {
       clearTimeout(orderT); clearTimeout(fallbackT); clearTimeout(startT);
       io.disconnect();
       seed.removeEventListener("click", onSeed);
+      canvas.removeEventListener("click", toggleLexicon);
       canvas.removeEventListener("pointermove", onPointerMove);
       canvas.removeEventListener("pointerleave", onPointerLeave);
       window.removeEventListener("resize", onResize);
@@ -547,6 +585,11 @@ export default function Cita() {
           en móvil es una pantalla casi completa propia y las cajas
           pasan a leerse debajo, sin robarle espacio */}
       <div className="cita__escenario">
+        <p className="sr-only">
+          Al pulsar el torbellino, su vocabulario alterna entre «sistema» y las
+          palabras que lo estructuran: estructura, módulo, flujo, jerarquía,
+          patrón, proceso, equilibrio, feedback, iteración, escala, orden.
+        </p>
         <canvas ref={canvasRef} className="cita__stage" aria-hidden="true" />
         <button ref={seedRef} className="seed idle" type="button"
           aria-pressed={false}
