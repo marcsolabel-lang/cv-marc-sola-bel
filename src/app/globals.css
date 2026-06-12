@@ -48,6 +48,16 @@
   --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 
+  /* — Movimiento F1: catálogo explicativo (DIRECCION-SCROLL-NARRATIVA §F1).
+     Tres papeles, tres firmas — el motor (useScrollScene) los lee de aquí:
+     · presenta — entrada que presenta contenido nuevo: decelera al llegar.
+     · acompaña — scrub ligado al scroll: SIN easing, el scroll es la línea
+       de tiempo; solo una inercia corta (--scrub-suave) que amortigua.
+     · asienta — settle que asienta una secuencia al cerrarse. — */
+  --dur-presenta: 650ms;  --ease-presenta: var(--ease-out);
+  --dur-asienta:  350ms;  --ease-asienta:  var(--ease-in-out);
+  --scrub-suave: 0.4;  /* s de inercia del scrub; 0 = 1:1 con el dedo */
+
   /* — Radios: esquinas vivas en toda la web (un único criterio) — */
   --radius: 0px;
 
@@ -102,6 +112,17 @@ a { color: inherit; text-decoration: none; }
 }
 :focus-visible { outline: 2px solid var(--terracotta); outline-offset: 4px; }
 .viñeta--clara :focus-visible { outline-color: var(--terracotta-deep); }
+
+/* ── Garantía anti-bloqueo del motor (F1) ──
+   El motor de scroll escribe transform/opacity inline SOLO sobre elementos
+   [data-anim], cuyo reposo es neutro (transform: none, opacidad 1). Si una
+   pieza necesita transform de reposo (p. ej. el rombo rotado), se envuelve:
+   el motor anima el envoltorio neutro y el transform CSS queda intacto.
+   En impresión se anula cualquier estado intermedio del scrub: el papel ve
+   siempre el documento completo. */
+@media print {
+  [data-anim] { opacity: 1 !important; transform: none !important; }
+}
 
 /* ════════════════════════════════════════════════════════════════
    VIÑETAS — ritmo de fondos O-O-C-C-C-C-O-O (§2)

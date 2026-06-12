@@ -61,6 +61,12 @@ con **paridad táctil garantizada** — nunca como única vía a un contenido.
 ## 3 · Programa por fases (cada una entregable por sí sola)
 
 ### F1 — Fundamento de movimiento (técnica, sin rediseño visual)
+**✓ EJECUTADA (2026-06-13)** — motor elegido: **GSAP + ScrollTrigger**, por el
+criterio de abajo (Atlas pedirá pinning y scrub encadenado; un solo motor).
+Piloto sobre Experiencia en master, verificado con
+`scripts/verifica-experiencia.mjs` (scrub/reversibilidad/reduced-motion/sin-JS
+en 1440/768/360). Registro completo, API y receta para las secuencias F2 en
+`docs/dev/MOTOR-SCROLL.md`.
 - **Motor de scroll**: evaluar CSS scroll-driven animations nativas
   (`animation-timeline: view()`) con fallback IO frente a **GSAP +
   ScrollTrigger** (gratuito desde 2024). Criterio: si las secuencias de F2
@@ -84,7 +90,9 @@ diégesis — el scroll como cámara.
   una vez. La metáfora que pidió Marc: «de mí emergen los sistemas complejos
   que convergen mis habilidades».
 - **Experiencia**: la década se erige con el scroll (el eje crece en scrub,
-  no por umbral). Candidata a prueba piloto de F1.
+  no por umbral). Candidata a prueba piloto de F1. **✓ Hecha como piloto F1**
+  (2026-06-13): segmento en scrub 88 %→42 %, nodo a medio trazo, año y cuerpo
+  con stagger; reversible.
 - **Atlas (prioridad)**: traveling con pinning entre pantallas; easings
   explicativos en cada transición; **pop-ups circulares** (terracota, negro,
   blanco/crema) que expliquen los puntos difíciles: qué es el CoV, qué hace
