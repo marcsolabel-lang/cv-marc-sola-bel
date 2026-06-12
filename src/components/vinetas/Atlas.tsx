@@ -32,9 +32,11 @@ const SLIDES: Slide[] = [
     module: "Inicio · Modo noche",
     kick: "El producto",
     title: { pre: "Una torre de control ", accent: "real", post: ", en uso" },
-    lead: "Atlas (Crown Planner) es un optimizador de servicio técnico de verdad. Lo concebí y construí con IA — desde un perfil comercial, no de ingeniería.",
+    lead: "Atlas (Crown Planner) es un optimizador de servicio técnico de verdad. Lo concebí y construí con IA, desde un perfil comercial, no de ingeniería.",
     more: "No es una maqueta de portfolio: es la herramienta que organiza el día del equipo técnico. Modo noche, datos densos, cuatro módulos operativos.",
-    chips: [["En uso", "estado"], ["~4.500", "máquinas en memoria"], ["4", "módulos"]],
+    /* coherencia con las capturas (auditoría 2026-06-12): la cartera visible
+       en la demo es de 1.479 máquinas — el chip no puede decir otra cifra */
+    chips: [["En uso", "estado"], ["~1.500", "máquinas en cartera"], ["4", "módulos"]],
     desk: "/atlas/1-home-desktop.png",
     mob: "/atlas/1-home-movil.png",
     url: "crownplannerwebapp.vercel.app",
@@ -55,7 +57,7 @@ const SLIDES: Slide[] = [
     n: "03",
     module: "Asignación CAT · El solver",
     kick: "La inteligencia",
-    title: { pre: "Cuatro reglas compiten — y aun así ", accent: "equilibra", post: "" },
+    title: { pre: "Cuatro reglas compiten y, aun así, ", accent: "equilibra", post: "" },
     lead: "Un solver GAP decide capa a capa: especialista, batería, cuenta fija y cupo. Trilateral → A. Ferrer (único TSP). Cuenta Almacenes Drassana → M. Pons (residente).",
     more: "Tres fases con búsqueda local move+swap empujan el coeficiente de variación hacia cero: 0.55 → 0.39, con 0 % de máquinas sin cobertura.",
     chips: [["4 capas", "del GAP"], ["0.55→0.39", "equilibrio"], ["0%", "sin cobertura"]],
@@ -82,7 +84,7 @@ const SLIDES: Slide[] = [
     module: "Mapa de rutas · Escala",
     kick: "La escala",
     title: { pre: "Cinco zonas, una ", accent: "geografía real", post: "" },
-    lead: "Las órdenes caen sobre el mapa: cada técnico, su territorio. La optimización no es abstracta — rutea sobre kilómetros reales, del Vallès al Alt Segre.",
+    lead: "Las órdenes caen sobre el mapa: cada técnico, su territorio. La optimización no es abstracta: rutea sobre kilómetros reales, del Vallès al Alt Segre.",
     more: "La vista nocturna hace tangible el alcance: el −38 % en kilómetros se lee aquí como rutas más cortas y zonas mejor cubiertas.",
     chips: [["5", "zonas"], ["−38%", "km en ruta"]],
     desk: "/atlas/5-mapa-desktop.png",
@@ -263,7 +265,7 @@ export default function Atlas() {
       data-bar="dark"
       aria-labelledby="atlas-h"
     >
-      <h2 id="atlas-h" className="sr-only">Proyecto destacado — Atlas (Crown Planner)</h2>
+      <h2 id="atlas-h" className="sr-only">Proyecto destacado: Atlas (Crown Planner)</h2>
       <div
         className="atlas__ambient"
         aria-hidden="true"
@@ -282,7 +284,7 @@ export default function Atlas() {
             <div className="slide__text">
               <span className="slide__ghost" aria-hidden="true">{s.n}</span>
               <p className="kick">
-                <i className="live" aria-hidden="true" /> Crown Planner <em>{s.n} / 06</em>
+                <i className="live" aria-hidden="true" /> Atlas · Crown Planner <em>{s.n} / 06</em>
               </p>
               <p className="module">{s.module}</p>
               <h3 className="title">
@@ -358,7 +360,7 @@ export default function Atlas() {
       <div className="hud">
         <div className="hud__meta">
           <span className="hud__n">{cur.n}</span>
-          <span className="hud__sep">—</span>
+          <span className="hud__sep">·</span>
           <span className="hud__m">{cur.module}</span>
         </div>
         <div className="dots" role="tablist" aria-label="Pantallas">
@@ -369,11 +371,17 @@ export default function Atlas() {
               type="button"
               role="tab"
               aria-selected={i === current}
-              aria-label={`Ir a la pantalla ${s.n} — ${s.module}`}
+              aria-label={`Ir a la pantalla ${s.n}: ${s.module}`}
               onClick={() => go(i)}
             />
           ))}
         </div>
+        {/* confidencialidad enunciada (rev. 2026-06-12): la demo es pública
+            y todo dato visible es inventado — sin información de la empresa */}
+        <p className="hud__aviso">
+          Demo pública con datos 100&nbsp;% ficticios; ninguna información real
+          de la empresa.
+        </p>
       </div>
     </section>
   );
