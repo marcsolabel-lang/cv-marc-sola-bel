@@ -1,5 +1,15 @@
 # Foto de perfil (viñeta 3 · Sobre mí) — estado técnico para el rediseño
 
+> **RESUELTO 2026-06-12 (tarde): este documento es HISTORIA.** El director visual
+> entregó el rediseño de la viñeta entera (`design_handoff_sobre_mi/`): retrato con
+> placa terracota offset + entramado neuronal descendente. Está portado y aprobado
+> por Marc — la fuente de verdad es `src/components/vinetas/SobreMi.tsx` +
+> `sobremi.css`. El tratamiento "retrato dentro del sistema" descrito abajo quedó
+> sustituido: `FotoPerfil.tsx`, `foto-perfil-cut.png` y `recortar-perfil.mjs` se
+> eliminaron (recuperables en git). `sharp` se queda como devDependency (lo usan
+> los scripts de verificación). La viñeta de la foto ahora es la del handoff:
+> overlay radial con el rostro siempre a color, hover que la aterriza a 0.12.
+
 > **ACTUALIZACIÓN 2026-06-12 (noche): el rediseño ya está implementado.** El tratamiento
 > vigente es "retrato dentro del sistema" + fondo duotono con sujeto siempre a color:
 > tres capas (fondo de la foto en duotono terracota/negro que aterriza en color al hover ·
