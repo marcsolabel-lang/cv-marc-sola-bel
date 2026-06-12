@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marc Sola Bel — Sobre mí</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════════════════════════════════════
+   TOKENS — sistema CV (Doc A §3.2). Acto 2 · credibilidad · FONDO BLANCO.
+   ════════════════════════════════════════════════════════════════ */
+:root{
+  --white:#FFFFFF;
+  --ink:#0A0A0A;
+  --terra:#C0542A;          /* terracota-vivo · acentos, rombo, dendritas */
+  --terra-deep:#A8421E;     /* terracota-profundo · texto AA sobre blanco */
+  --terra-soft:#E8C7B6;     /* terracota-tenue · planos de fondo */
+
+  --paper:#FFFFFF;          /* fondo claro base */
+  --plate:#FFFFFF;
+  --on-1:#141210;           /* texto principal sobre claro */
+  --on-2:#6B6560;           /* gris-texto-2 (Doc A) */
+  --on-3:#9A938B;           /* eyebrow / meta */
+  --hair:rgba(10,10,10,0.12);
+
+  --font-display:"Bricolage Grotesque",-apple-system,"Segoe UI",Roboto,sans-serif;
+  --font-banner:"Oswald","Bricolage Grotesque","Segoe UI",sans-serif;
+  --font-serif:"Cormorant Garamond",Georgia,serif;
+
+  --ease:cubic-bezier(0.16,1,0.3,1);
+  --grade:0.4;              /* viñeta de la foto — recalibrada para blanco */
+  --mx:0; --my:0;           /* parallax (lo escribe JS) */
+}
+*,*::before,*::after{ box-sizing:border-box; }
+html{ font-size:112.5%; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+body{ margin:0; background:var(--paper); color:var(--on-1); font-family:var(--font-display); }
+::selection{ background:var(--terra); color:var(--white); }
+
+/* ════════════════════════════════════════════════════════════════
+   SECCIÓN
+   ════════════════════════════════════════════════════════════════ */
+.sobre{
+  position:relative; min-height:100svh; display:flex; align-items:center;
+  padding:clamp(38px,6vh,80px) clamp(20px,5vw,76px);
+  background:var(--paper);
+  transition:background .5s var(--ease), color .5s var(--ease);
+  overflow:hidden;
+}
+.sobre__inner{
+  width:100%; max-width:1200px; margin-inline:auto;
+  display:grid; grid-template-columns:minmax(310px,400px) 1fr;
+  gap:clamp(40px,6vw,92px); align-items:start;
+}
+
+/* ── eyebrow ── */
+.eyebrow{
+  margin:0 0 1.5rem; display:flex; align-items:center; gap:0.85em;
+  font-family:var(--font-banner); font-weight:600; font-size:0.72rem;
+  letter-spacing:0.3em; text-transform:uppercase; color:var(--on-3);
+}
+.eyebrow::after{ content:""; flex:1; height:1px; background:var(--hair); }
+
+/* ════════════════════════════════════════════════════════════════
+   RAIL IZQUIERDO · retrato (soma) + entramado neuronal (raíz)
+   ════════════════════════════════════════════════════════════════ */
+.rail{ position:relative; }
+
+/* ── retrato + placa terracota offset (profundidad) ── */
+.portrait{ position:relative; z-index:3; }
+.portrait__terra{
+  position:absolute; inset:0;
+  background:var(--terra); z-index:-1;
+  transform:translate(calc(15px + var(--mx) * 5px), calc(15px + var(--my) * 5px));
+  box-shadow:0 24px 50px -28px rgba(168,66,30,0.65);
+}
+.plate{
+  position:relative; margin:0;
+  background:var(--plate); border:1px solid var(--hair);
+  padding:11px 11px 12px;
+  box-shadow:0 1px 0 rgba(255,255,255,0.9) inset, 0 22px 46px -30px rgba(20,12,8,0.45);
+  transform:translate(calc(var(--mx) * -4px), calc(var(--my) * -4px));
+}
+.shot{
+  position:relative; overflow:hidden;
+  aspect-ratio:4/4.2; background:var(--terra-deep);
+}
+.shot img{
+  width:100%; height:100%; object-fit:cover; object-position:50% 14%; display:block;
+  filter:grayscale(0);
+  transition:filter 1.2s var(--ease);
+}
+.shot .grade{
+  position:absolute; inset:0; pointer-events:none;
+  background:
+    radial-gradient(140% 112% at 50% 30%, transparent 52%, rgba(20,10,4,0.5) 100%),
+    radial-gradient(120% 100% at 50% 32%, transparent 54%, rgba(168,66,30,0.55) 100%);
+  opacity:var(--grade); transition:opacity .6s var(--ease);
+}
+.plate__base{
+  display:flex; align-items:center; gap:11px; padding:11px 2px 1px;
+}
+.plate__base .name{
+  font-family:var(--font-display); font-weight:600; font-size:1rem;
+  letter-spacing:-0.01em; color:var(--on-1);
+}
+.plate__base .rule{ height:2px; width:30px; background:var(--terra); transform-origin:left center; }
+.plate__base .role{
+  margin-left:auto; font-family:var(--font-banner); font-weight:500;
+  font-size:0.64rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--on-3);
+}
+
+@media (hover:hover) and (pointer:fine){
+  .portrait:hover .grade{ opacity:0.12; }
+  .portrait:hover .rule{ transform:scaleX(2.2); transition:transform .6s var(--ease); }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   ENTRAMADO NEURONAL · cada nodo = una etapa · conexiones = aprendizaje
+   ════════════════════════════════════════════════════════════════ */
+.net{
+  position:relative; width:100%; aspect-ratio:380/440; margin-top:-4px;
+}
+.net__svg{
+  position:absolute; inset:0; width:100%; height:100%; overflow:visible;
+  transform:translate(calc(var(--mx) * 3px), calc(var(--my) * 3px));
+}
+.net__svg .link{ fill:none; stroke:var(--terra); stroke-width:1.6; stroke-linecap:round; }
+.net__svg .link.cross{ stroke:var(--terra); opacity:0.32; stroke-width:1.2; }
+.net__svg .bgneuron{ fill:var(--terra-soft); opacity:0.5; }
+.net__svg .pulse{ fill:var(--terra); }
+
+.net__nodes{
+  position:absolute; inset:0; pointer-events:none;
+  transform:translate(calc(var(--mx) * 7px), calc(var(--my) * 7px));
+}
+.nd{ position:absolute; transform:translate(-50%,-50%); }
+.nd__dia{
+  width:14px; height:14px; background:var(--terra); transform:rotate(45deg);
+  box-shadow:0 2px 8px -3px rgba(168,66,30,0.6);
+}
+.nd__lab{
+  position:absolute; top:50%; transform:translateY(-50%);
+  font-family:var(--font-banner); font-weight:600; font-size:0.78rem;
+  letter-spacing:0.075em; text-transform:uppercase; color:var(--on-1);
+  line-height:1.25; width:max-content; max-width:150px;
+}
+.nd.r .nd__lab{ left:18px; text-align:left; }
+.nd.l .nd__lab{ right:18px; text-align:right; }
+
+.nd.final .nd__dia{ width:22px; height:22px; }
+.nd.final .nd__lab{
+  font-family:var(--font-display); font-weight:700; text-transform:none;
+  font-size:clamp(1.45rem,2.1vw,1.78rem); letter-spacing:-0.025em;
+  left:24px; max-width:200px;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   PROSA DERECHA · copy EXACTO de la web (Doc A) · título-síntesis propio
+   ════════════════════════════════════════════════════════════════ */
+.prose{ max-width:37rem; padding-top:4px; }
+.synth{
+  margin:0 0 clamp(1.7rem,3vw,2.5rem);
+  font-family:var(--font-display); font-weight:680;
+  font-size:clamp(1.9rem,3.4vw,2.95rem); line-height:1.06; letter-spacing:-0.03em;
+  color:var(--on-1); text-wrap:balance;
+}
+.prose p{
+  margin:0 0 1.2rem; font-size:1.02rem; line-height:1.62; color:var(--on-2);
+  max-width:34rem;
+}
+.prose p:last-child{ margin-bottom:0; }
+.hl{ color:var(--terra-deep); font-weight:600; }
+
+/* ════════════════════════════════════════════════════════════════
+   MODO OSCURO (Tweak de prueba · por si una sección fuera oscura)
+   ════════════════════════════════════════════════════════════════ */
+.sobre.is-dark{
+  --paper:#0A0A0A; --plate:#141312;
+  --on-1:rgba(255,255,255,0.94); --on-2:#B8B0A6; --on-3:#8C857C;
+  --hair:rgba(255,255,255,0.16);
+}
+.sobre.is-dark .plate{ box-shadow:0 30px 60px -30px rgba(0,0,0,0.8); }
+
+/* ════════════════════════════════════════════════════════════════
+   MOVIMIENTO · se dibuja al entrar + deriva lenta en reposo.
+   Estados ocultos SOLO bajo html.anim → impresión/PDF/sin-JS/reduced-motion
+   muestran el estado final. JS retira .anim tras la entrada (reposo siempre visible).
+   ════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: no-preference){
+  html.anim .plate{ opacity:0; transform:translateY(20px); }
+  html.anim .portrait__terra{ opacity:0; }
+  html.anim .shot img{ filter:grayscale(1); transform:scale(1.05); }
+  html.anim .plate__base{ opacity:0; }
+  html.anim .rule{ transform:scaleX(0); }
+  html.anim .net__svg .link{ stroke-dashoffset:1; }
+  html.anim .net__svg .bgneuron{ opacity:0; }
+  html.anim .net__svg .pulse{ opacity:0; }
+  html.anim .nd__dia{ transform:rotate(45deg) scale(0); }
+  html.anim .nd__lab{ opacity:0; transform:translateY(-50%) translateX(var(--lx,-8px)); }
+
+  /* ── PLAY ── */
+  html.anim .rail.play .plate{ opacity:1; transform:translate(calc(var(--mx) * -4px), calc(var(--my) * -4px)); transition:opacity .7s var(--ease), transform .85s var(--ease); }
+  html.anim .rail.play .portrait__terra{ opacity:1; transition:opacity .7s var(--ease) .15s; }
+  html.anim .rail.play .shot img{ filter:grayscale(0); transform:none; transition:filter 1.3s var(--ease) .25s, transform 1.3s var(--ease) .25s; }
+  html.anim .rail.play .plate__base{ opacity:1; transition:opacity .5s ease .45s; }
+  html.anim .rail.play .rule{ transform:scaleX(1); transition:transform .6s var(--ease) .55s; }
+
+  /* dendritas: se dibujan (pathLength=1) en cascada */
+  html.anim .rail.play .net__svg .link{ stroke-dashoffset:0; }
+  html.anim .rail.play .net__svg .link.l-root{ transition:stroke-dashoffset .9s var(--ease) .6s; }
+  html.anim .rail.play .net__svg .link.l-1{ transition:stroke-dashoffset .8s var(--ease) .95s; }
+  html.anim .rail.play .net__svg .link.l-2{ transition:stroke-dashoffset .8s var(--ease) 1.25s; }
+  html.anim .rail.play .net__svg .link.l-3{ transition:stroke-dashoffset .8s var(--ease) 1.55s; }
+  html.anim .rail.play .net__svg .link.l-4{ transition:stroke-dashoffset .8s var(--ease) 1.85s; }
+  html.anim .rail.play .net__svg .link.cross{ transition:stroke-dashoffset 1.1s var(--ease) 1.5s; }
+  html.anim .rail.play .net__svg .bgneuron{ opacity:0.5; transition:opacity 1s ease .8s; }
+  html.anim .rail.play .net__svg .pulse{ opacity:1; transition:opacity .6s ease 2.4s; }
+
+  /* nodos: aparecen tras dibujarse su dendrita */
+  html.anim .rail.play .nd__dia{ transform:rotate(45deg) scale(1); }
+  html.anim .rail.play .nd__lab{ opacity:1; transform:translateY(-50%); }
+  html.anim .rail.play .nd-1 .nd__dia{ transition:transform .45s var(--ease) .95s; }
+  html.anim .rail.play .nd-1 .nd__lab{ transition:opacity .5s ease 1.1s, transform .5s var(--ease) 1.1s; }
+  html.anim .rail.play .nd-2 .nd__dia{ transition:transform .45s var(--ease) 1.25s; }
+  html.anim .rail.play .nd-2 .nd__lab{ transition:opacity .5s ease 1.4s, transform .5s var(--ease) 1.4s; }
+  html.anim .rail.play .nd-3 .nd__dia{ transition:transform .45s var(--ease) 1.55s; }
+  html.anim .rail.play .nd-3 .nd__lab{ transition:opacity .5s ease 1.7s, transform .5s var(--ease) 1.7s; }
+  html.anim .rail.play .nd-4 .nd__dia{ transition:transform .45s var(--ease) 1.85s; }
+  html.anim .rail.play .nd-4 .nd__lab{ transition:opacity .5s ease 2s, transform .5s var(--ease) 2s; }
+  html.anim .rail.play .nd-5 .nd__dia{ transition:transform .55s var(--ease) 2.15s; }
+  html.anim .rail.play .nd-5 .nd__lab{ transition:opacity .6s ease 2.35s, transform .6s var(--ease) 2.35s; }
+
+  /* deriva lenta en reposo (vida) — muy sutil, larga */
+  .net.alive .nd-1{ animation:drift 11s var(--ease) infinite; }
+  .net.alive .nd-2{ animation:drift 13s var(--ease) infinite -3s; }
+  .net.alive .nd-3{ animation:drift 12s var(--ease) infinite -6s; }
+  .net.alive .nd-4{ animation:drift 14s var(--ease) infinite -2s; }
+  .net.alive .nd-5{ animation:driftC 16s var(--ease) infinite -8s; }
+  .net.alive .bgneuron{ animation:breathe 9s ease-in-out infinite; }
+}
+@keyframes drift{ 0%,100%{ transform:translate(-50%,-50%); } 50%{ transform:translate(calc(-50% + 3px),calc(-50% - 4px)); } }
+@keyframes driftC{ 0%,100%{ transform:translate(-50%,-50%); } 50%{ transform:translate(-50%,calc(-50% - 5px)); } }
+@keyframes breathe{ 0%,100%{ opacity:0.35; } 50%{ opacity:0.62; } }
+
+/* las dendritas usan pathLength=1 (dasharray fijo) para dibujarse */
+.net__svg .link{ stroke-dasharray:1; }
+
+/* pulsos viajeros (SMIL) — ocultos bajo reduced-motion */
+@media (prefers-reduced-motion: reduce){ .net__svg .pulse{ display:none; } }
+
+/* ════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════════════════════════════ */
+@media (max-width:900px){
+  .sobre__inner{ grid-template-columns:1fr; gap:clamp(36px,6vw,56px); }
+  .rail{ max-width:440px; }
+  .prose{ max-width:100%; }
+}
+@media (max-width:560px){
+  .sobre{ padding:clamp(40px,7vh,64px) 18px; }
+  .nd__lab{ font-size:0.7rem; max-width:120px; }
+  .nd.final .nd__lab{ font-size:1.25rem; }
+}
+
+@media print{
+  .sobre{ min-height:auto; overflow:visible; }
+  #tweaks-root, .twk-host{ display:none !important; }
+  html.anim .plate, html.anim .plate__base, html.anim .portrait__terra,
+  html.anim .nd__lab{ opacity:1 !important; transform:none !important; }
+  html.anim .shot img{ filter:none !important; transform:none !important; }
+  html.anim .nd__lab{ transform:translateY(-50%) !important; }
+  html.anim .rule{ transform:scaleX(1) !important; }
+  html.anim .net__svg .link{ stroke-dashoffset:0 !important; }
+  html.anim .net__svg .bgneuron{ opacity:0.5 !important; }
+  html.anim .nd__dia{ transform:rotate(45deg) scale(1) !important; }
+}
+</style>
+</head>
+<body>
+<template id="__bundler_thumbnail" data-bg-color="#FFFFFF">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#FFFFFF"/>
+    <g stroke="#C0542A" stroke-width="6" fill="none">
+      <rect x="500" y="190" width="210" height="250"/>
+      <path d="M600 440 C560 510 660 540 600 610" stroke-width="4"/>
+    </g>
+    <g fill="#C0542A">
+      <rect x="588" y="498" width="22" height="22" transform="rotate(45 599 509)"/>
+      <rect x="560" y="588" width="28" height="28" transform="rotate(45 574 602)"/>
+    </g>
+  </svg>
+</template>
+
+<main>
+  <section class="sobre" id="sobre-mi" data-screen-label="Sobre mí">
+    <div class="sobre__inner">
+
+      <!-- ══ RAIL: retrato + entramado ══ -->
+      <div class="rail" id="rail">
+
+        <!-- retrato (soma) con placa terracota offset -->
+        <figure class="portrait">
+          <span class="portrait__terra" aria-hidden="true"></span>
+          <div class="plate">
+            <div class="shot">
+              <img src="assets/marc.jpg" alt="Marc Sola Bel" />
+              <span class="grade" aria-hidden="true"></span>
+            </div>
+            <figcaption class="plate__base">
+              <span class="name">Marc Sola Bel</span>
+              <span class="rule" aria-hidden="true"></span>
+              <span class="role">Retrato</span>
+            </figcaption>
+          </div>
+        </figure>
+
+        <!-- entramado neuronal: cada nodo = una etapa -->
+        <div class="net" id="net" aria-label="Trayectoria como sistema">
+          <svg class="net__svg" viewBox="0 0 380 440" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <!-- neuronas de fondo (profundidad) -->
+            <g>
+              <rect class="bgneuron" x="304" y="52" width="9" height="9" transform="rotate(45 308.5 56.5)"/>
+              <rect class="bgneuron" x="44" y="160" width="8" height="8" transform="rotate(45 48 164)"/>
+              <rect class="bgneuron" x="332" y="241" width="10" height="10" transform="rotate(45 337 246)"/>
+              <rect class="bgneuron" x="50" y="323" width="8" height="8" transform="rotate(45 54 327)"/>
+              <rect class="bgneuron" x="300" y="368" width="9" height="9" transform="rotate(45 304.5 372.5)"/>
+            </g>
+            <!-- dendritas cruzadas (aprendizaje que se transfiere · saltos) -->
+            <path id="c1" class="link cross" pathLength="1" d="M110,70 C70,122 80,179 120,220"/>
+            <path id="c2" class="link cross" pathLength="1" d="M250,143 C300,196 300,253 250,297"/>
+            <path id="c3" class="link cross" pathLength="1" d="M120,220 C100,293 130,352 175,383"/>
+            <!-- raíces desde el soma (retrato) -->
+            <path id="r1" class="link l-root" pathLength="1" d="M140,0 C130,24 118,45 110,70"/>
+            <path id="r2" class="link l-root" pathLength="1" d="M212,0 C226,42 246,98 250,143"/>
+            <!-- espina cronológica -->
+            <path id="p1" class="link l-1" pathLength="1" d="M110,70 C150,98 220,116 250,143"/>
+            <path id="p2" class="link l-2" pathLength="1" d="M250,143 C250,179 150,192 120,220"/>
+            <path id="p3" class="link l-3" pathLength="1" d="M120,220 C120,257 220,269 250,297"/>
+            <path id="p4" class="link l-4" pathLength="1" d="M250,297 C250,339 205,355 175,383"/>
+            <!-- pulsos viajeros (vida en reposo) -->
+            <circle class="pulse" r="3.1"><animateMotion dur="5.5s" begin="0s" repeatCount="indefinite"><mpath href="#p1"/></animateMotion></circle>
+            <circle class="pulse" r="3.1"><animateMotion dur="6s" begin="1.4s" repeatCount="indefinite"><mpath href="#p2"/></animateMotion></circle>
+            <circle class="pulse" r="3.1"><animateMotion dur="5.7s" begin="2.6s" repeatCount="indefinite"><mpath href="#p3"/></animateMotion></circle>
+            <circle class="pulse" r="3.1"><animateMotion dur="6.2s" begin="3.7s" repeatCount="indefinite"><mpath href="#p4"/></animateMotion></circle>
+            <circle class="pulse" r="2.6"><animateMotion dur="7.5s" begin="0.7s" repeatCount="indefinite"><mpath href="#r2"/></animateMotion></circle>
+          </svg>
+
+          <div class="net__nodes">
+            <div class="nd nd-1 r" style="left:28.9%; top:15.9%; --lx:-8px;"><span class="nd__dia"></span><span class="nd__lab">Comunicación<br>audiovisual</span></div>
+            <div class="nd nd-2 l" style="left:65.8%; top:32.4%; --lx:8px;"><span class="nd__dia"></span><span class="nd__lab">Ventas B2B</span></div>
+            <div class="nd nd-3 r" style="left:31.6%; top:50%; --lx:-8px;"><span class="nd__dia"></span><span class="nd__lab">Dirección<br>comercial</span></div>
+            <div class="nd nd-4 l" style="left:65.8%; top:67.6%; --lx:8px;"><span class="nd__dia"></span><span class="nd__lab">Coordinación +<br>automatización</span></div>
+            <div class="nd nd-5 final r" style="left:46%; top:87%; --lx:-8px;"><span class="nd__dia"></span><span class="nd__lab">Pienso en sistemas.</span></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ══ PROSA: copy exacto de la web ══ -->
+      <div class="prose">
+        <p class="eyebrow">Sobre mí</p>
+        <h2 class="synth">Una década, contextos muy distintos, un hilo constante.</h2>
+        <p>Llevo una década resolviendo problemas en contextos muy distintos: comunicación audiovisual, ventas B2B, dirección comercial y, ahora, coordinación de equipo y automatización de procesos. Ese recorrido variado tiene un hilo constante — pienso en <span class="hl">sistemas</span>. Descompongo un problema en sus piezas, entiendo cómo encajan y diseño la solución.</p>
+        <p>Hoy coordino un equipo técnico, y he aprendido que liderar no es repartir tareas: es leer dónde hay fricción, mantener la comunicación clara y cuidar la carga de cada persona. Detecto pronto cuándo algo no fluye y me centro en resolverlo, porque me importa de verdad que el problema se solucione, no solo que quede registrado.</p>
+        <p>Esa misma lógica me llevó a la automatización con IA. Diseño el sistema, oriento herramientas como Claude y construyo soluciones que quitan el trabajo mecánico para que las personas se dediquen a lo que de verdad aporta. No vengo del código — vengo del <span class="hl">problema</span>. Y cada vez me obsesiona más construir la herramienta que lo resuelve.</p>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<div id="tweaks-root"></div>
+
+<script>
+(function(){
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const html = document.documentElement;
+  const rail = document.getElementById('rail');
+  const net  = document.getElementById('net');
+  const sobre = document.getElementById('sobre-mi');
+  let settleT = null, alive = true;
+
+  function play(){ rail.classList.add('play'); }
+  function settle(){ html.classList.remove('anim'); if(alive) net.classList.add('alive'); }
+  function start(){ play(); clearTimeout(settleT); settleT = setTimeout(settle, 3000); }
+
+  window.__sobre = {
+    replay(){ net.classList.remove('alive'); rail.classList.remove('play'); clearTimeout(settleT);
+      html.classList.add('anim'); void rail.offsetWidth;
+      requestAnimationFrame(()=>requestAnimationFrame(start)); },
+    setAlive(v){ alive = v; net.classList.toggle('alive', v && !html.classList.contains('anim')); }
+  };
+
+  // parallax sutil (solo puntero fino) — transform únicamente
+  if(matchMedia('(hover:hover) and (pointer:fine)').matches && !reduced){
+    sobre.addEventListener('pointermove', (e)=>{
+      const r = rail.getBoundingClientRect();
+      const cx = r.left + r.width/2, cy = r.top + r.height/2;
+      const mx = Math.max(-1, Math.min(1, (e.clientX - cx) / (r.width))); 
+      const my = Math.max(-1, Math.min(1, (e.clientY - cy) / (r.height)));
+      rail.style.setProperty('--mx', mx.toFixed(3));
+      rail.style.setProperty('--my', my.toFixed(3));
+    });
+    sobre.addEventListener('pointerleave', ()=>{ rail.style.setProperty('--mx',0); rail.style.setProperty('--my',0); });
+  }
+
+  if(reduced){ if(alive) net.classList.add('alive'); return; }
+  html.classList.add('anim');
+
+  let triggered = false;
+  function trigger(){ if(triggered) return; triggered = true; start(); }
+  const io = new IntersectionObserver((ents)=>{
+    ents.forEach(e=>{ if(e.isIntersecting){ trigger(); io.disconnect(); } });
+  }, { threshold: 0.25 });
+  io.observe(sobre);
+  setTimeout(trigger, 1700);   // garantía: nunca queda invisible
+})();
+</script>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+const { useTweaks, TweaksPanel, TweakSection, TweakRadio, TweakToggle, TweakColor, TweakButton } = window;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "fondo": "Blanco",
+  "grado": "Recalibrado",
+  "vida": true,
+  "acento": "#C0542A"
+}/*EDITMODE-END*/;
+
+const GRADO = { "Sin viñeta": 0, "Recalibrado": 0.4, "Marcado": 0.6 };
+
+function App(){
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  React.useEffect(()=>{
+    const root = document.documentElement;
+    root.style.setProperty('--grade', GRADO[t.grado] ?? 0.4);
+    root.style.setProperty('--terra', t.acento);
+    document.getElementById('sobre-mi').classList.toggle('is-dark', t.fondo === 'Oscuro');
+  }, [t.grado, t.acento, t.fondo]);
+  React.useEffect(()=>{ if(window.__sobre) window.__sobre.setAlive(t.vida); }, [t.vida]);
+
+  return (
+    <TweaksPanel title="Tweaks">
+      <TweakSection label="Entrada" />
+      <TweakButton label="Reproducir entrada" onClick={()=>window.__sobre && window.__sobre.replay()} />
+      <TweakToggle label="Vida en reposo (pulsos)" value={t.vida} onChange={(v)=>setTweak('vida', v)} />
+
+      <TweakSection label="Fondo" />
+      <TweakRadio label="Tono" value={t.fondo} options={["Blanco","Oscuro"]} onChange={(v)=>setTweak('fondo', v)} />
+
+      <TweakSection label="Viñeta de la foto" />
+      <TweakRadio label="Intensidad" value={t.grado} options={["Sin viñeta","Recalibrado","Marcado"]} onChange={(v)=>setTweak('grado', v)} />
+
+      <TweakSection label="Acento" />
+      <TweakColor label="Color" value={t.acento}
+        options={["#C0542A","oklch(0.55 0.13 255)","oklch(0.52 0.12 150)","oklch(0.5 0.13 330)"]}
+        onChange={(v)=>setTweak('acento', v)} />
+    </TweaksPanel>
+  );
+}
+ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<App />);
+</script>
+</body>
+</html>
