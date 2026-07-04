@@ -228,24 +228,24 @@ export default function SobreMi() {
             <p className="synth">Una década, contextos muy distintos, un hilo constante.</p>
             <p>
               Llevo una década resolviendo problemas en contextos muy distintos:
-              comunicación audiovisual, ventas B2B, dirección comercial y, ahora,
-              coordinación de equipo y automatización de procesos. Ese recorrido
-              variado tiene un hilo constante: pienso en{" "}
-              <span className="hl">sistemas</span>. Descompongo un problema en sus
+              comunicación audiovisual, ventas técnicas B2B, dirección comercial
+              y, ahora, coordinación de equipo y automatización con IA. El
+              recorrido es variado; el hilo es uno: pienso en{" "}
+              <span className="hl">sistemas</span>. Descompongo el problema en sus
               piezas, entiendo cómo encajan y diseño la solución.
             </p>
             <p>
-              Hoy coordino un equipo técnico, y he aprendido que liderar no es
-              repartir tareas: es leer dónde hay fricción, mantener la comunicación
-              clara y cuidar la carga de cada persona. Detecto pronto cuándo algo
-              no fluye y me centro en resolverlo, porque me importa de verdad que
-              el problema se solucione, no solo que quede registrado.
+              Hoy coordino un equipo técnico: reparto el trabajo, mantengo la
+              comunicación clara y vigilo la carga de cada persona. Liderar no es
+              asignar tareas, es leer pronto dónde se atasca algo y resolverlo
+              antes de que pese. Me importa que el problema se solucione, no solo
+              que quede registrado.
             </p>
             <p>
-              Esa misma lógica me llevó a la automatización con IA. Diseño el
-              sistema, oriento herramientas como Claude y construyo soluciones que
-              quitan el trabajo mecánico para que las personas se dediquen a lo que
-              de verdad aporta. No vengo del código; vengo del{" "}
+              Esa misma lógica me llevó a la automatización con IA. Vi que el
+              reparto de trabajo del equipo dependía del criterio manual y diseñé
+              el sistema que lo equilibra, orquestando IA sin escribir código de
+              producción. No vengo del código: vengo del{" "}
               <span className="hl">problema</span>. Y cada vez me obsesiona más
               construir la herramienta que lo resuelve.
             </p>

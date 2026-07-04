@@ -21,9 +21,10 @@ const ROLES = [
     logo: { id: "propio", text: "◆" },
     desc: (
       <>
-        Nicho con análisis de datos, <strong>automatización con IA</strong>,
-        pricing y canal. Entorno donde aplico las mismas capacidades que
-        desarrollo profesionalmente, <strong>de principio a fin</strong>.
+        Selección de producto por datos de mercado reales, no por intuición.{" "}
+        <strong>Automatización del canal con IA</strong> y precios por margen.
+        Las mismas capacidades que ejerzo profesionalmente, aquí{" "}
+        <strong>de principio a fin</strong>.
       </>
     ),
   },
@@ -36,10 +37,10 @@ const ROLES = [
     desc: (
       <>
         <strong>Coordino un equipo técnico</strong> y la planificación de sus
-        intervenciones; asignación de trabajo, comunicación del equipo y
-        seguimiento contable. Por iniciativa propia{" "}
-        <strong>diseñé un sistema de asignación inteligente de órdenes</strong>{" "}
-        (<a href="#proyecto">ver Atlas</a>).
+        intervenciones: reparto del trabajo, comunicación y seguimiento
+        contable. Por iniciativa propia{" "}
+        <strong>diseñé el sistema de asignación inteligente de órdenes</strong>{" "}
+        que ves en <a href="#proyecto">Atlas</a>.
       </>
     ),
   },
@@ -51,12 +52,12 @@ const ROLES = [
     logo: { id: "beral", text: "BP" },
     desc: (
       <>
-        Ventas y postventa de cartera B2B, contenido web, apoyo a marketing
-        audiovisual, <strong>estrategia comercial</strong> y contabilidad.{" "}
+        Venta y postventa <strong>técnica de ticket alto</strong> a cartera
+        B2B, más contenido web, marketing y estrategia comercial.{" "}
         <strong>
-          Superé los <span className="fire">2 M€</span> en ventas
-        </strong>{" "}
-        liderando la estrategia con clientes.
+          Superé los <span className="fire">2 M€</span> en ventas en tres años
+        </strong>
+        , por asesoramiento y no por descuento.
       </>
     ),
   },

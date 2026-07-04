@@ -295,15 +295,15 @@ export default function Hero() {
       <div className="hero__inner">
         <div className="hero__row">
           <div className="hero__text">
-            <p className="eyebrow">Proyectos · Automatización con IA · Estrategia comercial</p>
+            <p className="eyebrow">Gestión de proyectos · Coordinación de equipo · Automatización con IA</p>
             <h1 ref={headlineRef} className="headline">
               Pienso en <span className="hl-accent">sistemas</span>;
               <br />
               construyo soluciones.
             </h1>
             <p className="lead">
-              Una década entre comunicación, ventas y liderazgo de equipo, hoy
-              volcada en diseñar y automatizar procesos con IA.
+              Una década en ventas y comunicación, hoy coordinando un equipo
+              técnico y diseñando, con IA, los sistemas que lo sostienen.
             </p>
           </div>
           <div className="hero__accent" aria-hidden="true">
