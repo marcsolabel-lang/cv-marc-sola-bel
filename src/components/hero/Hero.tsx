@@ -303,7 +303,8 @@ export default function Hero() {
             </h1>
             <p className="lead">
               Una década en ventas y comunicación, hoy coordinando un equipo
-              técnico y diseñando, con IA, los sistemas que lo sostienen.
+              técnico y armando con IA la herramienta pensada para equilibrar su
+              carga.
             </p>
           </div>
           <div className="hero__accent" aria-hidden="true">

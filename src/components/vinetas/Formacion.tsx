@@ -26,12 +26,12 @@ export default function Formacion() {
             <span className="fire">arquitecto</span>.
           </h3>
           <p className="formacion__detalle">
-            Diseñar{" "}
-            <strong>la estructura de un sistema completo antes de construirlo</strong>,
-            documentar y gestionar un proyecto de principio a fin. El contexto era
+            Trazar{" "}
+            <strong>el esqueleto de un proyecto completo antes de construirlo</strong>,
+            documentarlo y llevarlo de la idea a la entrega. El terreno era
             el diseño de videojuegos; la lección (
-            <strong>estructurar, planificar, iterar</strong>) es la que aplico hoy
-            a cualquier sistema.
+            <strong>planificar, ordenar, iterar</strong>) es la que aplico hoy
+            a cualquier proceso.
           </p>
           <span className="formacion__meta">
             {/* logo: sustituir el slot por <img src="/logos/levelup.svg" alt="Level Up Game Dev Hub" /> */}

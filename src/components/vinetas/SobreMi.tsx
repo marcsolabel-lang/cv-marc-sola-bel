@@ -227,12 +227,13 @@ export default function SobreMi() {
             </h2>
             <p className="synth">Una década, contextos muy distintos, un hilo constante.</p>
             <p>
-              Llevo una década resolviendo problemas en contextos muy distintos:
+              Llevo una década resolviendo problemas en escenarios que no se
+              parecen entre sí:
               comunicación audiovisual, ventas técnicas B2B, dirección comercial
               y, ahora, coordinación de equipo y automatización con IA. El
               recorrido es variado; el hilo es uno: pienso en{" "}
               <span className="hl">sistemas</span>. Descompongo el problema en sus
-              piezas, entiendo cómo encajan y diseño la solución.
+              piezas, entiendo cómo encajan y trazo la solución.
             </p>
             <p>
               Hoy coordino un equipo técnico: reparto el trabajo, mantengo la
@@ -242,10 +243,11 @@ export default function SobreMi() {
               que quede registrado.
             </p>
             <p>
-              Esa misma lógica me llevó a la automatización con IA. Vi que el
-              reparto de trabajo del equipo dependía del criterio manual y diseñé
-              el sistema que lo equilibra, orquestando IA sin escribir código de
-              producción. No vengo del código: vengo del{" "}
+              Esa misma lógica me llevó a la IA. Vi que la carga del equipo se
+              distribuía a criterio manual y monté el mecanismo que la equilibra
+              —validado en simulador—, usando la IA como herramienta para
+              construirlo, sin escribir una línea de código de producción. No
+              vengo del código: vengo del{" "}
               <span className="hl">problema</span>. Y cada vez me obsesiona más
               construir la herramienta que lo resuelve.
             </p>

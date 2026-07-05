@@ -37,9 +37,9 @@ export default function Liderazgo() {
             <p className="lid__frase">
               Dirigí durante <strong>cuatro años</strong> una asociación cultural
               sin ánimo de lucro de <strong>más de 70 miembros</strong>:{" "}
-              <strong>coordinación de personas</strong>, organización de
-              actividades y sostenibilidad de un proyecto colectivo a lo largo
-              del tiempo.
+              <strong>coordinación de personas</strong>, programación de
+              actividades y un proyecto colectivo que mantuve vivo y con
+              recursos.
             </p>
             <span className="lid__meta">
               Dirección de una asociación cultural · 2017–2021

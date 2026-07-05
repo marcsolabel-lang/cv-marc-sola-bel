@@ -17,14 +17,13 @@ const ROLES = [
     year: "2026",
     range: "2026 – actualidad",
     rol: "Proyecto propio · E-commerce B2C",
-    org: "Diseño y operación de principio a fin",
+    org: "En desarrollo · concebido y llevado por mí",
     logo: { id: "propio", text: "◆" },
     desc: (
       <>
         Selección de producto por datos de mercado reales, no por intuición.{" "}
-        <strong>Automatización del canal con IA</strong> y precios por margen.
-        Las mismas capacidades que ejerzo profesionalmente, aquí{" "}
-        <strong>de principio a fin</strong>.
+        <strong>Automatización del canal con IA</strong> y precios por margen: el
+        mismo criterio comercial que ejerzo cada día, aquí sin intermediarios.
       </>
     ),
   },
@@ -37,10 +36,10 @@ const ROLES = [
     desc: (
       <>
         <strong>Coordino un equipo técnico</strong> y la planificación de sus
-        intervenciones: reparto del trabajo, comunicación y seguimiento
+        intervenciones: distribución de la carga, comunicación y seguimiento
         contable. Por iniciativa propia{" "}
-        <strong>diseñé el sistema de asignación inteligente de órdenes</strong>{" "}
-        que ves en <a href="#proyecto">Atlas</a>.
+        <strong>puse en pie el motor de asignación de órdenes</strong>{" "}
+        que ves en <a href="#proyecto">Atlas</a>: un prototipo funcional, todavía no un despliegue oficial de la empresa.
       </>
     ),
   },
@@ -52,12 +51,12 @@ const ROLES = [
     logo: { id: "beral", text: "BP" },
     desc: (
       <>
-        Venta y postventa <strong>técnica de ticket alto</strong> a cartera
-        B2B, más contenido web, marketing y estrategia comercial.{" "}
         <strong>
-          Superé los <span className="fire">2 M€</span> en ventas en tres años
-        </strong>
-        , por asesoramiento y no por descuento.
+          Más de <span className="fire">2 M€</span> vendidos en tres años
+        </strong>{" "}
+        a cartera B2B de ticket alto, ganados por asesoramiento y no por
+        descuento. Postventa técnica, contenido web, marketing y estrategia
+        comercial.
       </>
     ),
   },
@@ -66,8 +65,8 @@ const ROLES = [
 /* mismas raíces, monótonas con el eje (descendente) */
 const RAICES = [
   { year: "2019–20", rol: "Socio fundador · Productor audiovisual · MalRai Studio", nota: "Comunicación digital, guion, edición, producción." },
-  { year: "2018–19", rol: "Business Consultant · Ondas System", nota: "Estrategia comercial B2B para pymes, para Vodafone en punto de venta. Entre los consultores mejor valorados." },
-  { year: "2016", rol: "Ayudante de producción · Produccions Antàrtida (TV)", nota: "Concurso infantil Picalletres." },
+  { year: "2018–19", rol: "Business Consultant · Ondas System", nota: "Estrategia comercial B2B para pymes, para Vodafone en punto de venta." },
+  { year: "2016", rol: "Ayudante de producción · Produccions Antàrtida (TV)", nota: "Concurso infantil Picalletres (TV3); apoyo a producción y contenidos." },
 ];
 
 function ExpItem({ item, delay }: { item: (typeof ROLES)[number]; delay: number }) {

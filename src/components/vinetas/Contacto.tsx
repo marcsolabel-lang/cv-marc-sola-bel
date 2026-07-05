@@ -21,8 +21,8 @@ export default function Contacto() {
           </svg>
 
           <h2 className="contacto__cierre">
-            Hablemos de la próxima{" "}
-            <span className="fire">oportunidad</span>.
+            Coordino equipos y automatizo procesos con IA. Si eso te encaja,{" "}
+            <span className="fire">hablemos</span>.
           </h2>
 
           <a className="cta-email" href="mailto:marcsolabel@gmail.com">
