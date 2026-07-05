@@ -62,11 +62,14 @@ const ROLES = [
   },
 ];
 
-/* mismas raíces, monótonas con el eje (descendente) */
+/* raíces: sin conector de eje (a diferencia de ROLES), por eso Antàrtida se
+   antepone aquí a propósito — es la más rica en contexto (Carles Porta,
+   Picalletres, Crims) y se lee antes que el resto aunque no sea la más
+   reciente. Las otras dos siguen en orden descendente. */
 const RAICES = [
+  { year: "2016", rol: "Ayudante de producción · Produccions Antàrtida (TV)", nota: "Concurso infantil Picalletres (TV3); apoyo a producción y contenidos." },
   { year: "2019–20", rol: "Socio fundador · Productor audiovisual · MalRai Studio", nota: "Comunicación digital, guion, edición, producción." },
   { year: "2018–19", rol: "Business Consultant · Ondas System", nota: "Estrategia comercial B2B para pymes, para Vodafone en punto de venta." },
-  { year: "2016", rol: "Ayudante de producción · Produccions Antàrtida (TV)", nota: "Concurso infantil Picalletres (TV3); apoyo a producción y contenidos." },
 ];
 
 function ExpItem({ item, delay }: { item: (typeof ROLES)[number]; delay: number }) {
