@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Marc Sola Bel · CV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#181614;
+    --ink-soft:#4a4642;
+    --ink-faint:#706b66;
+    --rule:#c7c0b8;
+    --terracotta:#C0542A;
+    --paper:#ffffff;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Bricolage Grotesque",system-ui,sans-serif;
+    font-optical-sizing:auto;
+    -webkit-font-smoothing:antialiased;
+  }
+  .page{
+    width:210mm;
+    min-height:297mm;
+    margin:0 auto;
+    padding:19mm 24mm 15mm;
+  }
+  .mono{
+    font-family:"IBM Plex Mono",ui-monospace,monospace;
+  }
+
+  /* ===== header ===== */
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    padding-bottom:16px;
+    border-bottom:1.5px solid var(--ink);
+    margin-bottom:22px;
+  }
+  .photo{
+    width:32mm;
+    height:40mm;
+    object-fit:cover;
+    object-position:center top;
+    flex:0 0 auto;
+    border:1px solid var(--rule);
+  }
+  .id{ flex:1 1 auto; min-width:0; }
+  h1{
+    font-size:30px;
+    font-weight:700;
+    letter-spacing:-0.01em;
+    margin:0 0 7px;
+    line-height:1.1;
+  }
+  .role-line{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin:0;
+    letter-spacing:0.01em;
+  }
+  .contact{
+    text-align:right;
+    font-size:11.5px;
+    color:var(--ink-soft);
+    line-height:1.85;
+    white-space:nowrap;
+    flex:0 0 auto;
+  }
+  .contact a{ color:var(--ink-soft); text-decoration:none; }
+
+  /* ===== perfil ===== */
+  .perfil{
+    font-size:13.5px;
+    line-height:1.65;
+    color:var(--ink);
+    max-width:155mm;
+    margin:0 0 30px;
+  }
+
+  /* ===== section label ===== */
+  .sect{ margin-bottom:20px; }
+  .sect + .sect{ margin-top:32px; }
+  .sect__label{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:10.5px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:0.14em;
+    color:var(--terracotta);
+    margin:0 0 16px;
+    padding-bottom:7px;
+    border-bottom:1.5px solid var(--ink-faint);
+  }
+
+  /* ===== experiencia ===== */
+  .role{
+    break-inside:avoid;
+    margin-top:17px;
+    padding-top:17px;
+    border-top:1px solid var(--rule);
+  }
+  .role:first-child{ margin-top:0; padding-top:0; border-top:none; }
+  .role__head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:12px;
+    margin-bottom:5px;
+  }
+  .role__title{
+    font-size:15px;
+    font-weight:600;
+    line-height:1.3;
+  }
+  .role__org{
+    font-weight:400;
+    color:var(--ink-soft);
+  }
+  .role__org::before{ content:"·"; margin:0 6px; color:var(--ink-faint); }
+  .role__date{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:11px;
+    color:var(--ink-faint);
+    white-space:nowrap;
+    padding-top:1px;
+  }
+  ul.role__bullets{
+    margin:6px 0 0;
+    padding-left:15px;
+    list-style:none;
+  }
+  ul.role__bullets li{
+    position:relative;
+    font-size:12.5px;
+    line-height:1.55;
+    color:var(--ink);
+    margin-bottom:5px;
+  }
+  ul.role__bullets li::before{
+    content:"–";
+    position:absolute;
+    left:-14px;
+    color:var(--ink-faint);
+  }
+  ul.role__bullets li:last-child{ margin-bottom:0; }
+  .num{ font-family:"IBM Plex Mono",monospace; color:var(--terracotta); font-weight:500; }
+
+  /* ===== raíces (condensado) ===== */
+  .raices{ margin-top:17px; padding-top:16px; border-top:1px solid var(--rule); }
+  .raiz{
+    display:grid;
+    grid-template-columns:20mm 1fr;
+    gap:10px;
+    font-size:11.8px;
+    line-height:1.55;
+    margin-bottom:8px;
+  }
+  .raiz:last-child{ margin-bottom:0; }
+  .raiz__year{ font-family:"IBM Plex Mono",monospace; color:var(--ink-faint); }
+  .raiz__body b{ font-weight:600; }
+  .raiz__body span{ color:var(--ink-soft); }
+
+  /* ===== formación / idiomas ===== */
+  .edu{ break-inside:avoid; margin-bottom:14px; }
+  .edu:last-child{ margin-bottom:0; }
+  .edu__head{
+    display:flex; justify-content:space-between; align-items:baseline; gap:12px;
+  }
+  .edu__title{ font-size:13px; font-weight:600; }
+  .edu__org{ font-weight:400; color:var(--ink-soft); }
+  .edu__org::before{ content:"·"; margin:0 6px; color:var(--ink-faint); }
+  .edu__date{ font-family:"IBM Plex Mono",monospace; font-size:10.5px; color:var(--ink-faint); white-space:nowrap; }
+  .edu__desc{ font-size:11.8px; color:var(--ink-soft); line-height:1.5; margin:3px 0 0; }
+
+  .cols{
+    display:grid;
+    grid-template-columns:1.65fr 1fr;
+    gap:0;
+  }
+  .cols > div:first-child{
+    padding-right:20px;
+  }
+  .cols > div:last-child{
+    border-left:1px solid var(--rule);
+    padding-left:24px;
+  }
+
+  .idiomas{ font-size:12px; line-height:2; }
+  .idiomas .item{ display:flex; justify-content:space-between; gap:12px; margin-bottom:3px; }
+  .idiomas .lv{ font-family:"IBM Plex Mono",monospace; color:var(--ink-faint); font-size:11px; }
+  .idiomas .item--extra{ margin-top:9px; padding-top:9px; border-top:1px solid var(--rule); }
+
+  footer{
+    margin-top:22px;
+    padding-top:12px;
+    border-top:1px solid var(--rule);
+    font-family:"IBM Plex Mono",monospace;
+    font-size:9px;
+    color:var(--ink-faint);
+    letter-spacing:0.03em;
+  }
+
+  /* ===== página 2 — portfolio ===== */
+  .p2-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:20px;
+    padding-bottom:14px;
+    border-bottom:1.5px solid var(--ink);
+    margin-bottom:36px;
+  }
+  .p2-head__label{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+    white-space:nowrap;
+  }
+  .p2-head__note{
+    font-size:11px;
+    color:var(--ink-faint);
+    text-align:right;
+    line-height:1.5;
+    max-width:85mm;
+  }
+  .case{ margin-top:36px; }
+  .case:first-of-type{ margin-top:0; }
+  .case__title{
+    font-size:19px;
+    font-weight:700;
+    margin:0 0 6px;
+    letter-spacing:-0.005em;
+  }
+  .case__meta{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:10.5px;
+    color:var(--ink-faint);
+    margin:0 0 20px;
+  }
+  .sub{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:10px;
+    font-weight:600;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin:28px 0 11px;
+    break-after:avoid;
+  }
+  .case__meta + .sub{ margin-top:0; }
+  .case p{
+    font-size:12px;
+    line-height:1.55;
+    color:var(--ink);
+    max-width:162mm;
+    margin:0;
+  }
+  .spec{
+    margin-top:16px;
+    padding:4px 0 4px 16px;
+    border-left:2px solid var(--terracotta);
+  }
+  .spec ul{ margin:0; padding:0; list-style:none; }
+  .spec li{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:10px;
+    line-height:1.6;
+    color:var(--ink-soft);
+  }
+  .cierre{
+    margin-top:32px;
+    padding-top:20px;
+    border-top:1px solid var(--rule);
+    font-size:12px;
+    line-height:1.55;
+    max-width:162mm;
+  }
+
+  @media print{
+    body{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .page{ margin:0; padding:0; break-after:page; }
+    .page:last-of-type{ break-after:auto; }
+    @page{ size:A4; margin:18mm 18mm 16mm; }
+  }
+  @media screen{
+    body{ background:#e7e3df; }
+    .page{ background:var(--paper); box-shadow:0 1px 24px rgba(0,0,0,.14); margin:16px auto; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <img class="photo" src="assets/foto-cv-bn.jpg" alt="Marc Sola Bel">
+    <div class="id">
+      <h1>Marc Sola Bel</h1>
+      <p class="role-line mono">Gestión de proyectos&nbsp;· coordinación de equipo&nbsp;· IA aplicada</p>
+    </div>
+    <div class="contact mono">
+      <a href="mailto:marcsolabel@gmail.com">marcsolabel@gmail.com</a><br>
+      <a href="tel:+34608254126">608&nbsp;254&nbsp;126</a><br>
+      Esparreguera, Barcelona
+    </div>
+  </header>
+
+  <p class="perfil">Una década resolviendo problemas en contextos distintos: comunicación audiovisual, ventas técnicas B2B y, hoy, coordinación de un equipo técnico. Construyo con IA las herramientas que ese trabajo necesita, sin escribir código de producción: el criterio importa más que la sintaxis.</p>
+
+  <div class="sect">
+    <p class="sect__label">Experiencia</p>
+
+    <div class="role">
+      <div class="role__head">
+        <span class="role__title">Proyecto propio <span class="role__org">e-commerce B2C</span></span>
+        <span class="role__date">2026 – actualidad</span>
+      </div>
+      <ul class="role__bullets">
+        <li>Selección de producto por datos de mercado reales, no por intuición.</li>
+        <li>Automatización del canal con IA; precios calculados por margen.</li>
+      </ul>
+    </div>
+
+    <div class="role">
+      <div class="role__head">
+        <span class="role__title">Coordinador de servicios técnicos <span class="role__org">Crown Lift Trucks</span></span>
+        <span class="role__date">dic. 2025 – actualidad</span>
+      </div>
+      <ul class="role__bullets">
+        <li>Coordina un equipo técnico: reparto de carga, comunicación y seguimiento contable de las intervenciones.</li>
+        <li>Detectó que la carga del equipo se repartía a criterio manual y construyó, con <span class="num">Claude</span> y sin escribir código de producción, el motor que la equilibra: prototipo funcional validado en simulador, por iniciativa propia.</li>
+      </ul>
+    </div>
+
+    <div class="role">
+      <div class="role__head">
+        <span class="role__title">Sales Specialist <span class="role__org">Beral Projects</span></span>
+        <span class="role__date">feb. 2021 – sept. 2024</span>
+      </div>
+      <ul class="role__bullets">
+        <li>Más de <span class="num">2 M€</span> vendidos en tres años a cartera B2B de ticket alto, ganados por asesoramiento técnico, no por descuento.</li>
+        <li>Postventa técnica, contenido web, marketing y estrategia comercial.</li>
+      </ul>
+    </div>
+
+    <div class="raices">
+      <div class="raiz">
+        <span class="raiz__year mono">2019–20</span>
+        <span class="raiz__body"><b>Socio fundador y productor audiovisual</b> · productora audiovisual propia. <span>Comunicación digital, guion, edición y producción.</span></span>
+      </div>
+      <div class="raiz">
+        <span class="raiz__year mono">2018–19</span>
+        <span class="raiz__body"><b>Business Consultant</b> · Ondas System. <span>Estrategia comercial B2B para pymes y para Vodafone en punto de venta.</span></span>
+      </div>
+      <div class="raiz">
+        <span class="raiz__year mono">2016</span>
+        <span class="raiz__body"><b>Productor audiovisual</b> · Produccions Antàrtida, S.A. <span>Picalletres (TV3) y preproducción de Crims.</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sect">
+    <p class="sect__label">Liderazgo</p>
+    <div class="role">
+      <div class="role__head">
+        <span class="role__title">Dirección de una asociación cultural <span class="role__org">sin ánimo de lucro</span></span>
+        <span class="role__date">2017 – 2021</span>
+      </div>
+      <ul class="role__bullets">
+        <li>Cuatro años coordinando una asociación de más de <span class="num">70</span> miembros: programación de actividades y gestión de recursos.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sect cols">
+    <div>
+      <p class="sect__label">Formación</p>
+      <div class="edu">
+        <div class="edu__head">
+          <span class="edu__title">Grado en Comunicación Audiovisual <span class="edu__org">Universitat de Lleida</span></span>
+          <span class="edu__date">2012 – 2017</span>
+        </div>
+        <p class="edu__desc">Intercambio en la Universidade de Santiago de Compostela.</p>
+      </div>
+      <div class="edu">
+        <div class="edu__head">
+          <span class="edu__title">Narrativa interactiva <span class="edu__org">ESCAC</span></span>
+          <span class="edu__date">2025</span>
+        </div>
+      </div>
+      <div class="edu">
+        <div class="edu__head">
+          <span class="edu__title">Game &amp; Concept Design <span class="edu__org">Level Up Game Dev Hub</span></span>
+          <span class="edu__date">2023 – 2024</span>
+        </div>
+        <p class="edu__desc">Documento de diseño, balance de juego y concepto propio de principio a fin.</p>
+      </div>
+      <div class="edu">
+        <div class="edu__head">
+          <span class="edu__title">Máster en Gestión de Esports y Gaming <span class="edu__org">IEBS</span></span>
+          <span class="edu__date">2021</span>
+        </div>
+        <p class="edu__desc">Gestión de eventos y de equipos en el ecosistema esports.</p>
+      </div>
+    </div>
+    <div>
+      <p class="sect__label">Idiomas</p>
+      <div class="idiomas">
+        <div class="item"><span>Catalán</span><span class="lv">nativo</span></div>
+        <div class="item"><span>Español</span><span class="lv">nativo</span></div>
+        <div class="item"><span>Inglés</span><span class="lv">B2 · profesional</span></div>
+        <div class="item"><span>Portugués</span><span class="lv">elemental</span></div>
+        <div class="item item--extra"><span>Carnet de conducir</span><span class="lv">B</span></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>marc sola bel · cv</footer>
+
+</div>
+
+<div class="page">
+
+  <div class="p2-head">
+    <span class="p2-head__label">Portfolio · lectura opcional</span>
+    <p class="p2-head__note">Dos proyectos en profundidad. La página 1 ya es el CV completo: esto es para quien quiera ver cómo trabajo.</p>
+  </div>
+
+  <div class="case">
+    <h2 class="case__title">Atlas</h2>
+    <p class="case__meta">Motor de asignación de rutas y carga de un equipo técnico · Crown Lift Trucks · construido con Claude</p>
+
+    <p class="sub">Problema</p>
+    <p>Un equipo técnico de mantenimiento de carretillas elevadoras (Cataluña y Baleares) necesita repartir su carga cada día, cada mes y cada año: qué máquina lleva cada técnico, qué ruta, qué prioridad. Es un problema real de asignación y rutas de técnicos (Technician Routing and Scheduling Problem, TRSP en la literatura), no un ejercicio de clase: cada decisión mal tomada es un viaje de más o un cliente esperando de más.</p>
+
+    <p class="sub">Enfoque</p>
+    <p>El motor reparte en tres capas que nunca se pisan entre sí. La primera es dura y filtra antes de puntuar nada: cliente con técnico habitual, zona, habilitación técnica. La segunda es el reparto real: cercanía geográfica contra equidad de carga entre técnicos. La tercera solo desempata (dificultad del modelo de máquina, afinidad con el cliente) y nunca saca una máquina de su zona. La asignación se resuelve por aproximación sucesiva y búsqueda local: mover y cambiar piezas hasta que no hay una mejora clara que hacer.</p>
+
+    <p class="sub">Cómo se construyó</p>
+    <p>Lo dirigí y lo construí con Claude, sin escribir yo el código de producción: no vengo del código, vengo del problema. El motor está calibrado con datos reales de productividad y desplazamiento del equipo, no con estimaciones. Antes de dar por buena una decisión de diseño, contrasté el algoritmo contra la literatura profesional del sector: el índice RIME de criticidad de avería, las reglas de secuenciación EDD / SPT, y la búsqueda local (o Tabu Search) como método estándar para este tipo de problema NP-duro. Cada cambio pasa por una suite de tests de regresión con una línea base fija de equidad de carga y kilometraje: si un factor nuevo la empeora, no se acepta.</p>
+
+    <p class="sub">Resultado</p>
+    <p>Hoy es un prototipo funcional que el equipo usa de forma informal, no un despliegue oficial de la empresa. Sigue vivo: cada mejora se prueba primero contra la línea base antes de entrar.</p>
+
+    <div class="spec">
+      <ul>
+        <li>3 capas de restricciones: estructural (dura) · primaria (cercanía + equidad) · secundaria (desempate, nunca cruza zona)</li>
+        <li>Optimización: aproximación sucesiva + búsqueda local (move / swap)</li>
+        <li>Contrastado contra el estándar del sector: índice RIME · reglas EDD / SPT · búsqueda local y Tabu Search</li>
+        <li>Test de regresión: línea base fija de equidad de carga y kilometraje, en cada cambio</li>
+        <li>Construido con Claude, sin código de producción propio</li>
+        <li>Despliegue versionado, número de build visible</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="case">
+    <h2 class="case__title">Proyecto propio de e-commerce B2C</h2>
+    <p class="case__meta">Selección de producto y automatización de canal · anonimizado</p>
+
+    <p class="sub">Problema</p>
+    <p>Entrar en un nicho de venta online sin repetir el error más común: elegir producto por intuición o por lo que ya vende cualquiera, y competir después solo por precio.</p>
+
+    <p class="sub">Enfoque</p>
+    <p>Evalúo cada categoría candidata con los mismos datos que usaría para decidir una inversión: volumen de búsqueda real, dispersión de precio entre competidores, margen posible una vez descontados logística y devoluciones. Un producto entra en catálogo solo si el asesoramiento, no el precio, puede ser la razón de compra.</p>
+
+    <p class="sub">Cómo se construyó</p>
+    <p>El canal (contenido, fichas, precio) se automatiza con IA de principio a fin; el precio se calcula por margen objetivo, no por redondeo ni por copiar al competidor.</p>
+
+    <p class="sub">Resultado</p>
+    <p>En desarrollo: la fase de selección de producto está cerrada; la de automatización del canal, en marcha.</p>
+  </div>
+
+  <p class="cierre">En los dos casos se repite el mismo movimiento: encontrar el punto donde el criterio manual ya no aguanta la escala, y construir con IA la pieza que lo sustituye por algo medible y que se puede volver a probar. No escribo el código de producción por gusto de programar: lo hago porque es la forma más rápida de comprobar si una idea de proceso funciona antes de pedirle a alguien que la implemente en serio.</p>
+
+</div>
+</body>
+</html>
