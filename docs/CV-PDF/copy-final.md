@@ -16,9 +16,9 @@ importa más que la sintaxis.
 - Automatización del canal con IA; precios calculados por margen.
 
 **Coordinador de servicios técnicos · Crown Lift Trucks** · dic. 2025 – actualidad
-- Coordina un equipo técnico: reparto de carga, comunicación y seguimiento contable
+- Coordino un equipo técnico: reparto de carga, comunicación y seguimiento contable
   de las intervenciones.
-- Detectó que la carga del equipo se repartía a criterio manual y construyó, con
+- Detecté que la carga del equipo se repartía a criterio manual y construí, con
   Claude y sin escribir código de producción, el motor que la equilibra: prototipo
   funcional validado en simulador, por iniciativa propia.
 
