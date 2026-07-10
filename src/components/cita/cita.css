@@ -47,7 +47,7 @@
   transition: color 450ms var(--ease-out), letter-spacing 700ms var(--ease-out);
 }
 .seed.idle { animation: seedPulse 3.6s ease-in-out infinite; }
-.seed:hover { color: var(--terracotta); letter-spacing: 0.105em; }
+.seed:hover { letter-spacing: 0.105em; }
 .seed.placed { animation: none; }
 @keyframes seedPulse {
   0%, 100% { transform: translate(-50%, -50%) scale(1);     opacity: 0.92; }
@@ -97,7 +97,7 @@
   font-size: 0.78rem;
   letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: var(--terracotta-soft);   /* texto pequeño sobre oscuro: registro AA (§3.2) */
+  color: var(--on-dark-3);   /* texto pequeño sobre oscuro: registro AA (§3.2) */
   margin-bottom: 1.05em;
   padding-bottom: 0.85em;
   border-bottom: 1px solid rgba(255,255,255,0.16);
@@ -115,7 +115,12 @@
 }
 .side--r .w { margin-right: 0; margin-left: 0.44em; }
 .side .w:hover { transform: scale(1.16); }
-.side .w.lit-t { color: var(--terracotta-soft); }   /* alterna blanco ⇄ terracota (registro AA) */
+/* marca permanente de "palabra tocada" — el tono/peso narra, no el color */
+.side .w.lit-t {
+  text-decoration: underline;
+  text-decoration-thickness: 0.05em;
+  text-underline-offset: 0.15em;
+}
 
 /* Móvil / tablet (rev. 2026-06-10): la tormenta tiene SU pantalla —
    escenario casi completo para el tornado/reloj; las cajas dejan de

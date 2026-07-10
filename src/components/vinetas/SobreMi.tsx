@@ -5,19 +5,21 @@ import { useEffect, useRef, useState } from "react";
 import { GLIFOS } from "../glifos";
 import "./sobremi.css";
 
-/* SOBRE MÍ (§6.3 · credibilidad) — RETRATO + ENTRAMADO NEURONAL.
-   Port del HTML vivo de Design (design_handoff_sobre_mi, 2026-06-12):
-   el retrato (placa con offset terracota) es el soma del que desciende
-   la red — cada nodo-rombo una etapa, cada conexión aprendizaje que se
-   transfiere — y culmina en «Pienso en sistemas.».
+/* SOBRE MÍ (§6.3 · credibilidad) — RETRATO.
+   Rev. estética microsite (ADR-0030 Fulgor): se retira el entramado
+   neuronal — era el gesto más "espectáculo" de la sección y no apilaba
+   prueba (Rams lo poda: no apunta a un dato verificable, decora). La
+   prueba vive en la prosa; el retrato queda como placa de contacto B&N,
+   sin acento de color (el único color del sitio es la captura real de
+   Atlas). Ver docs/doc-A-construccion.md para el registro de la decisión.
 
-   Reglas de ingeniería del handoff:
+   Reglas de ingeniería que se conservan:
    · El servidor SIEMPRE manda el estado final (fase "reposo"): sin JS,
      impresión y reduced-motion ven la sección completa.
-   · JS arma los estados ocultos al montar (.is-anim), dispara la entrada
+   · JS arma el estado oculto al montar (.is-anim), dispara la entrada
      por IntersectionObserver (threshold .25) con garantía setTimeout
-     1.7s, y ~3s después «asienta»: retira .is-anim y enciende .alive
-     (deriva de nodos + respiración de neuronas; los pulsos son SMIL).
+     1.7s, y retira .is-anim tras el reveal (fade-up corto, doctrina
+     microsite §4: reveals sobrios, no espectáculo).
    · Parallax solo con puntero fino y sin reduced-motion: variables
      --mx/--my sobre .rail, transform puro. */
 
@@ -27,7 +29,6 @@ export default function SobreMi() {
   const sectionRef = useRef<HTMLElement>(null);
   const railRef = useRef<HTMLDivElement>(null);
   const [fase, setFase] = useState<Fase>("reposo");
-  const [alive, setAlive] = useState(false);
 
   /* entrada: armar → play (observer o timeout) → settle */
   useEffect(() => {
@@ -46,10 +47,7 @@ export default function SobreMi() {
       requestAnimationFrame(() =>
         requestAnimationFrame(() => {
           setFase("play");
-          settleT = window.setTimeout(() => {
-            setFase("reposo");
-            setAlive(true);
-          }, 3000);
+          settleT = window.setTimeout(() => setFase("reposo"), 1400);
         })
       );
     };
@@ -103,9 +101,7 @@ export default function SobreMi() {
   }, []);
 
   const estado =
-    (fase !== "reposo" ? " is-anim" : "") +
-    (fase === "play" ? " play" : "") +
-    (alive ? " alive" : "");
+    (fase !== "reposo" ? " is-anim" : "") + (fase === "play" ? " play" : "");
 
   return (
     <section
@@ -137,86 +133,6 @@ export default function SobreMi() {
                 </figcaption>
               </div>
             </figure>
-
-            <div className="net">
-              <svg
-                className="net__svg"
-                viewBox="0 0 380 440"
-                preserveAspectRatio="xMidYMid meet"
-                aria-hidden="true"
-              >
-                {/* neuronas de fondo (profundidad) */}
-                <g>
-                  <rect className="bgneuron" x="304" y="52" width="9" height="9" transform="rotate(45 308.5 56.5)" />
-                  <rect className="bgneuron" x="44" y="160" width="8" height="8" transform="rotate(45 48 164)" />
-                  <rect className="bgneuron" x="332" y="241" width="10" height="10" transform="rotate(45 337 246)" />
-                  <rect className="bgneuron" x="50" y="323" width="8" height="8" transform="rotate(45 54 327)" />
-                  <rect className="bgneuron" x="300" y="368" width="9" height="9" transform="rotate(45 304.5 372.5)" />
-                </g>
-                {/* dendritas cruzadas (aprendizaje entre etapas no contiguas) */}
-                <path className="link cross" pathLength={1} d="M110,70 C70,122 80,179 120,220" />
-                <path className="link cross" pathLength={1} d="M250,143 C300,196 300,253 250,297" />
-                <path className="link cross" pathLength={1} d="M120,220 C100,293 130,352 175,383" />
-                {/* raíces desde el soma (retrato) */}
-                <path className="link l-root" pathLength={1} d="M140,0 C130,24 118,45 110,70" />
-                <path id="sm-r2" className="link l-root" pathLength={1} d="M212,0 C226,42 246,98 250,143" />
-                {/* espina cronológica */}
-                <path id="sm-p1" className="link l-1" pathLength={1} d="M110,70 C150,98 220,116 250,143" />
-                <path id="sm-p2" className="link l-2" pathLength={1} d="M250,143 C250,179 150,192 120,220" />
-                <path id="sm-p3" className="link l-3" pathLength={1} d="M120,220 C120,257 220,269 250,297" />
-                <path id="sm-p4" className="link l-4" pathLength={1} d="M250,297 C250,339 205,355 175,383" />
-                {/* pulsos viajeros (vida en reposo) */}
-                <circle className="pulse" r={3.1}>
-                  <animateMotion dur="5.5s" begin="0s" repeatCount="indefinite">
-                    <mpath href="#sm-p1" />
-                  </animateMotion>
-                </circle>
-                <circle className="pulse" r={3.1}>
-                  <animateMotion dur="6s" begin="1.4s" repeatCount="indefinite">
-                    <mpath href="#sm-p2" />
-                  </animateMotion>
-                </circle>
-                <circle className="pulse" r={3.1}>
-                  <animateMotion dur="5.7s" begin="2.6s" repeatCount="indefinite">
-                    <mpath href="#sm-p3" />
-                  </animateMotion>
-                </circle>
-                <circle className="pulse" r={3.1}>
-                  <animateMotion dur="6.2s" begin="3.7s" repeatCount="indefinite">
-                    <mpath href="#sm-p4" />
-                  </animateMotion>
-                </circle>
-                <circle className="pulse" r={2.6}>
-                  <animateMotion dur="7.5s" begin="0.7s" repeatCount="indefinite">
-                    <mpath href="#sm-r2" />
-                  </animateMotion>
-                </circle>
-              </svg>
-
-              {/* nodos HTML en % sobre .net (aspect 380/440): acoplados al SVG */}
-              <div className="net__nodes">
-                <div className="nd nd-1 r" style={{ left: "28.9%", top: "15.9%", "--lx": "-8px" } as React.CSSProperties}>
-                  <span className="nd__dia" />
-                  <span className="nd__lab">Comunicación<br />audiovisual</span>
-                </div>
-                <div className="nd nd-2 l" style={{ left: "65.8%", top: "32.4%", "--lx": "8px" } as React.CSSProperties}>
-                  <span className="nd__dia" />
-                  <span className="nd__lab">Ventas B2B</span>
-                </div>
-                <div className="nd nd-3 r" style={{ left: "31.6%", top: "50%", "--lx": "-8px" } as React.CSSProperties}>
-                  <span className="nd__dia" />
-                  <span className="nd__lab">Dirección<br />comercial</span>
-                </div>
-                <div className="nd nd-4 l" style={{ left: "65.8%", top: "67.6%", "--lx": "8px" } as React.CSSProperties}>
-                  <span className="nd__dia" />
-                  <span className="nd__lab">Coordinación +<br />automatización</span>
-                </div>
-                <div className="nd nd-5 final r" style={{ left: "46%", top: "87%", "--lx": "-8px" } as React.CSSProperties}>
-                  <span className="nd__dia" />
-                  <span className="nd__lab">Pienso en sistemas.</span>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* ══ PROSA: copy exacto de la web (doc-A) ══ */}

@@ -9,7 +9,13 @@ import "./atlas.css";
    enmarcadas como un monitor de torre de control; la lupa deja inspeccionar
    la inteligencia del motor. Las capturas viven en /public/atlas (mismo set
    verificado del handoff: 0 fugas, datos ficticios). Tweaks/host de Design
-   eliminados; tokens y fuentes (Bricolage·Oswald) reutilizados de globals. */
+   eliminados; tokens y fuentes (Bricolage·Oswald) reutilizados de globals.
+
+   Rev. estética microsite (ADR-0030 Fulgor): la sección pasa a papel claro
+   — ficha técnica tipo spec-sheet — y el monitor oscuro queda como el
+   único objeto oscuro en pantalla (contraste = la pieza, no el fondo). La
+   captura real (desk/mob) es el ÚNICO color de todo el sitio: el resto de
+   la UI de esta viñeta es monocroma, igual que el resto de la web. */
 
 type Slide = {
   n: string;
@@ -262,16 +268,10 @@ export default function Atlas() {
       ref={sectionRef}
       className="atlas"
       id="proyecto"
-      data-bar="dark"
+      data-bar="light"
       aria-labelledby="atlas-h"
     >
       <h2 id="atlas-h" className="sr-only">Proyecto destacado: Atlas (Crown Planner)</h2>
-      <div
-        className="atlas__ambient"
-        aria-hidden="true"
-        style={{ "--shift": `${(current / (SLIDES.length - 1)) * 100}%` } as React.CSSProperties}
-      />
-      <div className="atlas__vignette" aria-hidden="true" />
 
       <div className="stage" ref={stageRef} aria-label="Carrusel de la demo Atlas">
         {SLIDES.map((s, i) => (

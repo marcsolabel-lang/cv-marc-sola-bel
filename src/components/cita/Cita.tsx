@@ -90,8 +90,11 @@ export default function Cita() {
     const CAM = 4.2, HY = 1.18, RAD = 1.06, VY = 1.12, RD = 0.42, RX = -0.22;
     let TORN = 1, DENS = 1.35;          /* defaults aprobados: tornado Media · densidad Densa */
     let accent = readAccent();
+    /* B&N estricto (ADR-0030): la tormenta reposa en un gris de fondo y
+       se enciende a blanco pleno al posarse el cursor — el tono narra,
+       no el color */
     function readAccent() {
-      return getComputedStyle(root).getPropertyValue("--terracotta").trim() || "#C0542A";
+      return getComputedStyle(root).getPropertyValue("--on-dark-2").trim() || "#B8B0A6";
     }
 
     let disposed = false;

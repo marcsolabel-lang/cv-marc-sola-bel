@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Cormorant_Garamond, Oswald } from "next/font/google";
+import { Bricolage_Grotesque, Cormorant_Garamond, Oswald, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
 const bricolage = Bricolage_Grotesque({
@@ -25,6 +25,16 @@ const oswald = Oswald({
   display: "swap",
 });
 
+/* Mono técnica (estética microsite, ADR-0030 Fulgor): "la mono dice dato
+   técnico" — reservada a ficha técnica y metadatos numéricos (Atlas).
+   Continuidad con el CV PDF, que ya usa IBM Plex Mono para lo mismo. */
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Marc Sola Bel — CV",
   description:
@@ -39,7 +49,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${bricolage.variable} ${cormorant.variable} ${oswald.variable}`}
+      className={`${bricolage.variable} ${cormorant.variable} ${oswald.variable} ${plexMono.variable}`}
     >
       <body className="antialiased">{children}</body>
     </html>

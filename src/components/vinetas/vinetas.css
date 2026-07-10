@@ -15,15 +15,16 @@
 .formacion__plano {
   position: relative;
   padding: clamp(1.6rem, 3.5vw, 2.6rem);
-  border-left: 2px solid var(--terracotta);
+  border-left: 2px solid var(--ink);
 }
 .formacion__plano::before {
   content: "";
   position: absolute;
   inset: 0;
+  /* dot-grid blueprint (doctrina microsite §5): papel de ingeniería */
   background:
-    repeating-linear-gradient(0deg,  rgba(192, 84, 42, 0.07) 0 1px, transparent 1px 24px),
-    repeating-linear-gradient(90deg, rgba(192, 84, 42, 0.07) 0 1px, transparent 1px 24px);
+    repeating-linear-gradient(0deg,  rgba(10, 10, 10, 0.06) 0 1px, transparent 1px 24px),
+    repeating-linear-gradient(90deg, rgba(10, 10, 10, 0.06) 0 1px, transparent 1px 24px);
   opacity: 0;
   transition: opacity 0.9s ease 0.25s;
   pointer-events: none;
@@ -51,7 +52,7 @@
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--on-light-2);
+  color: var(--secondary);
 }
 
 /* Slots de logo (instituciones/empresas) — sustituir por <img> reales.
@@ -61,13 +62,13 @@
   display: inline-grid;
   place-items: center;
   width: 44px; height: 44px;
-  border: 1px solid var(--hairline-d);
+  border: 1px solid var(--hairline-l);
   font-family: var(--font-banner);
   font-style: normal;
   font-size: 0.66rem;
   font-weight: 600;
   letter-spacing: 0.08em;
-  color: var(--on-light-2);
+  color: var(--secondary);
 }
 .logo-slot img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
 .logo-slot--sm {
@@ -76,7 +77,7 @@
   font-size: 0.5rem;
   vertical-align: middle;
 }
-.logo-slot[data-logo="propio"] { color: var(--terracotta-deep); font-size: 0.7rem; }
+.logo-slot[data-logo="propio"] { color: var(--ink); font-weight: 700; font-size: 0.7rem; }
 .formacion__otros {
   list-style: none;
   margin: clamp(1.8rem, 4vh, 2.6rem) 0 0;
@@ -87,7 +88,7 @@
 }
 .formacion__otro {
   padding-top: var(--s-2);
-  border-top: 1px solid var(--hairline-d);
+  border-top: 1px solid var(--hairline-l);
 }
 .formacion__otro strong {
   display: flex;
@@ -101,7 +102,7 @@
   display: block;
   margin-top: 0.3rem;
   font-size: 0.86rem;
-  color: var(--on-light-2);
+  color: var(--secondary);
 }
 @media (prefers-reduced-motion: reduce) {
   .formacion__plano::before { opacity: 1; transition: none; }
@@ -124,7 +125,7 @@
   position: absolute;
   left: 5px; top: 0; bottom: 0;
   width: 1.5px;
-  background: var(--terracotta);
+  background: var(--ink);
   transform: scaleY(0);
   transform-origin: top center;
   transition: transform 0.8s var(--ease-out) var(--d, 0ms);
@@ -134,7 +135,7 @@
   position: absolute;
   left: 0; top: clamp(2rem, 4vh, 3rem);
   width: 12px; height: 12px;
-  background: var(--terracotta);
+  background: var(--ink);
   transform: rotate(45deg) scale(0);
   transition: transform 0.45s var(--ease-out) calc(0.3s + var(--d, 0ms));
 }
@@ -156,7 +157,7 @@
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--on-light-2);
+  color: var(--secondary);
 }
 .exp__rol { margin: 0 0 0.2rem; font-size: var(--fs-h3); font-weight: 650; line-height: 1.25; }
 .exp__org {
@@ -164,10 +165,10 @@
   margin-bottom: 0.7rem;
   font-size: 0.92rem;
   font-weight: 500;
-  color: var(--on-light-2);
+  color: var(--secondary);
 }
 .exp__desc { margin: 0; max-width: 58ch; }
-.exp__desc a { color: var(--terracotta-deep); border-bottom: 1px solid currentColor; }
+.exp__desc a { color: var(--ink); border-bottom: 1px solid currentColor; }
 .exp__desc a:hover { opacity: 0.75; }
 
 /* gesto base con stagger descendente (el delay --d viene del item) */
@@ -184,7 +185,7 @@
   list-style: none;
   margin: clamp(2rem, 4vh, 3rem) 0 0;
   padding: clamp(1.2rem, 2.5vh, 1.8rem) 0 0 clamp(1.6rem, 3vw, 2.6rem);
-  border-top: 1px solid var(--hairline-d);
+  border-top: 1px solid var(--hairline-l);
 }
 .exp__raiz {
   display: flex;
@@ -202,7 +203,7 @@
   font-size: 0.95rem;
 }
 .exp__raiz span { font-size: 0.95rem; }
-.exp__raiz i { font-style: normal; font-size: 0.86rem; color: var(--on-light-2); }
+.exp__raiz i { font-style: normal; font-size: 0.86rem; color: var(--secondary); }
 @media (max-width: 600px) {
   .exp__item { grid-template-columns: 1fr; row-gap: 0.8rem; }
 }
@@ -239,7 +240,7 @@
   font-size: 0.18em;
   font-weight: 500;
   letter-spacing: 0.08em;
-  color: var(--on-light-2);
+  color: var(--secondary);
 }
 .lid__frase {
   margin: var(--s-4) 0 0;
@@ -253,7 +254,7 @@
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--on-light-2);
+  color: var(--secondary);
 }
 .lid__campo {
   position: relative;
@@ -265,7 +266,7 @@
 .lid__dot {
   width: 6px; height: 6px;
   border-radius: 50%;
-  background: var(--terracotta);
+  background: var(--ink);
   opacity: 0.25;
   transition: transform 0.85s var(--ease-out), opacity 0.85s ease;
   /* posición dispersa inicial via --dx/--dy inline */
@@ -280,10 +281,12 @@
 }
 
 /* ────────────────────────────────────────────────────────────────
-   8 · CONTACTO (oscura · PICO · espejo del Hero) — metáfora:
-   EL SISTEMA SE COMPLETA. El wireframe en movimiento del Hero
-   se resuelve en un rombo sólido y quieto; el marco del email se
-   ensambla desde las esquinas. El círculo se cierra.
+   8 · CONTACTO (clara · cierre) — metáfora: EL SISTEMA SE COMPLETA.
+   El wireframe en movimiento del Hero se resuelve en un rombo sólido
+   y quieto; el marco del email se ensambla desde las esquinas
+   (corchetes blueprint, doctrina microsite §5). El círculo se cierra.
+   Rev. estética microsite: pasa de oscura a clara (ADR-0030 Fulgor —
+   solo Hero y Cita quedan como capítulos oscuros).
    ──────────────────────────────────────────────────────────────── */
 .contacto__inner {
   min-height: 88svh;
@@ -302,14 +305,14 @@
   transition: opacity 0.7s var(--ease-out) 0.1s, transform 0.7s var(--ease-out) 0.1s;
 }
 .contacto__inner.in .contacto__sello { opacity: 1; transform: scale(1); }
-.contacto__sello path { fill: var(--terracotta); }
+.contacto__sello path { fill: var(--ink); }
 .contacto__cierre {
   margin: 0 0 clamp(2.6rem, 6vh, 4rem);
   font-size: clamp(2.4rem, 5.4vw, 4.4rem);
   font-weight: 780;
   line-height: 1.02;
   letter-spacing: -0.035em;
-  color: var(--white);
+  color: var(--ink);
   text-wrap: balance;
 }
 
@@ -321,14 +324,12 @@
   font-size: clamp(1.15rem, 2.4vw, 1.85rem);
   font-weight: 620;
   letter-spacing: -0.012em;
-  color: var(--white);
-  transition: color var(--dur-med) ease-in-out;
+  color: var(--ink);
 }
-.cta-email:hover { color: var(--terracotta-soft); }
 .cta-email .corner {
   position: absolute;
   width: 17px; height: 17px;
-  border: 0 solid var(--terracotta);
+  border: 0 solid var(--ink);
   opacity: 0;
   transition: opacity 0.45s ease, transform 0.55s var(--ease-out),
               inset 0.3s var(--ease-out);
@@ -355,7 +356,7 @@
   font-weight: 500;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--on-dark-3);
+  color: var(--meta);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -363,7 +364,7 @@
   row-gap: 0.7em;
 }
 .contacto__datos a { transition: color var(--dur-med) ease-in-out; }
-.contacto__datos a:hover { color: var(--white); }
+.contacto__datos a:hover { color: var(--ink); }
 @media (prefers-reduced-motion: reduce) {
   .contacto__sello, .cta-email .corner { opacity: 1; transform: none; transition: none; }
 }

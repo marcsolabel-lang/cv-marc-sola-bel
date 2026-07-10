@@ -3,17 +3,22 @@
 import { useInViewOnce } from "../useInViewOnce";
 import "./vinetas.css";
 
-/* CONTACTO (§6.8 · PICO · espejo del Hero) — metáfora: EL SISTEMA SE
-   COMPLETA. El wireframe en movimiento del Hero se resuelve en un rombo
-   sólido y quieto (sello), y el marco técnico del email se ensambla desde
-   las esquinas: cierre perceptivo (Gestalt de closure) al servicio del CTA.
-   Empezó "pienso en sistemas"; termina "hablemos". */
+/* CONTACTO (§6.8 · cierre) — metáfora: EL SISTEMA SE COMPLETA. El
+   wireframe en movimiento del Hero se resuelve en un rombo sólido y
+   quieto (sello), y el marco técnico del email se ensambla desde las
+   esquinas: cierre perceptivo (Gestalt de closure) al servicio del CTA.
+   Empezó "pienso en sistemas"; termina "hablemos".
+
+   Rev. estética microsite (ADR-0030 Fulgor): pasa a claro — de las 4
+   secciones oscuras originales solo quedan Hero y Cita como "capítulos"
+   (doctrina: el oscuro se reserva a 1-2 momentos de relato, no a
+   alternancia 50/50). */
 
 export default function Contacto() {
   const { ref, inView } = useInViewOnce<HTMLDivElement>();
 
   return (
-    <section className="viñeta viñeta--oscura" id="contacto" data-bar="dark">
+    <section className="viñeta viñeta--clara" id="contacto" data-bar="light">
       <div className="viñeta__inner">
         <div ref={ref} className={`contacto__inner ${inView ? "in" : ""}`}>
           <svg className="contacto__sello" viewBox="0 0 32 32" aria-hidden="true">

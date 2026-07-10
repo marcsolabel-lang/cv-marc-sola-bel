@@ -80,7 +80,9 @@ export default function Hero() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const CAM = 3.3;
     const getRest = () => parseInt(getComputedStyle(root).getPropertyValue("--hl-weight"), 10) || 830;
-    const accent = getComputedStyle(root).getPropertyValue("--terracotta").trim() || "#C0542A";
+    /* B&N estricto (ADR-0030): la peonza es alambre blanco sobre negro —
+       lectura de plano técnico, no acento de marca */
+    const accent = getComputedStyle(root).getPropertyValue("--on-dark-1").trim() || "rgba(255,255,255,0.92)";
 
     /* Extents máximos sobre todo el giro y rango de inclinación:
        la peonza nunca se recorta, gire como gire. */

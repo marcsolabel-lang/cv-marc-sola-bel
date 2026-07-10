@@ -53,7 +53,11 @@
   color: var(--white);
   text-wrap: balance;
 }
-.hero .hl-accent { color: var(--terracotta); }
+.hero .hl-accent {
+  text-decoration: underline;
+  text-decoration-thickness: 0.045em;
+  text-underline-offset: 0.1em;
+}
 .hero .lead {
   margin: var(--s-6) auto 0;
   max-width: 30rem;

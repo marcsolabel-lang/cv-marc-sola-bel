@@ -5,25 +5,30 @@
    Nada "a pelo": color, tipo, espaciado, radios y duraciones salen de aquí.
    ════════════════════════════════════════════════════════════════ */
 :root {
-  /* — Color §3.2: blanco, negro y terracota en escala de profundidades — */
-  --white:            #FFFFFF;
-  --ink:              #0A0A0A;   /* fondo oscuro base / texto sobre claro */
-  --terracotta:       #C0542A;   /* terracota-vivo: acentos grandes, poliedro, impacto */
-  --terracotta-deep:  #A8421E;   /* terracota-profundo: texto pequeño sobre BLANCO (6.9:1 AA) */
-  --terracotta-soft:  #D06A3F;   /* terracota-tenue: texto pequeño sobre NEGRO (5.5:1 AA) */
+  /* — Color §3.2 (rev. estética microsite, ADR-0030 Fulgor): B&N estricto
+     en OKLCH, croma 0. El único acento de color de todo el sitio es la
+     captura real de Atlas — el resto vive en esta rampa (ratios
+     precomputados, no a ojo: lenguaje-diseno-microsite.md §3). — */
+  --white:      #FFFFFF;
+  --paper:      oklch(0.99 0 0);  /* fondo base claro */
+  --surface:    oklch(0.97 0 0);  /* fondos de bloque (neutro, NO crema/arena) */
+  --hairline-l: oklch(0.86 0 0);  /* líneas/marcos sobre claro */
+  --meta:       oklch(0.54 0 0);  /* eyebrow/caption/numeración sobre claro · 4.9:1 */
+  --secondary:  oklch(0.50 0 0);  /* apoyos sobre claro · 5.8:1 */
+  --body-grey:  oklch(0.32 0 0);  /* texto de lectura sobre claro */
+  --ink:        oklch(0.18 0 0);  /* negro pleno levantado (no #000): titulares, fondo oscuro */
 
-  /* — Grises con función — */
+  /* — Grises con función sobre fondo OSCURO (ya monocromos, sin cambio) — */
   --on-dark-1:  rgba(255,255,255,0.92);  /* texto principal sobre oscuro */
   --on-dark-2:  #B8B0A6;                 /* lead / secundario sobre oscuro (9.2:1) */
   --on-dark-3:  #8C857C;                 /* eyebrow / metadatos sobre oscuro (5.4:1) */
   --hairline:   rgba(255,255,255,0.16);  /* líneas finas sobre oscuro */
-  --on-light-2: #6B6560;                 /* gris-texto-2 sobre claro (5.7:1) */
-  --hairline-d: rgba(10,10,10,0.14);     /* líneas finas sobre claro */
 
   /* — Tipografía §3.1 — */
   --font-display: var(--font-bricolage), -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-serif:   var(--font-cormorant), Georgia, "Times New Roman", serif;
   --font-banner:  var(--font-oswald), var(--font-bricolage), "Segoe UI", sans-serif;
+  --font-mono:    var(--font-plex-mono), "IBM Plex Mono", ui-monospace, monospace;
 
   /* — Escala fluida: contenida 1.25 + arma display con clamp — */
   --fs-display: clamp(3.1rem, 7.4vw, 6.4rem);  /* N1 statement Hero (voz Manifiesto) */
@@ -87,7 +92,7 @@ body {
   min-height: 100dvh;
 }
 
-::selection { background: var(--terracotta); color: var(--white); }
+::selection { background: var(--ink); color: var(--paper); }
 a { color: inherit; text-decoration: none; }
 
 /* solo lectores de pantalla */
@@ -100,8 +105,8 @@ a { color: inherit; text-decoration: none; }
   white-space: nowrap;
   border: 0;
 }
-:focus-visible { outline: 2px solid var(--terracotta); outline-offset: 4px; }
-.viñeta--clara :focus-visible { outline-color: var(--terracotta-deep); }
+:focus-visible { outline: 2px solid var(--on-dark-1); outline-offset: 4px; }
+.viñeta--clara :focus-visible { outline-color: var(--ink); }
 
 /* ════════════════════════════════════════════════════════════════
    VIÑETAS — ritmo de fondos O-O-C-C-C-C-O-O (§2)
@@ -113,7 +118,7 @@ a { color: inherit; text-decoration: none; }
   overflow-x: clip;
 }
 .viñeta--oscura { background: var(--ink);   color: var(--on-dark-1); }
-.viñeta--clara  { background: var(--white); color: var(--ink); }
+.viñeta--clara  { background: var(--paper); color: var(--ink); }
 
 .viñeta__inner {
   width: 100%;
@@ -130,12 +135,12 @@ a { color: inherit; text-decoration: none; }
   font-weight: 500;
   letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: var(--on-light-2);
+  color: var(--meta);
   display: flex;
   align-items: center;
   gap: 0.9em;
 }
-.sect-label::after { content: ""; flex: 1; height: 1px; background: var(--hairline-d); }
+.sect-label::after { content: ""; flex: 1; height: 1px; background: var(--hairline-l); }
 .viñeta--oscura .sect-label { color: var(--on-dark-3); }
 .viñeta--oscura .sect-label::after { background: var(--hairline); }
 .sect-glifo {
@@ -145,18 +150,20 @@ a { color: inherit; text-decoration: none; }
 }
 .sect-glifo svg { width: 100%; height: 100%; display: block; overflow: visible; }
 .sect-glifo :is(path, circle, polygon, line, rect) {
-  fill: none; stroke: var(--terracotta); stroke-width: 1.5;
+  fill: none; stroke: currentColor; stroke-width: 1.5;
   stroke-linejoin: round; stroke-linecap: round;
 }
-.sect-glifo .dot { fill: var(--terracotta); stroke: none; }
+.sect-glifo .dot { fill: currentColor; stroke: none; }
 
 /* ── Palabras encendidas (§5, hover unificado · intensidad media) ──
-   Solo datos-ancla y palabras del hilo vector. El color narra la tesis. */
+   Solo datos-ancla y palabras del hilo vector. El peso/tono narra la
+   tesis, no el color (B&N estricto, estética microsite ADR-0030). */
 .fire {
-  transition: color var(--dur-med) var(--ease-in-out);
+  text-underline-offset: 0.18em;
+  text-decoration-color: transparent;
+  transition: text-decoration-color var(--dur-med) var(--ease-in-out);
 }
-.viñeta--clara .fire:hover  { color: var(--terracotta-deep); }
-.viñeta--oscura .fire:hover { color: var(--terracotta-soft); }
+.fire:hover { text-decoration-line: underline; text-decoration-color: currentColor; }
 
 /* ── Destacados de lectura rápida (rev. 2026-06-10): NEGRITA estática.
    El peso guía el escaneo; el terracota sigue reservado al hilo vector. */
@@ -186,9 +193,9 @@ p strong {
 }
 .topbar--light {
   --bar-fg-1: var(--ink);
-  --bar-fg-2: #4A453F;
-  --bar-fg-3: var(--on-light-2);
-  --bar-line: var(--hairline-d);
+  --bar-fg-2: var(--secondary);
+  --bar-fg-3: var(--meta);
+  --bar-line: var(--hairline-l);
 }
 
 /* Filtro de opacidad al navegar (rev. 2026-06-12): vidrio esmerilado que
@@ -267,7 +274,7 @@ p strong {
 .topbar.nav-open .topbar__years { color: var(--white); letter-spacing: 0.12em; transform: scale(1.14); }
 .years__lbl { font-variant-numeric: tabular-nums; transition: color var(--dur-med) ease; }
 /* En reposo, el eje es un GUIÓN compacto ("2016—26"); al abrir el índice
-   se estira y despliega la década en terracota. El guión ES el eje dormido. */
+   se estira y despliega la década en blanco pleno. El guión ES el eje dormido. */
 .years__axis {
   position: relative; flex: none; display: inline-block;
   width: 16px; height: 18px;
@@ -281,7 +288,7 @@ p strong {
               right .5s var(--ease-out), height .3s ease;
 }
 .topbar.nav-open .yx-line {
-  background: var(--terracotta);
+  background: var(--white);
   right: 7px; bottom: 4px; height: 3px; border-radius: 1.5px;
 }
 .yx-ticks {
@@ -289,7 +296,7 @@ p strong {
   display: flex; justify-content: space-between; align-items: flex-end;
 }
 .yx-ticks i {
-  width: 2px; height: 7px; background: var(--terracotta); border-radius: 1px;
+  width: 2px; height: 7px; background: var(--white); border-radius: 1px;
   opacity: 0; transform: translateY(2px);
   transition: opacity .4s ease, transform .4s var(--ease-out);
 }
@@ -309,7 +316,7 @@ p strong {
 .topbar.nav-open .yx-ticks i:nth-child(11) { transition-delay: .88s; }
 .yx-dot {
   position: absolute; right: 0; bottom: 1px;
-  width: 7px; height: 7px; border-radius: 50%; background: var(--terracotta);
+  width: 7px; height: 7px; border-radius: 50%; background: var(--white);
   opacity: 0; transform: scale(0.2); transform-origin: center;
   transition: opacity .35s ease 1s, transform .35s var(--ease-out) 1s;
 }
@@ -375,8 +382,8 @@ p strong {
 .navscreen__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; flex: 1 1 auto; }
 .navscreen__list li { flex: 1 1 0; min-height: 0; display: flex; border-top: 1px solid var(--hairline); transition: border-color .3s ease; }
 .navscreen__list li:last-child { border-bottom: 1px solid var(--hairline); }
-.navscreen__list li:has(a:hover) { border-top-color: rgba(192, 84, 42, 0.55); }
-.navscreen__list li:has(a:hover) + li { border-top-color: rgba(192, 84, 42, 0.55); }
+.navscreen__list li:has(a:hover) { border-top-color: rgba(255, 255, 255, 0.45); }
+.navscreen__list li:has(a:hover) + li { border-top-color: rgba(255, 255, 255, 0.45); }
 .navscreen__list a {
   position: relative; isolation: isolate;
   flex: 1;
@@ -394,13 +401,13 @@ p strong {
   transition: opacity .38s var(--ease-out), transform .38s var(--ease-out),
               color .22s ease, padding-left .3s var(--ease-out);
 }
-/* Eco del poliedro: rejilla terracota revelada solo en la fila activa */
+/* Eco del poliedro: rejilla (dot-grid blueprint) revelada solo en la fila activa */
 .navscreen__list a::before {
   content: ""; position: absolute; top: 0; bottom: 0;
   left: calc(-1 * var(--gutter)); right: calc(-1 * var(--gutter));
   background:
-    repeating-linear-gradient(45deg, transparent 0 8px, var(--terracotta) 8px 8.6px),
-    repeating-linear-gradient(-45deg, transparent 0 8px, var(--terracotta) 8px 8.6px);
+    repeating-linear-gradient(45deg, transparent 0 8px, var(--white) 8px 8.6px),
+    repeating-linear-gradient(-45deg, transparent 0 8px, var(--white) 8px 8.6px);
   opacity: 0; z-index: -1; pointer-events: none;
   transition: opacity .4s var(--ease-out);
   -webkit-mask-image: linear-gradient(90deg, #000 0 62%, transparent 96%);
@@ -422,10 +429,10 @@ p strong {
 @keyframes navOrbit { to { transform: rotate(360deg); } }
 @keyframes navFloat { 0%, 100% { transform: translateY(-1.2px) rotate(-5deg); } 50% { transform: translateY(1.2px) rotate(5deg); } }
 .nav-ic :is(path, circle, polygon, line, rect) {
-  fill: none; stroke: var(--terracotta); stroke-width: 1.5;
+  fill: none; stroke: currentColor; stroke-width: 1.5;
   stroke-linejoin: round; stroke-linecap: round;
 }
-.nav-ic .dot { fill: var(--terracotta); stroke: none; }
+.nav-ic .dot { fill: currentColor; stroke: none; }
 .navscreen.open .navscreen__list a { opacity: 1; transform: none; }
 .navscreen.open .navscreen__list li:nth-child(1) a { transition-delay: .05s; }
 .navscreen.open .navscreen__list li:nth-child(2) a { transition-delay: .09s; }
@@ -435,14 +442,14 @@ p strong {
 .navscreen.open .navscreen__list li:nth-child(6) a { transition-delay: .25s; }
 .navscreen.open .navscreen__list li:nth-child(7) a { transition-delay: .29s; }
 .navscreen.open .navscreen__list li:nth-child(8) a { transition-delay: .33s; }
-.navscreen__list a:hover { color: var(--terracotta); padding-left: clamp(10px, 1.5vw, 26px); }
+.navscreen__list a:hover { padding-left: clamp(10px, 1.5vw, 26px); }
 .navscreen__list a:hover .nav-ic { transform: scale(1.12); }
 .navscreen__num {
   font-size: clamp(.56rem, .8vw, .76rem); font-weight: 600; letter-spacing: .18em;
   color: var(--on-dark-3); align-self: center; font-variant-numeric: tabular-nums;
   transition: color .25s ease;
 }
-.navscreen__list a:hover .navscreen__num { color: var(--terracotta-soft); }
+.navscreen__list a:hover .navscreen__num { color: var(--white); }
 @media (prefers-reduced-motion: reduce) {
   .navscreen { transition: none; }
   .navscreen .navscreen__list a { opacity: 1; transform: none; transition: color .2s ease; }
