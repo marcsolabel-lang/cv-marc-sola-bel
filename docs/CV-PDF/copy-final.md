@@ -11,7 +11,7 @@ importa más que la sintaxis.
 
 ## Experiencia
 
-**Proyecto propio · E-commerce B2C** · 2026 – actualidad
+**Fulgor · E-commerce B2C (España y UE)** · 2026 – actualidad
 - Selección de producto por datos de mercado reales, no por intuición.
 - Automatización del canal con IA; precios calculados por margen.
 

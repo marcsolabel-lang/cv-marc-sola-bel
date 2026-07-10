@@ -2,9 +2,11 @@
 
 > Generado 2026-07-07. Fusiona microsite (`src/components/vinetas/*`) + estado real de
 > LinkedIn (`~/.claude/plans/linkedin-networking-ia/ANCLA.md` +
-> `linkedin-pendientes-cierre-2026-07-05.md`, ambos verificados en vivo). Fulgor
-> permanece ANONIMIZADO en todo el documento — "proyecto propio de e-commerce B2C", sin
-> nombre, sin enlace, sin cifras identificables (decisión `toasty-snuggling-cat.md` FASE 2).
+> `linkedin-pendientes-cierre-2026-07-05.md`, ambos verificados en vivo). **Actualizado
+> 2026-07-10:** Fulgor deja de estar anonimizado — LinkedIn ya lo nombraba en abierto en
+> la sección Proyectos y Marc decidió igualar el criterio en el CV también (revierte la
+> anonimización de `toasty-snuggling-cat.md` FASE 2; sin enlace ni cifras identificables
+> todavía, solo el nombre).
 > Objetivo del doc: CV TRADICIONAL 1-2 páginas, ATS-friendly, orientado a gestión de
 > proyectos + competencia demostrable en IA/automatización (no print del microsite).
 
@@ -18,7 +20,9 @@ usa IA para construir herramientas sin escribir código de producción.
 
 ## Experiencia (orden cronológico descendente)
 
-1. **2026 – actualidad · Proyecto propio · E-commerce B2C** (anonimizado, sin nombre)
+1. **2026 – actualidad · Fulgor · E-commerce B2C (España y UE)** (nombrado — igualado
+   con LinkedIn 2026-07-10, decisión de Marc: ya está público ahí, se destapa aquí
+   también)
    Concebido y llevado en solitario. Selección de producto por datos de mercado reales
    (no intuición). Automatización del canal con IA. Pricing por margen.
 
